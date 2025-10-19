@@ -1,2 +1,11 @@
-/.quarto/
-**/*.quarto_ipynb
+data/raw/**
+data/opa_properties_public.csv
+
+.DS_Store
+.Rhistory
+.RData
+.Rproj.user/
+.Ruserdata
+
+renv/library/
+renv/staging/

@@ -1,0 +1,11 @@
+{
+  "appendix/appendix.qmd": {
+    "appendix.html": "fc7cc592"
+  },
+  "index.qmd": {
+    "index.html": "8e1235a5"
+  },
+  "presentation/presentation.qmd": {
+    "presentation.html": "d3061e5a"
+  }
+}

@@ -3,3 +3,68 @@ title: "appendix"
 format: html
 ---
 
+```{r}
+# Load packages
+library(tidycensus)
+library(tidyverse)
+library(knitr)
+library(scales)
+library(RColorBrewer)
+library(sf)
+library(ggplot2)
+library(tigris)
+library(patchwork)
+library(here)
+```
+
+# PHASE 1: DATA PREPARATION
+
+## 1.1 Load and clean Philadelphia sales data
+```{r}
+# Load Philly Property Sales data
+phl_sales <- read_csv("../data/raw/opa_properties_public.csv", show_col_types = FALSE)
+```
+
+### 1.1a Filter to residential properties, 2023-2024 sales
+```{r}
+# Check data types
+# glimpse(phl_sales)
+
+phl_sales_res_23_24 <- phl_sales |>
+  filter(
+    category_code == 1, # Residential
+    year(sale_date) %in% c(2023, 2024), # 2023-24 sales
+    !is.na(category_code) & !is.na(sale_date) # Handle nulls
+  )
+```
+
+### 1.1b Remove obvious errors
+```{r}
+phl_sales_res_23_24 <- phl_sales_res_23_24 |>
+  filter(
+    # Some sale_price are unrealistically too low ($0, $1 etc.)
+    sale_price >= 10000,
+    # Some areas are unrealistically low (0, 1, etc.)
+    total_area > 1,
+    # Some 0's remain in total_liveable_area after first area filter
+    total_livable_area > 0
+    # MORE: some areas seem unrealistically large (maybe bound by < 25K)
+    )
+```
+
+### 1.1c Handle missing values
+
+### 1.1d Document all cleaning decisions
+
+- Filter for only residential properties & sales made in 2023-24 (per instructions).
+
+
+- Filter for realistic sales price values; boundary > $10,000
+
+
+- Filter for realistic house total area: boundary > 1 sq ft
+
+
+- 
+
+
