@@ -1,0 +1,18 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Philadelphia Housing Price Prediction"
+  navbar:
+    left:
+      - text: "Home"
+        href: index.qmd
+      - text: "Presentation"
+        href: presentation/presentation.qmd
+      - text: "Technical Appendix"
+        href: appendix/appendix.qmd
+
+format:
+  html:
+    theme: cosmo
