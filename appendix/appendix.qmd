@@ -1,5 +1,5 @@
 ---
-title: "appendix"
+title: "Technical Appendix"
 format: html
 ---
 
@@ -25,7 +25,7 @@ library(here)
 phl_sales <- read_csv("../data/raw/opa_properties_public.csv", show_col_types = FALSE)
 ```
 
-### 1.1a Filter to residential properties, 2023-2024 sales
+### Filter to residential properties, 2023-2024 sales
 ```{r}
 # Check data types
 # glimpse(phl_sales)
@@ -38,7 +38,7 @@ phl_sales_res_23_24 <- phl_sales |>
   )
 ```
 
-### 1.1b Remove obvious errors
+### Remove obvious errors
 ```{r}
 phl_sales_res_23_24 <- phl_sales_res_23_24 |>
   filter(
@@ -52,19 +52,120 @@ phl_sales_res_23_24 <- phl_sales_res_23_24 |>
     )
 ```
 
-### 1.1c Handle missing values
+### Handle missing values
 
-### 1.1d Document all cleaning decisions
+```{r}
 
-- Filter for only residential properties & sales made in 2023-24 (per instructions).
-
-
-- Filter for realistic sales price values; boundary > $10,000
+```
 
 
-- Filter for realistic house total area: boundary > 1 sq ft
+### Document all cleaning decisions
 
+- Filter for only **residential properties** & **sales made in 2023-24** (per instructions).
+
+
+- Filter for **realistic sales price** >= $10,000
+
+
+- Filter for **realistic house total area** > 1 sq ft
 
 - 
 
+## 1.2 Load Secondary Data
+
+### Census data
+
+```{r}
+
+```
+
+### Spatial Amenities
+
+```{r}
+
+```
+
+### Joining Data Together
+
+```{r}
+
+```
+
+
+# PHASE 2: EXPLORATORY DATA ANALYSIS
+
+### Distribution of sale prices (histogram)
+
+```{r}
+
+```
+
+**Interpretation:**
+
+### Geographic distribution (map)
+
+```{r}
+
+```
+
+**Interpretation:**
+
+### Price vs. structural features (scatter plots)
+
+```{r}
+
+```
+
+**Interpretation:**
+
+### Price vs. spatial features (scatter plots)
+
+```{r}
+
+```
+
+**Interpretation:**
+
+### One creative visualization
+
+```{r}
+
+```
+
+**Interpretation:**
+
+
+# PHASE 3: FEATURE ENGINEERING
+
+### Buffer-based Features
+
+```{r}
+
+```
+
+### K-Nearest Neighbors Features
+
+```{r}
+
+```
+
+### Census Variables
+
+```{r}
+
+```
+
+### Interaction Terms
+
+```{r}
+
+```
+
+### Summary Table
+
+```{r}
+
+```
+
+### Justification of Feature Engineered Variables
 

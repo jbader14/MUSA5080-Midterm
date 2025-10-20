@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>appendix – Philadelphia Housing Price Prediction</title>
+<title>Technical Appendix – Philadelphia Housing Price Prediction</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -120,7 +155,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">appendix</h1>
+<h1 class="title">Technical Appendix</h1>
 </div>
 
 
@@ -137,8 +172,168 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load packages</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidycensus)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.4.4     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.0
+✔ purrr     1.0.1     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'scales'
+
+The following object is masked from 'package:purrr':
+
+    discard
+
+The following object is masked from 'package:readr':
+
+    col_factor</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Linking to GEOS 3.11.0, GDAL 3.5.3, PROJ 9.1.0; sf_use_s2() is TRUE</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tigris)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>To enable caching of data, set `options(tigris_use_cache = TRUE)`
+in your R script or .Rprofile.</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>here() starts at /Users/jack/Documents/GitHub/MUSA5080-Midterm</code></pre>
+</div>
+</div>
+<section id="phase-1-data-preparation" class="level1">
+<h1>PHASE 1: DATA PREPARATION</h1>
+<section id="load-and-clean-philadelphia-sales-data" class="level2">
+<h2 class="anchored" data-anchor-id="load-and-clean-philadelphia-sales-data">1.1 Load and clean Philadelphia sales data</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load Philly Property Sales data</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>phl_sales <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../data/raw/opa_properties_public.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: One or more parsing issues, call `problems()` on your data frame for details,
+e.g.:
+  dat &lt;- vroom(...)
+  problems(dat)</code></pre>
+</div>
+</div>
+<section id="filter-to-residential-properties-2023-2024-sales" class="level3">
+<h3 class="anchored" data-anchor-id="filter-to-residential-properties-2023-2024-sales">Filter to residential properties, 2023-2024 sales</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check data types</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># glimpse(phl_sales)</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>phl_sales_res_23_24 <span class="ot">&lt;-</span> phl_sales <span class="sc">|&gt;</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    category_code <span class="sc">==</span> <span class="dv">1</span>, <span class="co"># Residential</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">year</span>(sale_date) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2023</span>, <span class="dv">2024</span>), <span class="co"># 2023-24 sales</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span><span class="fu">is.na</span>(category_code) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(sale_date) <span class="co"># Handle nulls</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="remove-obvious-errors" class="level3">
+<h3 class="anchored" data-anchor-id="remove-obvious-errors">Remove obvious errors</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>phl_sales_res_23_24 <span class="ot">&lt;-</span> phl_sales_res_23_24 <span class="sc">|&gt;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Some sale_price are unrealistically too low ($0, $1 etc.)</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    sale_price <span class="sc">&gt;=</span> <span class="dv">10000</span>,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Some areas are unrealistically low (0, 1, etc.)</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    total_area <span class="sc">&gt;</span> <span class="dv">1</span>,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Some 0's remain in total_liveable_area after first area filter</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    total_livable_area <span class="sc">&gt;</span> <span class="dv">0</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># MORE: some areas seem unrealistically large (maybe bound by &lt; 25K)</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="handle-missing-values" class="level3">
+<h3 class="anchored" data-anchor-id="handle-missing-values">Handle missing values</h3>
+</section>
+<section id="document-all-cleaning-decisions" class="level3">
+<h3 class="anchored" data-anchor-id="document-all-cleaning-decisions">Document all cleaning decisions</h3>
+<ul>
+<li><p>Filter for only <strong>residential properties</strong> &amp; <strong>sales made in 2023-24</strong> (per instructions).</p></li>
+<li><p>Filter for <strong>realistic sales price</strong> &gt;= $10,000</p></li>
+<li><p>Filter for <strong>realistic house total area</strong> &gt; 1 sq ft</p></li>
+<li></li>
+</ul>
+</section>
+</section>
+<section id="load-secondary-data" class="level2">
+<h2 class="anchored" data-anchor-id="load-secondary-data">1.2 Load Secondary Data</h2>
+<section id="census-data" class="level3">
+<h3 class="anchored" data-anchor-id="census-data">Census data</h3>
+</section>
+<section id="spatial-amenities" class="level3">
+<h3 class="anchored" data-anchor-id="spatial-amenities">Spatial Amenities</h3>
+</section>
+<section id="joining-data-together" class="level3">
+<h3 class="anchored" data-anchor-id="joining-data-together">Joining Data Together</h3>
+</section>
+</section>
+</section>
+<section id="phase-2-exploratory-data-analysis" class="level1">
+<h1>PHASE 2: EXPLORATORY DATA ANALYSIS</h1>
+<section id="distribution-of-sale-prices-histogram" class="level3">
+<h3 class="anchored" data-anchor-id="distribution-of-sale-prices-histogram">Distribution of sale prices (histogram)</h3>
+<p><strong>Interpretation:</strong></p>
+</section>
+<section id="geographic-distribution-map" class="level3">
+<h3 class="anchored" data-anchor-id="geographic-distribution-map">Geographic distribution (map)</h3>
+<p><strong>Interpretation:</strong></p>
+</section>
+<section id="price-vs.-structural-features-scatter-plots" class="level3">
+<h3 class="anchored" data-anchor-id="price-vs.-structural-features-scatter-plots">Price vs.&nbsp;structural features (scatter plots)</h3>
+<p><strong>Interpretation:</strong></p>
+</section>
+<section id="price-vs.-spatial-features-scatter-plots" class="level3">
+<h3 class="anchored" data-anchor-id="price-vs.-spatial-features-scatter-plots">Price vs.&nbsp;spatial features (scatter plots)</h3>
+<p><strong>Interpretation:</strong></p>
+</section>
+<section id="one-creative-visualization" class="level3">
+<h3 class="anchored" data-anchor-id="one-creative-visualization">One creative visualization</h3>
+<p><strong>Interpretation:</strong></p>
+</section>
+</section>
+<section id="phase-3-feature-engineering" class="level1">
+<h1>PHASE 3: FEATURE ENGINEERING</h1>
+<section id="buffer-based-features" class="level3">
+<h3 class="anchored" data-anchor-id="buffer-based-features">Buffer-based Features</h3>
+</section>
+<section id="k-nearest-neighbors-features" class="level3">
+<h3 class="anchored" data-anchor-id="k-nearest-neighbors-features">K-Nearest Neighbors Features</h3>
+</section>
+<section id="census-variables" class="level3">
+<h3 class="anchored" data-anchor-id="census-variables">Census Variables</h3>
+</section>
+<section id="interaction-terms" class="level3">
+<h3 class="anchored" data-anchor-id="interaction-terms">Interaction Terms</h3>
+</section>
+<section id="summary-table" class="level3">
+<h3 class="anchored" data-anchor-id="summary-table">Summary Table</h3>
+</section>
+<section id="justification-of-feature-engineered-variables" class="level3">
+<h3 class="anchored" data-anchor-id="justification-of-feature-engineered-variables">Justification of Feature Engineered Variables</h3>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

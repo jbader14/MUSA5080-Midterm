@@ -9,3 +9,6 @@ data/opa_properties_public.csv
 
 renv/library/
 renv/staging/
+
+/.quarto/
+**/*.quarto_ipynb
