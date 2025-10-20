@@ -173,9 +173,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load packages</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidycensus)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.1.4     ✔ readr     2.1.5
@@ -186,46 +183,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors
+
 Attaching package: 'scales'
+
 
 The following object is masked from 'package:purrr':
 
     discard
 
+
 The following object is masked from 'package:readr':
 
-    col_factor</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Linking to GEOS 3.11.0, GDAL 3.5.3, PROJ 9.1.0; sf_use_s2() is TRUE</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tigris)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>To enable caching of data, set `options(tigris_use_cache = TRUE)`
-in your R script or .Rprofile.</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>here() starts at /Users/jack/Documents/GitHub/MUSA5080-Midterm</code></pre>
+    col_factor
+
+
+Linking to GEOS 3.11.0, GDAL 3.5.3, PROJ 9.1.0; sf_use_s2() is TRUE
+
+To enable caching of data, set `options(tigris_use_cache = TRUE)`
+in your R script or .Rprofile.
+
+here() starts at /Users/jack/Documents/GitHub/MUSA5080-Midterm</code></pre>
 </div>
 </div>
 <section id="phase-1-data-preparation" class="level1">
 <h1>PHASE 1: DATA PREPARATION</h1>
-<section id="load-and-clean-philadelphia-sales-data" class="level2">
-<h2 class="anchored" data-anchor-id="load-and-clean-philadelphia-sales-data">1.1 Load and clean Philadelphia sales data</h2>
+<section id="load-and-philadelphia-house-sales-data" class="level2">
+<h2 class="anchored" data-anchor-id="load-and-philadelphia-house-sales-data">1.1 Load and Philadelphia house sales data</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load Philly Property Sales data</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>phl_sales <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../data/raw/opa_properties_public.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load Philly Property Sales data</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>phl_sales <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../data/raw/opa_properties_public.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: One or more parsing issues, call `problems()` on your data frame for details,
 e.g.:
@@ -236,55 +223,80 @@ e.g.:
 <section id="filter-to-residential-properties-2023-2024-sales" class="level3">
 <h3 class="anchored" data-anchor-id="filter-to-residential-properties-2023-2024-sales">Filter to residential properties, 2023-2024 sales</h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check data types</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># glimpse(phl_sales)</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>phl_sales_res_23_24 <span class="ot">&lt;-</span> phl_sales <span class="sc">|&gt;</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    category_code <span class="sc">==</span> <span class="dv">1</span>, <span class="co"># Residential</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">year</span>(sale_date) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2023</span>, <span class="dv">2024</span>), <span class="co"># 2023-24 sales</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span><span class="fu">is.na</span>(category_code) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(sale_date) <span class="co"># Handle nulls</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check data types</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># glimpse(phl_sales)</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>phl_sales_res_23_24 <span class="ot">&lt;-</span> phl_sales <span class="sc">|&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    category_code <span class="sc">==</span> <span class="dv">1</span>, <span class="co"># Residential</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">year</span>(sale_date) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2023</span>, <span class="dv">2024</span>), <span class="co"># 2023-24 sales</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span><span class="fu">is.na</span>(category_code) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(sale_date) <span class="co"># Handle nulls</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="remove-obvious-errors" class="level3">
 <h3 class="anchored" data-anchor-id="remove-obvious-errors">Remove obvious errors</h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>phl_sales_res_23_24 <span class="ot">&lt;-</span> phl_sales_res_23_24 <span class="sc">|&gt;</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Some sale_price are unrealistically too low ($0, $1 etc.)</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    sale_price <span class="sc">&gt;=</span> <span class="dv">10000</span>,</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Some areas are unrealistically low (0, 1, etc.)</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    total_area <span class="sc">&gt;</span> <span class="dv">1</span>,</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Some 0's remain in total_liveable_area after first area filter</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    total_livable_area <span class="sc">&gt;</span> <span class="dv">0</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># MORE: some areas seem unrealistically large (maybe bound by &lt; 25K)</span></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>phl_sales_clean <span class="ot">&lt;-</span> phl_sales_res_23_24 <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Some sale_price are unrealistically too low ($0, $1 etc.)</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    sale_price <span class="sc">&gt;=</span> <span class="dv">10000</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Exclude homes with 0 bathrooms</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    number_of_bathrooms <span class="sc">&gt;</span> <span class="dv">0</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Some areas are unrealistically low (0, 1, etc.)</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    total_area <span class="sc">&gt;</span> <span class="dv">1</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Some 0's remain in total_liveable_area after first area filter</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    total_livable_area <span class="sc">&gt;</span> <span class="dv">0</span>,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Filter our unrealistic year built</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    year_built <span class="sc">&gt;=</span> <span class="dv">1750</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    ) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="handle-missing-values" class="level3">
 <h3 class="anchored" data-anchor-id="handle-missing-values">Handle missing values</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check how many features have NA values</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># sum(is.na(phl_sales_clean$number_of_bedrooms))</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># sum(is.na(phl_sales_clean$number_of_bathrooms))</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># sum(is.na(phl_sales_clean$total_livable_area))</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># sum(is.na(phl_sales_clean$year_built))</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove the 2 observations with NA values for number of bedrooms</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>phl_sales_clean <span class="ot">&lt;-</span> phl_sales_clean <span class="sc">|&gt;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span><span class="fu">is.na</span>(number_of_bedrooms)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </section>
 <section id="document-all-cleaning-decisions" class="level3">
 <h3 class="anchored" data-anchor-id="document-all-cleaning-decisions">Document all cleaning decisions</h3>
 <ul>
+<li><p>Our methodology for cleaning the Philadelphia home sales data is to focus on the features used in our model. As a group, we decided on the following independent variables to consider in our data exploration and model building to be: number of bathrooms, number of bedrooms, total livable area, and year built. We recognize that there is some risk of collinearity between these structural features, which will later be monitored and addressed if needed in the model building stage. Additionally, we also had to clean the sales price column since this is the variable we aim to predict in our model.</p></li>
 <li><p>Filter for only <strong>residential properties</strong> &amp; <strong>sales made in 2023-24</strong> (per instructions).</p></li>
-<li><p>Filter for <strong>realistic sales price</strong> &gt;= $10,000</p></li>
-<li><p>Filter for <strong>realistic house total area</strong> &gt; 1 sq ft</p></li>
-<li></li>
+<li><p>Filter for <strong>realistic sales price</strong> &gt;= $10,000.</p></li>
+<li><p>Filter for houses with <strong>at least 1 bathroom</strong>. We will keep observations where <strong>number of bedrooms = 0</strong> as this likely signifies a studio apartment. However, it is not feasible for homes to have zero bathrooms, so we will enforce a constraint that a home must have at least 1 bathroom to preserve data integrity.</p></li>
+<li><p>Filter for <strong>realistic total area</strong> &gt; 1 sq ft &amp; <strong>realistic total livable area</strong> &gt; 0 sq ft.</p></li>
+<li><p>Filter for <strong>year built</strong> &gt;= 1750 (some homes were built in year 0).</p></li>
+<li><p><strong>Handle missing values:</strong> We removed any missing values in our dependent variable of sales price, since it is crucial we have a true and accurate measure for prediction. We also checked which of our predictor variables had NA values after filtering. Only number of bedrooms had 2 remaining NA values. The rest had no NA values. To remedy this, we will remove the 2 observations from our data. Note, if there was substantial missing values in our predictors, we could use strategies such as imputing the NA values with the mean or median to use when building our model.</p></li>
 </ul>
 </section>
 </section>
 <section id="load-secondary-data" class="level2">
 <h2 class="anchored" data-anchor-id="load-secondary-data">1.2 Load Secondary Data</h2>
-<section id="census-data" class="level3">
-<h3 class="anchored" data-anchor-id="census-data">Census data</h3>
+<section id="census" class="level3">
+<h3 class="anchored" data-anchor-id="census">Census</h3>
 </section>
-<section id="spatial-amenities" class="level3">
-<h3 class="anchored" data-anchor-id="spatial-amenities">Spatial Amenities</h3>
+<section id="neighborhood-polygon" class="level3">
+<h3 class="anchored" data-anchor-id="neighborhood-polygon">Neighborhood (Polygon)</h3>
+</section>
+<section id="city-centers-amenities" class="level3">
+<h3 class="anchored" data-anchor-id="city-centers-amenities">City Centers (Amenities)</h3>
+</section>
+<section id="education" class="level3">
+<h3 class="anchored" data-anchor-id="education">Education</h3>
 </section>
 <section id="joining-data-together" class="level3">
-<h3 class="anchored" data-anchor-id="joining-data-together">Joining Data Together</h3>
+<h3 class="anchored" data-anchor-id="joining-data-together">Joining data together</h3>
 </section>
 </section>
 </section>
@@ -292,6 +304,70 @@ e.g.:
 <h1>PHASE 2: EXPLORATORY DATA ANALYSIS</h1>
 <section id="distribution-of-sale-prices-histogram" class="level3">
 <h3 class="anchored" data-anchor-id="distribution-of-sale-prices-histogram">Distribution of sale prices (histogram)</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(phl_sales_clean, <span class="fu">aes</span>(sale_price)) <span class="sc">+</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">60</span>, <span class="at">fill =</span> <span class="st">"darkseagreen3"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> <span class="fu">label_dollar</span>()) <span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution of Home Sale Prices in Philadelphia"</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"For Residential Properties in 2023-2024"</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Sale Price"</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Count"</span>) <span class="sc">+</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="appendix_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Interpretation:</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>price_95_perc <span class="ot">&lt;-</span> <span class="fu">quantile</span>(phl_sales_clean<span class="sc">$</span>sale_price, <span class="fl">0.95</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>df_95_exclude <span class="ot">&lt;-</span> <span class="fu">filter</span>(phl_sales_clean, sale_price <span class="sc">&lt;=</span> price_95_perc)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>price_median <span class="ot">&lt;-</span> <span class="fu">median</span>(phl_sales_clean<span class="sc">$</span>sale_price, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>price_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(phl_sales_clean<span class="sc">$</span>sale_price, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_95_exclude, <span class="fu">aes</span>(sale_price)) <span class="sc">+</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">20</span>, <span class="at">fill =</span> <span class="st">"darkseagreen3"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> price_mean, <span class="at">linetype =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> price_median, <span class="at">linetype =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>,</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>           <span class="at">x =</span> price_mean,</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> <span class="dv">1700</span>,</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="st">"Mean"</span>, </span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>           <span class="at">hjust =</span> <span class="sc">-</span> <span class="fl">0.1</span>, </span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> <span class="st">"black"</span>, </span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>           <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>,</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>           <span class="at">x =</span> price_median, </span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> <span class="dv">2400</span>, </span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="st">"Median"</span>,</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>           <span class="at">hjust =</span> <span class="sc">-</span> <span class="fl">0.1</span>, </span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> <span class="st">"black"</span>, </span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>           <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> <span class="fu">label_dollar</span>()) <span class="sc">+</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Distribution of Home Sale Prices in Philadelphia"</span>,</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"For Residential Properties in 2023-2024"</span>,</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Histogram and median/mean statistics were computed on filtered sample (sale price ≤ 95th percentile) for better visibility."</span>,</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Sale Price"</span>,</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Count"</span>) <span class="sc">+</span></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>)</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="appendix_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 <p><strong>Interpretation:</strong></p>
 </section>
 <section id="geographic-distribution-map" class="level3">
@@ -314,22 +390,22 @@ e.g.:
 <section id="phase-3-feature-engineering" class="level1">
 <h1>PHASE 3: FEATURE ENGINEERING</h1>
 <section id="buffer-based-features" class="level3">
-<h3 class="anchored" data-anchor-id="buffer-based-features">Buffer-based Features</h3>
+<h3 class="anchored" data-anchor-id="buffer-based-features">Buffer-based features</h3>
 </section>
 <section id="k-nearest-neighbors-features" class="level3">
-<h3 class="anchored" data-anchor-id="k-nearest-neighbors-features">K-Nearest Neighbors Features</h3>
+<h3 class="anchored" data-anchor-id="k-nearest-neighbors-features">K-Nearest neighbors features</h3>
 </section>
 <section id="census-variables" class="level3">
-<h3 class="anchored" data-anchor-id="census-variables">Census Variables</h3>
+<h3 class="anchored" data-anchor-id="census-variables">Census variables</h3>
 </section>
 <section id="interaction-terms" class="level3">
-<h3 class="anchored" data-anchor-id="interaction-terms">Interaction Terms</h3>
+<h3 class="anchored" data-anchor-id="interaction-terms">Interaction terms</h3>
 </section>
 <section id="summary-table" class="level3">
-<h3 class="anchored" data-anchor-id="summary-table">Summary Table</h3>
+<h3 class="anchored" data-anchor-id="summary-table">Summary table</h3>
 </section>
 <section id="justification-of-feature-engineered-variables" class="level3">
-<h3 class="anchored" data-anchor-id="justification-of-feature-engineered-variables">Justification of Feature Engineered Variables</h3>
+<h3 class="anchored" data-anchor-id="justification-of-feature-engineered-variables">Justification of feature engineered variables</h3>
 
 
 </section>

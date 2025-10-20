@@ -4,6 +4,7 @@ format: html
 ---
 
 ```{r}
+#| echo: False
 # Load packages
 library(tidycensus)
 library(tidyverse)
@@ -15,11 +16,13 @@ library(ggplot2)
 library(tigris)
 library(patchwork)
 library(here)
+
+options(tigris_use_cache = TRUE, tigris_progress = FALSE) 
 ```
 
 # PHASE 1: DATA PREPARATION
 
-## 1.1 Load and clean Philadelphia sales data
+## 1.1 Load and Philadelphia house sales data
 ```{r}
 # Load Philly Property Sales data
 phl_sales <- read_csv("../data/raw/opa_properties_public.csv", show_col_types = FALSE)
@@ -40,52 +43,90 @@ phl_sales_res_23_24 <- phl_sales |>
 
 ### Remove obvious errors
 ```{r}
-phl_sales_res_23_24 <- phl_sales_res_23_24 |>
+phl_sales_clean <- phl_sales_res_23_24 |>
   filter(
     # Some sale_price are unrealistically too low ($0, $1 etc.)
     sale_price >= 10000,
+    # Exclude homes with 0 bathrooms
+    number_of_bathrooms > 0,
     # Some areas are unrealistically low (0, 1, etc.)
     total_area > 1,
     # Some 0's remain in total_liveable_area after first area filter
-    total_livable_area > 0
-    # MORE: some areas seem unrealistically large (maybe bound by < 25K)
-    )
+    total_livable_area > 0,
+    # Filter our unrealistic year built
+    year_built >= 1750
+    ) 
 ```
 
 ### Handle missing values
 
 ```{r}
+# Check how many features have NA values
+# sum(is.na(phl_sales_clean$number_of_bedrooms))
+# sum(is.na(phl_sales_clean$number_of_bathrooms))
+# sum(is.na(phl_sales_clean$total_livable_area))
+# sum(is.na(phl_sales_clean$year_built))
 
+# Remove the 2 observations with NA values for number of bedrooms
+phl_sales_clean <- phl_sales_clean |>
+  filter(
+    !is.na(number_of_bedrooms)
+  )
 ```
 
 
 ### Document all cleaning decisions
 
+
+- Our methodology for cleaning the Philadelphia home sales data is to focus on the features used in our model. As a group, we decided on the following independent variables to consider in our data exploration and model building to be: number of bathrooms, number of bedrooms, total livable area, and year built. We recognize that there is some risk of collinearity between these structural features, which will later be monitored and addressed if needed in the model building stage. Additionally, we also had to clean the sales price column since this is the variable we aim to predict in our model.
+
+
 - Filter for only **residential properties** & **sales made in 2023-24** (per instructions).
 
 
-- Filter for **realistic sales price** >= $10,000
+- Filter for **realistic sales price** >= $10,000.
 
 
-- Filter for **realistic house total area** > 1 sq ft
+- Filter for houses with **at least 1 bathroom**. We will keep observations where **number of bedrooms = 0** as this likely signifies a studio apartment. However, it is not feasible for homes to have zero bathrooms, so we will enforce a constraint that a home must have at least 1 bathroom to preserve data integrity.
 
-- 
+
+- Filter for **realistic total area** > 1 sq ft & **realistic total livable area** > 0 sq ft.
+
+
+- Filter for **year built** >= 1750 (some homes were built in year 0).
+
+
+- **Handle missing values:** We removed any missing values in our dependent variable of sales price, since it is crucial we have a true and accurate measure for prediction. We also checked which of our predictor variables had NA values after filtering. Only number of bedrooms had 2 remaining NA values. The rest had no NA values. To remedy this, we will remove the 2 observations from our data. Note, if there was substantial missing values in our predictors, we could use strategies such as imputing the NA values with the mean or median to use when building our model. 
+
 
 ## 1.2 Load Secondary Data
 
-### Census data
+### Census
 
 ```{r}
 
 ```
 
-### Spatial Amenities
+### Neighborhood (Polygon)
 
 ```{r}
 
 ```
 
-### Joining Data Together
+
+### City Centers (Amenities)
+
+```{r}
+
+```
+
+### Education
+
+```{r}
+
+```
+
+### Joining data together
 
 ```{r}
 
@@ -97,10 +138,59 @@ phl_sales_res_23_24 <- phl_sales_res_23_24 |>
 ### Distribution of sale prices (histogram)
 
 ```{r}
-
+ggplot(phl_sales_clean, aes(sale_price)) +
+  geom_histogram(bins = 60, fill = "darkseagreen3", color = "black") +
+  scale_x_continuous(labels = label_dollar()) +
+  labs(title = "Distribution of Home Sale Prices in Philadelphia",
+       subtitle = "For Residential Properties in 2023-2024",
+       x = "Sale Price",
+       y = "Count") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold")
+  )
 ```
 
-**Interpretation:**
+**Interpretation:** 
+
+```{r}
+price_95_perc <- quantile(phl_sales_clean$sale_price, 0.95, na.rm = TRUE)
+df_95_exclude <- filter(phl_sales_clean, sale_price <= price_95_perc)
+
+price_median <- median(phl_sales_clean$sale_price, na.rm = TRUE)
+price_mean <- mean(phl_sales_clean$sale_price, na.rm = TRUE)
+
+ggplot(df_95_exclude, aes(sale_price)) +
+  geom_histogram(bins = 20, fill = "darkseagreen3", color = "black") +
+  geom_vline(xintercept = price_mean, linetype = 5) +
+  geom_vline(xintercept = price_median, linetype = 5) +
+  annotate("text",
+           x = price_mean,
+           y = 1700,
+           label = "Mean", 
+           hjust = - 0.1, 
+           color = "black", 
+           size = 3) +
+  annotate("text",
+           x = price_median, 
+           y = 2400, 
+           label = "Median",
+           hjust = - 0.1, 
+           color = "black", 
+           size = 3) +
+  scale_x_continuous(labels = label_dollar()) +
+  labs(
+    title = "Distribution of Home Sale Prices in Philadelphia",
+    subtitle = "For Residential Properties in 2023-2024",
+    caption = "Histogram and median/mean statistics were computed on filtered sample (sale price ≤ 95th percentile) for better visibility.",
+    x = "Sale Price",
+    y = "Count") +
+  theme(
+    plot.title = element_text(face = "bold")
+  )
+```
+
+**Interpretation:** 
 
 ### Geographic distribution (map)
 
@@ -137,35 +227,35 @@ phl_sales_res_23_24 <- phl_sales_res_23_24 |>
 
 # PHASE 3: FEATURE ENGINEERING
 
-### Buffer-based Features
+### Buffer-based features
 
 ```{r}
 
 ```
 
-### K-Nearest Neighbors Features
+### K-Nearest neighbors features
 
 ```{r}
 
 ```
 
-### Census Variables
+### Census variables
 
 ```{r}
 
 ```
 
-### Interaction Terms
+### Interaction terms
 
 ```{r}
 
 ```
 
-### Summary Table
+### Summary table
 
 ```{r}
 
 ```
 
-### Justification of Feature Engineered Variables
+### Justification of feature engineered variables
 
