@@ -149,8 +149,19 @@ phl_sales_clean <- phl_sales_clean |>
 ### Distribution of sale prices (histogram)
 
 ```{r}
+# Calculate the median / mean to plot
+price_median <- median(phl_sales_clean$sale_price, na.rm = TRUE)
+
 ggplot(phl_sales_clean, aes(sale_price)) +
   geom_histogram(bins = 60, fill = "darkseagreen3", color = "black") +
+  geom_vline(xintercept = price_median, linetype = 5) +
+  annotate("text",
+           x = price_median, 
+           y = 6200, 
+           label = "Median",
+           hjust = -0.2, 
+           color = "black", 
+           size = 3) +
   scale_x_continuous(labels = label_dollar()) +
   labs(title = "Distribution of Home Sale Prices",
        subtitle = "For Philadelphia Residential Properties in 2023-2024",
@@ -169,26 +180,26 @@ ggplot(phl_sales_clean, aes(sale_price)) +
 price_95_perc <- quantile(phl_sales_clean$sale_price, 0.95, na.rm = TRUE)
 df_95_exclude <- filter(phl_sales_clean, sale_price <= price_95_perc)
 
-# Calculate the median / mean to plot (does not include top 5%)
-price_median <- median(phl_sales_clean$sale_price, na.rm = TRUE)
-price_mean <- mean(phl_sales_clean$sale_price, na.rm = TRUE)
+# Calculate the median / mean to plot from trimmed distribution
+price_median_95_exc <- median(df_95_exclude$sale_price, na.rm = TRUE)
+price_mean_95_exc <- mean(df_95_exclude$sale_price, na.rm = TRUE)
 
 ggplot(df_95_exclude, aes(sale_price)) +
   geom_histogram(bins = 20, fill = "darkseagreen3", color = "black") +
-  geom_vline(xintercept = price_mean, linetype = 5) +
-  geom_vline(xintercept = price_median, linetype = 5) +
+  geom_vline(xintercept = price_mean_95_exc, linetype = 5) +
+  geom_vline(xintercept = price_median_95_exc, linetype = 5) +
   annotate("text",
-           x = price_mean,
-           y = 1700,
+           x = price_mean_95_exc,
+           y = 2400,
            label = "Mean", 
            hjust = - 0.1, 
            color = "black", 
            size = 3) +
   annotate("text",
-           x = price_median, 
-           y = 2400, 
+           x = price_median_95_exc, 
+           y = 2450, 
            label = "Median",
-           hjust = - 0.1, 
+           hjust = 1.25, 
            color = "black", 
            size = 3) +
   scale_x_continuous(labels = label_dollar()) +
@@ -204,7 +215,7 @@ ggplot(df_95_exclude, aes(sale_price)) +
   ) 
 ```
 
-**Interpretation:** In this revised histogram, we get a much better sense of how the sales prices are distributed without the presence of extreme outliers. As we saw before, the data is definitely right-skewed since the median (\$ 235250) is less than the mean (\$ 322231) even when removing large outliers from the top 5% of the distribution. We can visualize that the standard housing market in Philadelphia from 2023-2024 ranges between \$0 and \$800,000. The distribution has a single peak around \$200,000, indicating that it is unimodal with a typical (or most common) home sale price in the realm of \$150,000 to \$250,000. This is an indication that it may be best to omit these significant outliers from our dataset when building our model for home sale price prediction. The homes on the higher end of the sale price distribution are determined by a combination of structural features (such total livable area) and spatial features (such as nearby city centers) that drive up the prices of these homes. The goal of this study is to determine what features, both structural and spatial, are significant in predicting home sale prices in Philadelphia and create an accurate model to help policy makers in valuating property tax assessments.
+**Interpretation:** In this revised histogram, we get a much better sense of how the sales prices are distributed without the presence of extreme outliers. As we saw before, the data is definitely right-skewed since the median (\$235,250) is less than the mean (\$322,231) even when removing large outliers from the top 5% of the distribution. We can visualize that the standard housing market in Philadelphia from 2023-2024 ranges between \$0 and \$800,000. The distribution has a single peak around \$200,000, indicating that it is unimodal with a typical (or most common) home sale price in the realm of \$150,000 to \$250,000. This is an indication that it may be best to omit these significant outliers from our dataset when building our model for home sale price prediction. The homes on the higher end of the sale price distribution are determined by a combination of structural features (such total livable area) and spatial features (such as nearby city centers) that drive up the prices of these homes. The goal of this study is to determine what features, both structural and spatial, are significant in predicting home sale prices in Philadelphia and create an accurate model to help policy makers in valuating property tax assessments.
 
 ### Geographic distribution (map)
 
@@ -220,7 +231,7 @@ ggplot(df_95_exclude, aes(sale_price)) +
 
 ```{r}
 ggplot(phl_sales_clean, aes(x = factor(number_of_bathrooms), y = sale_price)) +
-  geom_boxplot(outlier.color = "firebrick", outlier.alpha = 0.2) +
+  geom_boxplot(fill = "lightcyan2", outlier.color = "firebrick", outlier.alpha = 0.2) +
   scale_y_continuous(labels = scales::label_dollar()) +
   labs(title = "Distribution of Home Sale Prices by Number of Bathrooms", 
        subtitle = "For Philadelphia Residential Properties in 2023-2024",
@@ -236,7 +247,7 @@ ggplot(phl_sales_clean, aes(x = factor(number_of_bathrooms), y = sale_price)) +
 
 ```{r}
 ggplot(phl_sales_clean, aes(x = factor(number_of_bathrooms), y = log(sale_price))) +
-  geom_boxplot(outlier.color = "firebrick", outlier.alpha = 0.2) +
+  geom_boxplot(fill = "lightcyan2", outlier.color = "firebrick", outlier.alpha = 0.2) +
   scale_y_continuous(labels = scales::label_dollar()) +
   labs(title = "Distribution of Log(Home Sale Prices) by Number of Bathrooms", 
        subtitle = "For Philadelphia Residential Properties in 2023-2024",
@@ -254,7 +265,7 @@ ggplot(phl_sales_clean, aes(x = factor(number_of_bathrooms), y = log(sale_price)
 
 ```{r}
 ggplot(phl_sales_clean, aes(x = factor(number_of_bedrooms), y = sale_price)) +
-  geom_boxplot(outlier.color = "firebrick", outlier.alpha = 0.2) +
+  geom_boxplot(fill = "lightcyan2", outlier.color = "firebrick", outlier.alpha = 0.2) +
   scale_y_continuous(labels = scales::label_dollar()) +
   labs(title = "Distribution of Home Sale Prices by Number of Bedrooms", 
        subtitle = "For Philadelphia Residential Properties in 2023-2024",
@@ -270,7 +281,7 @@ ggplot(phl_sales_clean, aes(x = factor(number_of_bedrooms), y = sale_price)) +
 
 ```{r}
 ggplot(phl_sales_clean, aes(x = factor(number_of_bedrooms), y = log(sale_price))) +
-  geom_boxplot(outlier.color = "firebrick", outlier.alpha = 0.2) +
+  geom_boxplot(fill = "lightcyan2", outlier.color = "firebrick", outlier.alpha = 0.2) +
   scale_y_continuous(labels = scales::label_dollar()) +
   labs(title = "Distribution of Log(Home Sale Prices) by Number of Bedrooms", 
        subtitle = "For Philadelphia Residential Properties in 2023-2024",
@@ -301,6 +312,8 @@ ggplot(phl_sales_clean, aes(x = total_livable_area, sale_price)) +
   )
 ```
 
+**Interpretation:** The plot represents the relationship between the non-transformed target sale price and predictor total livable area. We can see that the relationship to be positive with evidence of heavy right-skew with the majority of data points clustered in the bottom-left with less than 3000 sq ft of area and \$500,000 price. Also, we notice that although the relationship is positive, it does not appear to be linear, a violation of a crucial assumption in linear regression. As before, there is the presence of luxury homes as large outliers that can pull the regression line upward, which would create biased estimates on model coefficients.
+
 ```{r}
 ggplot(phl_sales_clean, aes(x = log(total_livable_area), log(sale_price))) +
   geom_point(alpha = 0.075, size = 1) +
@@ -316,7 +329,7 @@ ggplot(phl_sales_clean, aes(x = log(total_livable_area), log(sale_price))) +
   )
 ```
 
-**Interpretation:**
+**Interpretation:** By log-transforming both sale price and total livable area, we visualize a relationship that appears much more linear. As we saw before, there seem to be more variability in homes with smaller areas that are more common in this dataset. The transformation has more of a uniform, symmetric spread of points above and below the regression line. We can interpret this relationship as increasing the percentage of total livable area will lead to some constant increase in the percentage of sale price with this transformation. Again, through the log-transformation of our target variable, we observe a more linear relationship, strengthening the notion for the need for this transformation in our modeling phase.
 
 #### 4. Age (Sale Date - Year Built)
 
@@ -334,10 +347,12 @@ ggplot(phl_sales_clean, aes(x = age, y = sale_price)) +
   )
 ```
 
+**Interpretation:** In the above plot, it does not reveal any significant relationship between sale price and home age. The main issue is that most of the data is clustered at the bottom of the figure at low sale prices regardless of age. There are some noticeable outliers along with increased variability for middle-aged homes around 75 to 125 years old. In general, it seems that there newer homes (lower age) demonstrate somewhat higher price levels on average. However, from this plot alone, it is difficult to verify.
+
 ```{r}
 ggplot(phl_sales_clean, aes(x = age, log(sale_price))) +
   geom_point(alpha = 0.075, size = 1) +
-  geom_smooth(method = "loess", span = 0.7, se = FALSE, color = "firebrick") +
+  geom_smooth(method = "loess", span = 0.75, se = FALSE, color = "firebrick") +
   scale_y_continuous(labels = label_dollar()) +
   labs(title = "Distribution of Log(Home Sale Prices) by Age", 
        subtitle = "For Philadelphia Residential Properties in 2023-2024",
@@ -349,8 +364,33 @@ ggplot(phl_sales_clean, aes(x = age, log(sale_price))) +
   )
 ```
 
-**Interpretation:**
+**Interpretation:** After doing the trick to log-transform sale price, we see an interesting shape that somewhat resembles a crucial theory we learned in lecture. This theory outlines that Age has a U-shaped effect on price. Newer homes are sought after due to recent construction with more modern amenities, whereas very old homes are considered to have historic value or charm. The middle-aged homes are therefore the least desirable homes that likely are not modernized with significant wear and tear without the allure of a historic home. While this theory makes sense, it somewhat breaks down for these middle aged homes as their sale prices experience much more variability. This is likely due to a majority of samples in our dataset within this range whose sale price cannot be explained by age alone. Therefore, it is wise to proceed with caution with using the age variable in building our predictive model.
 
+```{r}
+df_age_groups <- phl_sales_clean |>
+  mutate(
+    age_group = case_when(
+      age < 20 ~ "New (<20 years)",
+      age < 80 ~ "Middle (20–80 years)",
+      age >= 80 ~ "Historic (>80 years)"
+    ),
+    age_group = factor(age_group, levels = c("New (<20 years)", "Middle (20–80 years)", "Historic (>80 years)"))
+  )
+
+ggplot(df_age_groups, aes(age_group, log(sale_price))) +
+  geom_boxplot(fill = "lightcyan2", outlier.colour = "firebrick", outlier.alpha = 0.2) +
+  labs(
+    title = "Distribution of Log(Sale Price) by Age Group",
+    subtitle = "Philadelphia Residential Sales in 2023–2024",
+    x = "Age Group", y = "log(Sale Price)",
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold")
+  )
+```
+
+**Interpretation:** When we engineer a new age group feature, the U-shaped distribution does not appear to be valid in the case of our dataset. Using the age segmentations defined in class, it now appears as there is an inverse (negative) relationship between log(sale price) and age group, not a U-shape distribution. One hypothesis is that very old buildings in Philadelphia are too worn down or don't hold enough historic value to counteract its age. Whatever the reason may be, it seems that engineering a feature for age group is preferred over using age directly and to expect increasing age to a home to depreciate its value over time.
 
 ### Price vs. spatial features
 
@@ -371,12 +411,28 @@ ggplot(phl_sales_clean, aes(x = age, log(sale_price))) +
 
 # PHASE 3: FEATURE ENGINEERING
 
-### Final Data Cleaning from EDA
+### Final Data Cleaning from Structural EDA
 
 ```{r}
-# Remove bathrooms > 7
+phl_sales_final <- phl_sales_clean |>
+  filter(
+    # Remove top 1% of sale price (extreme outliers)
+    sale_price < quantile(phl_sales_clean$sale_price, 0.99, na.rm = TRUE),
+    # Remove bathrooms > 7
+    number_of_bathrooms < 8,
+    # Remove bedrooms > 9
+    number_of_bedrooms < 10
+  )|>
+  mutate(
+    # Age group buckets (new, middle_age, historic)
+    age_group = case_when(
+      age < 20 ~ "New (<20)",
+      age <= 80 ~ "Middle (20–80)",
+      age > 80 ~ "Historic (>80)"
+    ),
+    age_group = factor(age_group, levels = c("New (<20)", "Middle (20–80)", "Historic (>80)"))
+  )
 
-# Remove bedrooms > 9
 ```
 
 
