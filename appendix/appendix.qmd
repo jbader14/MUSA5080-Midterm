@@ -141,8 +141,8 @@ phl_sales_clean <- phl_sales_clean |>
 ggplot(phl_sales_clean, aes(sale_price)) +
   geom_histogram(bins = 60, fill = "darkseagreen3", color = "black") +
   scale_x_continuous(labels = label_dollar()) +
-  labs(title = "Distribution of Home Sale Prices in Philadelphia",
-       subtitle = "For Residential Properties in 2023-2024",
+  labs(title = "Distribution of Home Sale Prices",
+       subtitle = "For Philadelphia Residential Properties in 2023-2024",
        x = "Sale Price",
        y = "Count") +
   theme_minimal() +
@@ -151,12 +151,14 @@ ggplot(phl_sales_clean, aes(sale_price)) +
   )
 ```
 
-**Interpretation:** 
+**Interpretation:** The histogram plot above shows the full distribution of home sale prices for residential properties in 2023-2024 from our cleaned dataset. The data is extremely right-skewed, highlighting a majority of prices under \$500,000 with a long tail of more expensive homes thereafter. The main issue with the extreme outliers of home prices exceeding \$5 million that make the visibility of this plot hard to interpret. Also, there are major gaps at higher sales prices as we see the data become more spread out, further indicating the presence of outliers. Therefore, to remedy this, we will plot a second histogram of the price distribution, excluding the top 5% of sales prices from the original cleaned dataset.
 
 ```{r}
+# Create new df, filtering out the top 5% of house prices (outliers)
 price_95_perc <- quantile(phl_sales_clean$sale_price, 0.95, na.rm = TRUE)
 df_95_exclude <- filter(phl_sales_clean, sale_price <= price_95_perc)
 
+# Calculate the median / mean to plot (does not include top 5%)
 price_median <- median(phl_sales_clean$sale_price, na.rm = TRUE)
 price_mean <- mean(phl_sales_clean$sale_price, na.rm = TRUE)
 
@@ -180,17 +182,18 @@ ggplot(df_95_exclude, aes(sale_price)) +
            size = 3) +
   scale_x_continuous(labels = label_dollar()) +
   labs(
-    title = "Distribution of Home Sale Prices in Philadelphia",
-    subtitle = "For Residential Properties in 2023-2024",
+    title = "Distribution of Home Sale Prices",
+    subtitle = "For Philadelphia Residential Properties in 2023-2024",
     caption = "Histogram and median/mean statistics were computed on filtered sample (sale price ≤ 95th percentile) for better visibility.",
     x = "Sale Price",
     y = "Count") +
+  theme_minimal() +
   theme(
     plot.title = element_text(face = "bold")
-  )
+  ) 
 ```
 
-**Interpretation:** 
+**Interpretation:** In this revised histogram, we get a much better sense of how the sales prices are distributed without the presence of extreme outliers. As we saw before, the data is definitely right-skewed since the median (\$ 235250) is less than the mean (\$ 322231) even when removing large outliers from the top 5% of the distribution. We can visualize that the standard housing market in Philadelphia from 2023-2024 ranges between \$0 and \$800,000. The distribution has a single peak around \$200,000, indicating that it is unimodal with a typical (or most common) home sale price in the realm of \$150,000 to \$250,000. This is an indication that it may be best to omit these significant outliers from our dataset when building our model for home sale price prediction. The homes on the higher end of the sale price distribution are determined by a combination of structural features (such total livable area) and spatial features (such as nearby city centers) that drive up the prices of these homes. The goal of this study is to determine what features, both structural and spatial, are significant in predicting home sale prices in Philadelphia and create an accurate model to help policy makers in valuating property tax assessments.
 
 ### Geographic distribution (map)
 
@@ -200,13 +203,108 @@ ggplot(df_95_exclude, aes(sale_price)) +
 
 **Interpretation:**
 
-### Price vs. structural features (scatter plots)
+### Price vs. structural features
+
+#### 1. Number of Bathrooms
 
 ```{r}
+ggplot(phl_sales_clean, aes(x = factor(number_of_bathrooms), y = sale_price)) +
+  geom_boxplot(outlier.color = "firebrick", outlier.alpha = 0.2) +
+  scale_y_continuous(labels = scales::label_dollar()) +
+  labs(title = "Distribution of Home Sale Prices by Number of Bathrooms", 
+       subtitle = "For Philadelphia Residential Properties in 2023-2024",
+       x = "Bathrooms", 
+       y = "Sale Price") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold")
+  )
+```
 
+**Interpretation:** Since number of bathrooms is a discrete variable, a scatter plot is not suitable to visualize this predictor's relationship with the target variable of sale price; therefore, we opted to use box plots instead. In this first plot, we see a distinct positive relationship between number of bathrooms and home sale price. Intuitively, this makes sense since homes with more bathrooms should on average sell at higher prices. Another trend is that there are more outliers in homes with less bathrooms (between 1 and 3). These outliers are likely due to external spatial factors such as neighborhoods. Housing prices tend to surge in highly desirable neighborhoods such as Rittenhouse Square, which explains the presence of many outliers plotted above the upper bound of these boxplots. Another trend is that variance of sale prices begins to significantly widen for homes with more than 3 bedrooms. This suggests that larger homes with more bathrooms experience more price dispersion relative to those with less bathrooms. Lastly, it is worth noting that there are very few observations of homes with 8 or 12 bathrooms, indicating that it would be beneficial to remove them from our dataset to better capture the true relationship between price and number of bathrooms.
+
+```{r}
+ggplot(phl_sales_clean, aes(x = factor(number_of_bathrooms), y = log(sale_price))) +
+  geom_boxplot(outlier.color = "firebrick", outlier.alpha = 0.2) +
+  scale_y_continuous(labels = scales::label_dollar()) +
+  labs(title = "Distribution of Log(Home Sale Prices) by Number of Bathrooms", 
+       subtitle = "For Philadelphia Residential Properties in 2023-2024",
+       x = "Bathrooms", 
+       y = "Log(Sale Price)") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold")
+  )
+```
+
+**Interpretation:** In addition, we also plotted with the y-axis transformed to the log of sales price. We notice that there is still a positive relationship that appears more linear than the first plot. The log transformation helps reduce the effect of extreme outliers by compressing the distribution of house sale prices. This transformation also serves to center the distributions as noted by the presence of both positive and negative outliers. These benefits suggest that log-transforming our target variable for a linear regression is the best suitable method to yield an accurate model. 
+
+#### 2. Number of Bedrooms
+
+```{r}
+ggplot(phl_sales_clean, aes(x = factor(number_of_bedrooms), y = sale_price)) +
+  geom_boxplot(outlier.color = "firebrick", outlier.alpha = 0.2) +
+  scale_y_continuous(labels = scales::label_dollar()) +
+  labs(title = "Distribution of Home Sale Prices by Number of Bedrooms", 
+       subtitle = "For Philadelphia Residential Properties in 2023-2024",
+       x = "Bedrooms", 
+       y = "Sale Price") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold")
+  )
+```
+
+```{r}
+ggplot(phl_sales_clean, aes(x = factor(number_of_bedrooms), y = log(sale_price))) +
+  geom_boxplot(outlier.color = "firebrick", outlier.alpha = 0.2) +
+  scale_y_continuous(labels = scales::label_dollar()) +
+  labs(title = "Distribution of Log(Home Sale Prices) by Number of Bedrooms", 
+       subtitle = "For Philadelphia Residential Properties in 2023-2024",
+       x = "Bedrooms", 
+       y = "Log(Sale Price)") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold")
+  )
 ```
 
 **Interpretation:**
+
+#### 3. Total Livable Area
+
+```{r}
+ggplot(phl_sales_clean, aes(x = total_livable_area, sale_price)) +
+  geom_point(alpha = 0.15, size = 1) +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 0.8, color = "black") +
+  scale_y_continuous(labels = label_dollar()) +
+  labs(title = "Sale Price vs. Total Livable Area",
+       x = "Total Livable Area", y = "Sale Price") +
+  theme_minimal()
+```
+
+```{r}
+ggplot(phl_sales_clean, aes(x = log(total_livable_area), log(sale_price))) +
+  geom_point(alpha = 0.15, size = 1) +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 0.8, color = "black") +
+  scale_y_continuous(labels = label_dollar()) +
+  labs(title = "Log(Sale Price) vs. Log(Total Livable Area)",
+       x = "Log(Total Livable Area)", y = "Log(Sale Price)") +
+  theme_minimal()
+```
+
+#### 4. Year Built
+
+```{r}
+ggplot(phl_sales_clean, aes(x = year_built, sale_price)) +
+  geom_point(alpha = 0.15, size = 1) +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 0.8, color = "black") +
+  scale_y_continuous(labels = label_dollar()) +
+  labs(title = "Sale Price vs. Year Built",
+       x = "Year Built", y = "Sale Price") +
+  theme_minimal()
+```
+
 
 ### Price vs. spatial features (scatter plots)
 
@@ -226,6 +324,16 @@ ggplot(df_95_exclude, aes(sale_price)) +
 
 
 # PHASE 3: FEATURE ENGINEERING
+
+### Age feature (sale date - year built)
+```{r}
+phl_sales_clean <- phl_sales_clean |>
+  mutate(
+    sale_year = year(sale_date),
+    age = sale_year - year_built
+  )
+```
+
 
 ### Buffer-based features
 
