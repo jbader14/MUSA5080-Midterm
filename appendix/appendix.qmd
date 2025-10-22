@@ -157,7 +157,7 @@ ggplot(phl_sales_clean, aes(sale_price)) +
   geom_vline(xintercept = price_median, linetype = 5) +
   annotate("text",
            x = price_median, 
-           y = 6200, 
+           y = 6300, 
            label = "Median",
            hjust = -0.2, 
            color = "black", 
@@ -329,7 +329,7 @@ ggplot(phl_sales_clean, aes(x = log(total_livable_area), log(sale_price))) +
   )
 ```
 
-**Interpretation:** By log-transforming both sale price and total livable area, we visualize a relationship that appears much more linear. As we saw before, there seem to be more variability in homes with smaller areas that are more common in this dataset. The transformation has more of a uniform, symmetric spread of points above and below the regression line. We can interpret this relationship as increasing the percentage of total livable area will lead to some constant increase in the percentage of sale price with this transformation. Again, through the log-transformation of our target variable, we observe a more linear relationship, strengthening the notion for the need for this transformation in our modeling phase.
+**Interpretation:** By log-transforming both sale price and total livable area, we visualize a relationship that appears much more linear. As we saw before, there seem to be more variability in homes with smaller areas that are more common in this dataset. The transformation has more of a uniform, symmetric spread of points above and below the regression line. We can interpret this relationship as increasing the percentage of total livable area will lead to some constant increase in the percentage of sale price with this transformation. We should keep at mind that the non-constant variance is alarming for potential heteroskedasticity in our model. Again, through the log-transformation of our target variable, we observe a more linear relationship, strengthening the notion for the need for this transformation in our modeling phase.
 
 #### 4. Age (Sale Date - Year Built)
 
@@ -364,7 +364,7 @@ ggplot(phl_sales_clean, aes(x = age, log(sale_price))) +
   )
 ```
 
-**Interpretation:** After doing the trick to log-transform sale price, we see an interesting shape that somewhat resembles a crucial theory we learned in lecture. This theory outlines that Age has a U-shaped effect on price. Newer homes are sought after due to recent construction with more modern amenities, whereas very old homes are considered to have historic value or charm. The middle-aged homes are therefore the least desirable homes that likely are not modernized with significant wear and tear without the allure of a historic home. While this theory makes sense, it somewhat breaks down for these middle aged homes as their sale prices experience much more variability. This is likely due to a majority of samples in our dataset within this range whose sale price cannot be explained by age alone. Therefore, it is wise to proceed with caution with using the age variable in building our predictive model.
+**Interpretation:** After doing the trick to log-transform sale price, we see an interesting shape that somewhat resembles a crucial theory we learned in lecture. This theory outlines that Age has a U-shaped effect on price. Newer homes are sought after due to recent construction with more modern amenities, whereas very old homes are considered to have historic value or charm. The middle-aged homes are therefore the least desirable homes that likely are not modernized with significant wear and tear without the allure of a historic home. While this theory makes sense, it somewhat breaks down for these middle aged homes as their sale prices experience much more variability, which would make our model more at risk of heteroskedasticity. This is likely due to a majority of samples in our dataset within this range whose sale price cannot be explained by age alone. Therefore, it is wise to proceed with caution with using the age variable in building our predictive model.
 
 ```{r}
 df_age_groups <- phl_sales_clean |>
@@ -414,25 +414,48 @@ ggplot(df_age_groups, aes(age_group, log(sale_price))) +
 ### Final Data Cleaning from Structural EDA
 
 ```{r}
+# 99th percentile of sales prices to remove
+price_99_perc <- quantile(phl_sales_clean$sale_price, 0.99, na.rm = TRUE)
+
+# Relevant columns to keep for modeling
+rel_columns <- c(
+    # Location / Shape
+    "census_tract", "shape", "location", "zip_code",
+    # Target
+    "sale_price", "log_price",
+    # Regressors (and potential ones)
+    "total_livable_area", "log_total_livable_area",
+    "number_of_bedrooms", "number_of_bathrooms",
+    "year_built", "age", "age_group",
+    "interior_condition", "quality_grade" 
+  )
+
 phl_sales_final <- phl_sales_clean |>
   filter(
     # Remove top 1% of sale price (extreme outliers)
-    sale_price < quantile(phl_sales_clean$sale_price, 0.99, na.rm = TRUE),
+    # This creates an upper bound of around $2 million rather than $6 million to further reduce outlier effects in modeling
+    sale_price < price_99_perc,
     # Remove bathrooms > 7
     number_of_bathrooms < 8,
     # Remove bedrooms > 9
     number_of_bedrooms < 10
   )|>
   mutate(
+    # Log of sale price
+    log_price = log(sale_price),
+    # Log of total livable area
+    log_total_livable_area = log(total_livable_area),
     # Age group buckets (new, middle_age, historic)
     age_group = case_when(
       age < 20 ~ "New (<20)",
       age <= 80 ~ "Middle (20–80)",
       age > 80 ~ "Historic (>80)"
     ),
+    # For modeling as dummy variables
     age_group = factor(age_group, levels = c("New (<20)", "Middle (20–80)", "Historic (>80)"))
-  )
-
+  ) |>
+  # Select relevant columns
+  select(any_of(rel_columns))
 ```
 
 
