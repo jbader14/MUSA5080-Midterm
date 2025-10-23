@@ -292,8 +292,16 @@ Geometry: Pulled block group shapefiles with ACS geometry and merged with philly
 
 ### Neighborhood (Polygon)
 
-```{r}
+Reading in Philadelphia Neighborhoods as a shp object. This will allow us to aggregate data on neighborhoods to identify catagorical metrics.
 
+```{r}
+neighborhood_folder <- here("data", "philadelphia-neighborhoods")
+neighborhood_path   <- file.path(neighborhood_folder, "philadelphia-neighborhoods.shp")
+
+# Read the shapefile
+philly_neighborhoods <- st_read(neighborhood_path, quiet = TRUE)
+
+head(philly_neighborhoods)
 ```
 
 
