@@ -114,9 +114,181 @@ phl_sales_clean <- phl_sales_clean |>
 
 ### Census
 
-```{r}
+Purpose: Pull demographic and housing data at the block group level for Philadelphia from the 2023 5-year ACS. This data will provide predictors for neighborhood characteristics in our modeling.
 
+Variables Collected:
+
+Median household income (B19013)
+
+Percentage of family households (B11001)
+
+Education attainment: percent of population 25+ with a bachelor’s degree or higher (B15003)
+
+Housing vacancy rate (B25002)
+
+Racial composition: percent white (B02001)
+
+```{r api key,eval=FALSE, include=FALSE}
+
+# This Block is the code that I used to Pull and Manipulate the Census Data. I condensed it and included it in one block for the team's reference. This output files have been uploaded to the project and will be pulled in the next code block to reduce computation.
+
+census_api_key <- ("8deb926015351433bef092c55a5e8a90573283bd")
+
+
+#philly-tract-data
+
+# Define parameters
+my_state  <- "Pennsylvania"
+my_county <- "Philadelphia"
+acs_year  <- 2023  # latest available 5-year ACS (2019–2023)
+
+# Median Household income
+income <- get_acs(
+  geography = "block group",
+  state = my_state,
+  county = my_county,
+  table = "B19013",
+  year = acs_year,
+  survey = "acs5"
+) %>%
+  select(GEOID, median_income = estimate)
+
+# Percentage of family households
+households <- get_acs(
+  geography = "block group",
+  state = my_state,
+  county = my_county,
+  table = "B11001",
+  year = acs_year,
+  survey = "acs5"
+) %>%
+  select(GEOID, variable, estimate) %>%
+  tidyr::pivot_wider(names_from = variable, values_from = estimate) %>%
+  mutate(
+    family_hh = B11001_002,
+    total_hh  = B11001_001
+  ) %>%
+  select(GEOID, family_hh, total_hh)
+
+# Education (percent bachelor’s or higher)
+education <- get_acs(
+  geography = "block group",
+  state = my_state,
+  county = my_county,
+  table = "B15003",
+  year = acs_year,
+  survey = "acs5") %>%
+  select(GEOID, variable, estimate) %>%
+  tidyr::pivot_wider(names_from = variable, values_from = estimate) %>%
+  mutate(
+    total_25plus = B15003_001,
+    bachelors_plus = B15003_022 + B15003_023 + B15003_024 + B15003_025,
+    pct_bachelors = 100 * bachelors_plus / total_25plus
+  ) %>%
+  select(GEOID, pct_bachelors)
+
+# Percent of vacant homes = number vacant/total homes
+vacancy <- get_acs(
+  geography = "block group",
+  state = my_state,
+  county = my_county,
+  table = "B25002",
+  year = acs_year,
+  survey = "acs5"
+) %>%
+  select(GEOID, variable, estimate) %>%
+  tidyr::pivot_wider(names_from = variable, values_from = estimate) %>%
+  mutate(
+    total_units = B25002_001,
+    vacant_units = B25002_003,
+    pct_vacant = 100 * vacant_units / total_units
+  ) %>%
+  select(GEOID, pct_vacant)
+
+# retrieving percent white for block group
+demographics <- get_acs(
+  geography = "block group",
+  state = my_state,
+  county = my_county,
+  table = "B02001",
+  year = acs_year,
+  survey = "acs5") %>%
+  select(GEOID, variable, estimate) %>%
+  tidyr::pivot_wider(names_from = variable, values_from = estimate) %>%
+  mutate(
+    total_pop = B02001_001,
+    white_pop = B02001_002,
+    pct_white = 100 * white_pop / total_pop
+  ) %>%
+  select(GEOID, pct_white)
+
+philly_blockgroup <- income %>%
+  left_join(households, by = "GEOID") %>%
+  left_join(education, by = "GEOID") %>%
+  left_join(vacancy, by = "GEOID") %>%
+  left_join(demographics, by = "GEOID")
+
+head(philly_blockgroup)
+
+#Block Group Geometry Pull
+philly_bg_sf <- get_acs(
+  geography = "block group",
+  state = "PA",
+  county = "Philadelphia",
+  table = "B19013",
+  year = 2023,
+  survey = "acs5",
+  geometry = TRUE)
+
+head(philly_bg_sf)
+
+# Geometry - Cenus Data Merge
+philly_bg_map <- philly_bg_sf %>%
+  left_join(philly_blockgroup, by = "GEOID")
 ```
+
+#### Load Philly Census Data from Previously Retrieved Files
+
+```{r}
+# Relative to project root
+folder_path <- here("data", "Philly Census")
+
+csv_path <- file.path(folder_path, "philly_blockgroups_metrics.csv")
+shp_path <- file.path(folder_path, "philly_blockgroups.shp")
+
+# Csv with Block Group Geo IDs and metrics
+philly_blockgroup <- read_csv(csv_path, show_col_types = FALSE)
+
+# Shp File including geometry
+philly_bg_sf <- st_read(shp_path, quiet = TRUE)
+```
+
+#### Observe Summary Statistics from target metrics.
+
+```{r}
+numeric_vars <- c("median_income", "pct_white", "pct_bachelors", "pct_vacant")
+philly_blockgroup %>%
+  select(all_of(numeric_vars)) %>%
+  summary()
+```
+A quick check of the census variables reveals some missing values and lower than epected values in median income. We will note this information but retain the missing values for now to maintain the full pitcure of census blocks.
+
+
+### Cleaning Methodology (Census)
+
+Median income: Selected only the estimate column and renamed it for clarity.
+
+Household composition: Pivoted ACS table to wide format, then calculated total households and family households.
+
+Education: Pivoted to wide format, summed relevant categories to compute percent of population with a bachelor’s degree or higher.
+
+Vacancy: Pivoted to wide format, calculated percent of homes vacant (vacant_units / total_units * 100).
+
+Racial composition: Pivoted to wide format, computed percent white.
+
+Merging: Combined all datasets by GEOID to create a single dataframe philly_blockgroup with all variables.
+
+Geometry: Pulled block group shapefiles with ACS geometry and merged with philly_blockgroup to create philly_bg_map.
 
 ### Neighborhood (Polygon)
 
