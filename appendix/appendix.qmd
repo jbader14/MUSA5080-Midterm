@@ -363,6 +363,33 @@ if ("other_tags" %in% names(poi)) {
 
 ```
 
+###Alternative: filtered POI if you donot want to download osm data
+```{r}
+poi=st_read("data/filtered poi/philadelphia_poi_filtered.shp")
+```
+
+### Kernel Density Rasters (Economic activities density)
+
+```{r}
+philly_boundary <- st_transform(philly_boundary, 3364)  
+poi <- st_transform(poi, 3364)
+# ==== Prepare point pattern ====
+# Convert sf points to spatstat ppp object
+win <- as.owin(st_union(philly_boundary))  # window from county boundary
+coords <- st_coordinates(poi)
+pp <- ppp(x = coords[,1], y = coords[,2], window = win)
+
+# ==== Run Kernel Density Estimation ====
+# Sigma = bandwidth in map units (here, meters)
+density_map <- density.ppp(pp, sigma = 300* 3.28084, edge = TRUE, at = "pixels",eps = c(100, 100))
+
+# ==== Convert to raster ====
+r_Economic <- rast(density_map)
+crs(r_Economic) <- st_crs(philly_boundary)$proj4string
+r_Economic <- mask(r_Economic, vect(philly_boundary))
+
+```
+
 ### Education
 
 We used two datasets from OpenDataPhilly.com to identify schools geolocation and populated the metrics off Attendance percent and Withdrawal volumes from those schools.
@@ -405,6 +432,26 @@ names(philly_schools_sf_clean)
 nrow(philly_schools_sf_clean)
 ```
 Once joined, we dropped rows that did not have values in Attendance and Withdrawal. This resulted in 204 public schools and their metrics located in Philadelphia City Limits.
+
+###Tree density
+```{r}
+trees=st_read("data/ppr_tree_inventory_2024/ppr_tree_inventory_2024.shp")
+trees=st_transform(trees,3364)
+
+# Convert sf points to spatstat ppp object
+coords_trees <- st_coordinates(trees)
+pp_trees <- ppp(x = coords_trees[,1], y = coords_trees[,2], window = win)
+
+# ==== Run Kernel Density Estimation ====
+# Sigma = bandwidth in map units (here, meters)
+density_map_trees <- density.ppp(pp_trees, edge = TRUE, at = "pixels",eps = c(100, 100))
+
+# ==== Convert to raster ====
+r_trees <- rast(density_map_trees)
+crs(r_trees) <- st_crs(philly_boundary)$proj4string
+r_trees <- mask(r_trees, vect(philly_boundary))  # mask to county boundary
+
+```
 
 ### Joining data together
 
