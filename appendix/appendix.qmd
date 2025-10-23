@@ -259,16 +259,16 @@ philly_bg_map <- philly_bg_sf %>%
 
 ```{r}
 # Relative to project root
-folder_path <- here("data", "Philly Census")
+census_path <- here("data", "Philly Census")
 
-csv_path <- file.path(folder_path, "philly_blockgroups_metrics.csv")
-shp_path <- file.path(folder_path, "philly_blockgroups.shp")
+census_csv_path <- file.path(census_path, "philly_blockgroups_metrics.csv")
+census_shp_path <- file.path(census_path, "philly_blockgroups.shp")
 
 # Csv with Block Group Geo IDs and metrics
-philly_blockgroup <- read_csv(csv_path, show_col_types = FALSE)
+philly_blockgroup <- read_csv(census_csv_path, show_col_types = FALSE)
 
 # Shp File including geometry
-philly_bg_sf <- st_read(shp_path, quiet = TRUE)
+philly_bg_sf <- st_read(census_shp_path, quiet = TRUE)
 ```
 
 #### Observe Summary Statistics from target metrics.
@@ -365,9 +365,46 @@ if ("other_tags" %in% names(poi)) {
 
 ### Education
 
-```{r}
+We used two datasets from OpenDataPhilly.com to identify schools geolocation and populated the metrics off Attendance percent and Withdrawal volumes from those schools.
 
+```{r}
+# Relative to project root
+education_path <- here("data", "Education")
+
+education_csv_path <- file.path(education_path, "philadelphia_schools.csv")
+education_shp_path <- file.path(education_path, "Schools Shape", "Schools.shp")
+
+# Csv with School Names and metrics
+philly_schools <- read_csv(education_csv_path, show_col_types = FALSE)
+
+# Shp File including geometry
+philly_schools_sf <- st_read(education_shp_path, quiet = TRUE)
 ```
+
+We joined the csv file containing the metrics with the shp file containing geoloaction.
+
+```{r}
+# Joining Schools csv metrics to shp file. Joined on 'location_i' (shp) and 'School_code (csv)
+# Keeping metrics for Attendance and Withdrawals
+
+# Select relevant metrics from CSV
+school_metrics <- philly_schools %>%
+  select(School_code, Attendance, Withdrawals) %>%
+  mutate(School_code = as.character(School_code))
+
+philly_schools_sf <- philly_schools_sf %>%
+  left_join(school_metrics,
+            by = c("location_i" = "School_code"))
+```
+```{r}
+philly_schools_sf_clean <- philly_schools_sf %>%
+  filter(!is.na(Attendance) & !is.na(Withdrawals))
+```
+```{r}
+names(philly_schools_sf_clean)
+nrow(philly_schools_sf_clean)
+```
+Once joined, we dropped rows that did not have values in Attendance and Withdrawal. This resulted in 204 public schools and their metrics located in Philadelphia City Limits.
 
 ### Joining data together
 
