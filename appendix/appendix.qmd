@@ -456,9 +456,30 @@ r_trees <- mask(r_trees, vect(philly_boundary))  # mask to county boundary
 ### Joining data together
 
 ```{r}
+#convert housing prices data into point data
+phl_sales_clean_sf = phl_sales_clean%>%
+  mutate(geometry = st_as_sfc(shape)) %>%   # parse WKT into geometry
+  st_as_sf(crs = 2272)  
+#convert and match the crs
+philly_schools_sf_clean=philly_schools_sf_clean%>%
+  st_transform(2272)
+philly_neighborhoods=philly_neighborhoods%>%
+  st_transform(2272)
+philly_bg_sf$GEOID=as.numeric(philly_bg_sf$GEOID)
+philly_blockgroup_final <- philly_bg_sf %>%
+  left_join(philly_blockgroup, by = "GEOID")
+philly_blockgroup_final=philly_blockgroup_final%>%
+  st_transform(2272)
+#merge them together
+phl_sales_clean_sf_final=phl_sales_clean_sf%>%
+  st_join(philly_blockgroup_final,join=st_within)%>%
+  st_join(philly_neighborhoods,join = st_within)
+
+phl_sales_clean_sf_final$EconKDE <- raster::extract(r_Economic,phl_sales_clean_sf_final)
+phl_sales_clean_sf_final$TreeKDE <- raster::extract(r_trees, phl_sales_clean_sf_final)  
+
 
 ```
-
 
 # PHASE 2: EXPLORATORY DATA ANALYSIS
 
