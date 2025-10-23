@@ -16,6 +16,14 @@ library(ggplot2)
 library(tigris)
 library(patchwork)
 library(here)
+library(osmextract) 
+library(dplyr)
+library(tigris)
+library(spatstat.geom)
+library(spatstat)
+library(terra)
+library(httr)
+library(jsonlite)
 
 options(tigris_use_cache = TRUE, tigris_progress = FALSE) 
 ```
@@ -25,7 +33,7 @@ options(tigris_use_cache = TRUE, tigris_progress = FALSE)
 ## 1.1 Load and Philadelphia house sales data
 ```{r}
 # Load Philly Property Sales data
-phl_sales <- read_csv("../data/raw/opa_properties_public.csv", show_col_types = FALSE)
+phl_sales <- read_csv("C:/Users/wensh/Downloads/opa_properties_public.csv", show_col_types = FALSE)
 ```
 
 ### Filter to residential properties, 2023-2024 sales
@@ -305,9 +313,53 @@ head(philly_neighborhoods)
 ```
 
 
-### City Centers (Amenities)
+### Commercial and office points of interests (Amenities)
 
 ```{r}
+# downloading osm data from geofabrik:https://download.geofabrik.de/north-america/us-northeast.html
+input_pbf <- "D:/ppa midterm/us-northeast-251022.osm.pbf"
+
+
+# get boundary of Philadelphia County
+pa_counties <- counties(state = "PA", year = 2023)
+
+# Filter to Philadelphia County
+philly_boundary <- subset(pa_counties, NAME == "Philadelphia")
+
+philly_boundary <- get_acs(
+  geography = "county",
+  state = "PA",
+  county = "Philadelphia",
+  table = "B19013",
+  year = 2023,
+  survey = "acs5",
+  geometry = TRUE)
+
+# read the full OSM PBF (you can select layer types like points, lines, polygons)
+poi <- oe_read(input_pbf, 
+                       boundary = philly_boundary, 
+                       boundary_type = "clipsrc", 
+                       layer = "points")  # or "lines" / "multipolygons"
+
+
+keywords <- c("shop","amenity","office","historic","tourism","healthcare",
+              "building","leisure")
+pattern <- paste0(keywords, collapse = "|")
+
+# ==== Filter by 'other_tags' ====
+if ("other_tags" %in% names(poi)) {
+  poi$other_tags <- iconv(as.character(poi$other_tags), from = "", to = "UTF-8", sub = "")
+  poi$other_tags[is.na(poi$other_tags)] <- ""
+  
+  poi_filtered <- poi %>%
+    filter(grepl(pattern, other_tags, ignore.case = TRUE))
+  
+  cat("✅ Filtered POIs found:", nrow(poi_filtered), "of", nrow(poi), "\n")
+  
+} else {
+  stop("❌ No 'other_tags' column found in the shapefile.")
+}
+
 
 ```
 
