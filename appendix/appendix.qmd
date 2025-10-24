@@ -24,7 +24,7 @@ library(spatstat)
 library(terra)
 library(httr)
 library(jsonlite)
-
+library(FNN)
 options(tigris_use_cache = TRUE, tigris_progress = FALSE) 
 ```
 
@@ -848,11 +848,26 @@ phl_sales_final_sf_final <- phl_sales_final_sf_final %>%
   st_as_sf() 
 
 ```
+
+### Calculating distance to schools using K-nearest method
+
+```{r}
+Housingprice_coords <- st_coordinates(phl_sales_final_sf_final)
+school_coords<- st_coordinates(philly_schools_sf_final)
+
+nn_result <- get.knnx(data = school_coords, query = Housingprice_coords, k = 5)
+```
+
+
 ### Census variables
 
 ```{r}
 
+
 ```
+
+
+
 
 ### Interaction terms
 
