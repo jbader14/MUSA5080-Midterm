@@ -829,7 +829,25 @@ phl_sales_final_sf_final=phl_sales_final_sf_final%>%
 ```
 
 
+### Classifying Neighborhood
 
+```{r}
+#convert census tract into points
+census_points=st_centroid(philly_tract_map)
+points_joined <- st_join(census_points, philly_neighborhoods)
+
+# Calculate mean MHI for each polygon
+mean_mhi_by_poly <- points_joined %>%
+  st_drop_geometry() %>%             
+  group_by(MAPNAME) %>%            
+  summarise(meanMHI = mean(median_income, na.rm = TRUE))
+
+# Join the result back to the polygon layer
+phl_sales_final_sf_final <- phl_sales_final_sf_final %>%
+  left_join(mean_mhi_by_poly, by = "MAPNAME")%>%
+  st_as_sf() 
+
+```
 ### Census variables
 
 ```{r}
