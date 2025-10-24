@@ -866,13 +866,13 @@ phl_sales_final_sf_final$MHI_quantile <- cut(
 # Compute distance matrix
 dist_matrix <- st_distance(phl_sales_final_sf_final, philly_schools_sf_final)
 
-# Extract the 5 smallest distances for each point
-nearest_5 <- apply(dist_matrix, 1, function(x) sort(x)[1:5])
+# Extract the 3 smallest distances for each point
+nearest_3 <- apply(dist_matrix, 1, function(x) sort(x)[1:3])
 
 # Get the average or total distance if needed
-mean_nearest5 <- apply(dist_matrix, 1, function(x) mean(sort(x)[1:5]))
+mean_nearest3 <- apply(dist_matrix, 1, function(x) mean(sort(x)[1:3]))
 
-phl_sales_final_sf_final$mean_5nn_dist <- mean_nearest5
+phl_sales_final_sf_final$mean_3nn_dist <- mean_nearest3
 
 
 
@@ -887,42 +887,62 @@ phl_sales_final_sf_final$mean_5nn_dist <- mean_nearest5
 ```
 
 
-
-
-### Interaction terms
-
-```{r}
-
-```
-
 ### Summary table
 
 ```{r}
-# 1️⃣ Drop geometry and identifier columns
-phl_sales_final_sf_final2=phl_sales_final_sf_final%>%
-  mutate(econkde=EconKDE)%>%
-  mutate(treekde=TreeKDE)
-summary_data <- phl_sales_final_sf_final2 %>%
+
+  phl_sales_final_sf_final <- phl_sales_final_sf_final %>%
+  mutate(EconKDE = EconKDE$lyr.1,
+         TreeKDE = TreeKDE$lyr.1) 
+
+
+summary_data <- phl_sales_final_sf_final %>%
   st_drop_geometry() %>%
   select(-c(
     census_tract, shape, NAME.x, NAME.y, MAPNAME,
     Shape_Area, Shape_Leng, location, zip_code, GEOID, 
-    variable, age_group, quality_grade, LISTNAME, MHI_quantile
+    variable, age_group, quality_grade, LISTNAME, MHI_quantile,
+    estimate,moe
   ))
 
-# 2️⃣ Keep only numeric columns
+# Keep only numeric columns
 summary_numeric <- summary_data %>%
   select(where(is.numeric))
+summary_numeric_df <- as.data.frame(summary_numeric)
 
-# 3️⃣ Generate summary table with stargazer
-stargazer(summary_numeric,
-          type = "text",           # "text" for console, "latex" or "html" for export
+# Save as HTML locally
+stargazer(summary_numeric_df,
+          type = "html",
           title = "Summary Statistics",
           digits = 2,
-          summary.stat = c("n", "mean", "sd", "min", "median", "max"))
+          summary.stat = c("n", "mean", "sd", "min", "median", "max"),
+          covariate.labels = c("Sale Price", "Log Price", "Total Livable Area", 
+                            "Log Total Livable Area", "Bedrooms", "Bathrooms", 
+                            "Year Built", "Age", "Interior Condition", 
+                            "Median Income","Family HH", 
+                            "Total HH", "% Bachelors", "% Vacant", "% White",
+                            "Econ KDE", "Tree KDE", "Mean MHI", 
+                            "Mean 3 closest School Dist"),
+          out = "summary_statistics.html")
+
 
 
 ```
+### Final Cleaning Before Building the Model
+
+```{r}
+for_model_building <- phl_sales_final_sf_final %>%
+  st_drop_geometry() %>%
+  select(-c(
+    census_tract, shape, NAME.x, NAME.y,
+    Shape_Area, Shape_Leng, location, zip_code, GEOID, 
+    variable, LISTNAME, 
+    estimate,moe
+  ))
+```
+
+
 
 ### Justification of feature engineered variables
+We have used a number of methods to create spatial features in both Phase 1 and 3. First, in Phase 1, we use Kernel Density method  
 
