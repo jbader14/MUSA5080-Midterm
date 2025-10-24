@@ -255,7 +255,7 @@ philly_tract_map <- philly_tract_sf %>%
   left_join(philly_censustract, by = "GEOID")
 ```
 
-#### Load Philly Census Data from Previously Retrieved Files
+#### Load Philly Census Data from Previously Retrieved Files (not sure if still work after switching to census tract)
 
 ```{r}
 # Relative to project root
@@ -268,7 +268,7 @@ census_shp_path <- file.path(census_path, "philly_tract.shp")
 philly_censustract <- read_csv(census_csv_path, show_col_types = FALSE)
 
 # Shp File including geometry
-philly_bg_sf <- st_read(census_shp_path, quiet = TRUE)
+philly_tract_sf <- st_read(census_shp_path, quiet = TRUE)
 ```
 
 #### Observe Summary Statistics from target metrics.

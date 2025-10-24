@@ -1,0 +1,22 @@
+This is the metadata for the dataframe in our appendix to help us better know which dataframe is which, hopefully it would help you better know about our final data!
+
+
+Housing sale prices (before cleaning): phl_sales_clean
+Housing sale prices with spatial feature (before cleaning): phl_sales_clean_sf
+Housing sale prices with everything merged except school (before cleaning): phl_sales_clean_sf_final
+
+
+Census tract data: philly_censustract
+Census tract data with spatial feature: philly_tract_map
+
+Neighborhood data: philly_neighborhoods
+
+Filtered commercial and office points of interest: poi
+
+KDE for economic density: r_Economic
+KDE for tree density: r_trees
+
+school data: philly_schools_sf_clean
+
+
+Housing sale prices with everything merged except school (after cleaning): phl_sales_final_sf_final
