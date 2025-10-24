@@ -20,3 +20,5 @@ school data: philly_schools_sf_clean
 
 
 Housing sale prices with everything merged except school (after cleaning): phl_sales_final_sf_final
+
+Final dataframe ready for regression: for_model_building
