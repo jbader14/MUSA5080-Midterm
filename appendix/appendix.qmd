@@ -852,10 +852,20 @@ phl_sales_final_sf_final <- phl_sales_final_sf_final %>%
 ### Calculating distance to schools using K-nearest method
 
 ```{r}
-Housingprice_coords <- st_coordinates(phl_sales_final_sf_final)
-school_coords<- st_coordinates(philly_schools_sf_final)
+# Compute distance matrix
+dist_matrix <- st_distance(phl_sales_final_sf_final, philly_schools_sf_final)
 
-nn_result <- get.knnx(data = school_coords, query = Housingprice_coords, k = 5)
+# Extract the 5 smallest distances for each point
+nearest_5 <- apply(dist_matrix, 1, function(x) sort(x)[1:5])
+
+# Get the average or total distance if needed
+mean_nearest5 <- apply(dist_matrix, 1, function(x) mean(sort(x)[1:5]))
+
+phl_sales_final_sf_final$mean_5nn_dist <- mean_nearest5
+
+# Optional: store indices as a text column
+phl_sales_final_sf_final$nearest_ids <- apply(nearest_5, 2, paste, collapse = ",")
+
 ```
 
 
