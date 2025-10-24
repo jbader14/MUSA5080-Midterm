@@ -33,7 +33,7 @@ options(tigris_use_cache = TRUE, tigris_progress = FALSE)
 ## 1.1 Load and Philadelphia house sales data
 ```{r}
 # Load Philly Property Sales data
-phl_sales <- read_csv("C:/Users/wensh/Downloads/opa_properties_public.csv", show_col_types = FALSE)
+phl_sales <- read_csv("C:/Users/wensh/Desktop/opa_properties_public.csv", show_col_types = FALSE)
 ```
 
 ### Filter to residential properties, 2023-2024 sales
@@ -122,7 +122,7 @@ phl_sales_clean <- phl_sales_clean |>
 
 ### Census
 
-Purpose: Pull demographic and housing data at the block group level for Philadelphia from the 2023 5-year ACS. This data will provide predictors for neighborhood characteristics in our modeling.
+Purpose: Pull demographic and housing data at the census tract level for Philadelphia from the 2023 5-year ACS. This data will provide predictors for neighborhood characteristics in our modeling.
 
 Variables Collected:
 
@@ -152,7 +152,7 @@ acs_year  <- 2023  # latest available 5-year ACS (2019–2023)
 
 # Median Household income
 income <- get_acs(
-  geography = "block group",
+  geography = "tract",
   state = my_state,
   county = my_county,
   table = "B19013",
@@ -163,7 +163,7 @@ income <- get_acs(
 
 # Percentage of family households
 households <- get_acs(
-  geography = "block group",
+  geography = "tract",
   state = my_state,
   county = my_county,
   table = "B11001",
@@ -180,7 +180,7 @@ households <- get_acs(
 
 # Education (percent bachelor’s or higher)
 education <- get_acs(
-  geography = "block group",
+  geography = "tract",
   state = my_state,
   county = my_county,
   table = "B15003",
@@ -197,7 +197,7 @@ education <- get_acs(
 
 # Percent of vacant homes = number vacant/total homes
 vacancy <- get_acs(
-  geography = "block group",
+  geography = "tract",
   state = my_state,
   county = my_county,
   table = "B25002",
@@ -213,9 +213,9 @@ vacancy <- get_acs(
   ) %>%
   select(GEOID, pct_vacant)
 
-# retrieving percent white for block group
+# retrieving percent white for census tract
 demographics <- get_acs(
-  geography = "block group",
+  geography = "tract",
   state = my_state,
   county = my_county,
   table = "B02001",
@@ -230,17 +230,17 @@ demographics <- get_acs(
   ) %>%
   select(GEOID, pct_white)
 
-philly_blockgroup <- income %>%
+philly_censustract <- income %>%
   left_join(households, by = "GEOID") %>%
   left_join(education, by = "GEOID") %>%
   left_join(vacancy, by = "GEOID") %>%
   left_join(demographics, by = "GEOID")
 
-head(philly_blockgroup)
+head(philly_censustract)
 
-#Block Group Geometry Pull
-philly_bg_sf <- get_acs(
-  geography = "block group",
+#census tract Geometry Pull
+philly_tract_sf <- get_acs(
+  geography = "tract",
   state = "PA",
   county = "Philadelphia",
   table = "B19013",
@@ -248,11 +248,11 @@ philly_bg_sf <- get_acs(
   survey = "acs5",
   geometry = TRUE)
 
-head(philly_bg_sf)
+head(philly_tract_sf)
 
 # Geometry - Cenus Data Merge
-philly_bg_map <- philly_bg_sf %>%
-  left_join(philly_blockgroup, by = "GEOID")
+philly_tract_map <- philly_tract_sf %>%
+  left_join(philly_censustract, by = "GEOID")
 ```
 
 #### Load Philly Census Data from Previously Retrieved Files
@@ -261,11 +261,11 @@ philly_bg_map <- philly_bg_sf %>%
 # Relative to project root
 census_path <- here("data", "Philly Census")
 
-census_csv_path <- file.path(census_path, "philly_blockgroups_metrics.csv")
-census_shp_path <- file.path(census_path, "philly_blockgroups.shp")
+census_csv_path <- file.path(census_path, "philly_tract_metrics.csv")
+census_shp_path <- file.path(census_path, "philly_tract.shp")
 
-# Csv with Block Group Geo IDs and metrics
-philly_blockgroup <- read_csv(census_csv_path, show_col_types = FALSE)
+# Csv with census tract Geo IDs and metrics
+philly_censustract <- read_csv(census_csv_path, show_col_types = FALSE)
 
 # Shp File including geometry
 philly_bg_sf <- st_read(census_shp_path, quiet = TRUE)
@@ -275,7 +275,7 @@ philly_bg_sf <- st_read(census_shp_path, quiet = TRUE)
 
 ```{r}
 numeric_vars <- c("median_income", "pct_white", "pct_bachelors", "pct_vacant")
-philly_blockgroup %>%
+philly_censustract %>%
   select(all_of(numeric_vars)) %>%
   summary()
 ```
@@ -296,7 +296,7 @@ Racial composition: Pivoted to wide format, computed percent white.
 
 Merging: Combined all datasets by GEOID to create a single dataframe philly_blockgroup with all variables.
 
-Geometry: Pulled block group shapefiles with ACS geometry and merged with philly_blockgroup to create philly_bg_map.
+Geometry: Pulled census tract shapefiles with ACS geometry and merged with philly_blockgroup to create philly_bg_map.
 
 ### Neighborhood (Polygon)
 
@@ -326,15 +326,6 @@ pa_counties <- counties(state = "PA", year = 2023)
 # Filter to Philadelphia County
 philly_boundary <- subset(pa_counties, NAME == "Philadelphia")
 
-philly_boundary <- get_acs(
-  geography = "county",
-  state = "PA",
-  county = "Philadelphia",
-  table = "B19013",
-  year = 2023,
-  survey = "acs5",
-  geometry = TRUE)
-
 # read the full OSM PBF (you can select layer types like points, lines, polygons)
 poi <- oe_read(input_pbf, 
                        boundary = philly_boundary, 
@@ -356,19 +347,23 @@ if ("other_tags" %in% names(poi)) {
   
   cat("✅ Filtered POIs found:", nrow(poi_filtered), "of", nrow(poi), "\n")
   
-} else {
-  stop("❌ No 'other_tags' column found in the shapefile.")
-}
+} 
 
 
 ```
 
 ###Alternative: filtered POI if you donot want to download osm data
 ```{r}
-poi=st_read("data/filtered poi/philadelphia_poi_filtered.shp")
+
+poi_path <- here("data", "filtered poi")
+poi_shp_path=file.path(poi_path, "philadelphia_poi_filtered.shp")
+poi=st_read(poi_shp_path)
 ```
 
 ### Kernel Density Rasters (Economic activities density)
+Instead of using distance to CBD, we extracted commercial and office points of interests from OpenStreetMap (OSM), and we opreate a Kernel Density Estimation (KDE) with a bandwidth of 300 meters. By doing that, we manage to get a surface of density of economic activities across the whole city. The higher the KDE value is, the more economic activities it will be, implying a higher likelyhood of the area as a city centers.
+
+There are several benefits using this approach compared to distance to CBD. First, with the development of suburbanization, even within the context of Philadelphia County, there is still a shift from monocentric model to polycentric model, meaning there multiple centers/subcenters. Using one CBD fail to capture these subcenters, which may also influence housing price. Second, CBD is an area rather than a point, distance method fail to capture this while the continuous surface computed by KDE would have a value of economic activities across the whole city. 
 
 ```{r}
 philly_boundary <- st_transform(philly_boundary, 3364)  
@@ -434,8 +429,14 @@ nrow(philly_schools_sf_clean)
 Once joined, we dropped rows that did not have values in Attendance and Withdrawal. This resulted in 204 public schools and their metrics located in Philadelphia City Limits.
 
 ###Tree density
+Location of trees data was extracted from Opendata Philly. A Kernel Density Estimation was used to estimate the density of trees. The higher the value is, the more trees there will be in this (and surronding) cell
 ```{r}
-trees=st_read("data/ppr_tree_inventory_2024/ppr_tree_inventory_2024.shp")
+tree_path <- here("data", "ppr_tree_inventory_2024")
+
+tree_shp_path <- file.path(tree_path, "ppr_tree_inventory_2024.shp")
+
+
+trees=st_read(tree_shp_path)
 trees=st_transform(trees,3364)
 
 # Convert sf points to spatstat ppp object
@@ -454,7 +455,7 @@ r_trees <- mask(r_trees, vect(philly_boundary))  # mask to county boundary
 ```
 
 ### Joining data together
-
+As our housing data is point, while census tract and neighborhood are polygon. A spatial join with within as the method was performed to merge them. For raster, the value of the cell that the point locate was joined. 
 ```{r}
 #convert housing prices data into point data
 phl_sales_clean_sf = phl_sales_clean%>%
@@ -465,20 +466,17 @@ philly_schools_sf_clean=philly_schools_sf_clean%>%
   st_transform(2272)
 philly_neighborhoods=philly_neighborhoods%>%
   st_transform(2272)
-philly_bg_sf$GEOID=as.numeric(philly_bg_sf$GEOID)
-philly_blockgroup_final <- philly_bg_sf %>%
-  left_join(philly_blockgroup, by = "GEOID")
-philly_blockgroup_final=philly_blockgroup_final%>%
+philly_tract_map=philly_tract_map%>%
   st_transform(2272)
 #merge them together
 phl_sales_clean_sf_final=phl_sales_clean_sf%>%
-  st_join(philly_blockgroup_final,join=st_within)%>%
+  st_join(philly_tract_map,join=st_within)%>%
   st_join(philly_neighborhoods,join = st_within)
-
+phl_sales_clean_sf_final <- st_transform(phl_sales_clean_sf_final, crs = st_crs(r_trees))
 phl_sales_clean_sf_final$EconKDE <- raster::extract(r_Economic,phl_sales_clean_sf_final)
 phl_sales_clean_sf_final$TreeKDE <- raster::extract(r_trees, phl_sales_clean_sf_final)  
-
-
+phl_sales_clean_sf_final=phl_sales_clean_sf_final%>%
+  st_transform(2272)
 ```
 
 # PHASE 2: EXPLORATORY DATA ANALYSIS
@@ -732,10 +730,23 @@ ggplot(df_age_groups, aes(age_group, log(sale_price))) +
 ### Price vs. spatial features
 
 ```{r}
+ggplot(phl_sales_clean_sf_final, aes(x = EconKDE$lyr.1, y=sale_price)) +
+  geom_point(alpha = 0.1, size = 1) +
+  geom_smooth(method = "lm", se = FALSE, linetype = 5, color = "firebrick") +
+  scale_y_continuous(labels = label_dollar()) +
+  labs(title = "Distribution of Home Sale Prices by Economic KDE Value", 
+       subtitle = "For Philadelphia Residential Properties in 2023-2024",
+       x = "KDE", 
+       y = "Sale Price") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold")
+  )
 
 ```
 
 **Interpretation:**
+The plot represents the relationship between the non-transformed target sale price and predictor KDE for economic activities. We can see that the relationship to be positive with evidence of heavy right-skew with the majority of data points clustered in the bottom-left with less than a KDE value of 0.000075 and \$500,000 price. Also, we notice that although the relationship is positive, it does not appear to be linear, a violation of a crucial assumption in linear regression. It seems that the trend increases first till about 0.00008 and then decreases. As before, there is the presence of some homes as large outliers that can pull the regression line upward, which would create biased estimates on model coefficients.
 
 ### One creative visualization
 
@@ -793,36 +804,31 @@ phl_sales_final <- phl_sales_clean |>
   ) |>
   # Select relevant columns
   select(any_of(rel_columns))
+
+
+#convert housing prices data into point data
+phl_sales_final_sf = phl_sales_final%>%
+  mutate(geometry = st_as_sfc(shape)) %>%   # parse WKT into geometry
+  st_as_sf(crs = 2272)  
+#convert and match the crs
+philly_schools_sf_final=philly_schools_sf_clean%>%
+  st_transform(2272)
+philly_neighborhoods=philly_neighborhoods%>%
+  st_transform(2272)
+philly_tract_map=philly_tract_map%>%
+  st_transform(2272)
+#merge them together
+phl_sales_final_sf_final=phl_sales_final_sf%>%
+  st_join(philly_tract_map,join=st_within)%>%
+  st_join(philly_neighborhoods,join = st_within)
+phl_sales_final_sf_final <- st_transform(phl_sales_final_sf_final, crs = st_crs(r_trees))
+phl_sales_final_sf_final$EconKDE <- raster::extract(r_Economic,phl_sales_final_sf_final)
+phl_sales_final_sf_final$TreeKDE <- raster::extract(r_trees, phl_sales_final_sf_final)  
+phl_sales_final_sf_final=phl_sales_final_sf_final%>%
+  st_transform(2272)
 ```
 
 
-### Kernel Density Rasters (Economic activities density)
-
-```{r}
-philly_boundary <- st_transform(philly_boundary, 3364)  
-poi <- st_transform(poi, 3364)
-# ==== Prepare point pattern ====
-# Convert sf points to spatstat ppp object
-win <- as.owin(st_union(philly_boundary))  # window from county boundary
-coords <- st_coordinates(poi)
-pp <- ppp(x = coords[,1], y = coords[,2], window = win)
-
-# ==== Run Kernel Density Estimation ====
-# Sigma = bandwidth in map units (here, meters)
-density_map <- density.ppp(pp, sigma = 300* 3.28084, edge = TRUE, at = "pixels",eps = c(100, 100))
-
-# ==== Convert to raster ====
-r_Economic <- rast(density_map)
-crs(r_Economic) <- st_crs(philly_boundary)$proj4string
-r_Economic <- mask(r_Economic, vect(philly_boundary))
-
-```
-
-### Kernel Density Rasters (Tree density)
-
-```{r}
-
-```
 
 ### Census variables
 
