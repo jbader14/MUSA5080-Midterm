@@ -25,6 +25,7 @@ library(terra)
 library(httr)
 library(jsonlite)
 library(FNN)
+library(stargazer)
 options(tigris_use_cache = TRUE, tigris_progress = FALSE) 
 ```
 
@@ -847,6 +848,16 @@ phl_sales_final_sf_final <- phl_sales_final_sf_final %>%
   left_join(mean_mhi_by_poly, by = "MAPNAME")%>%
   st_as_sf() 
 
+phl_sales_final_sf_final$MHI_quantile <- cut(
+  phl_sales_final_sf_final$meanMHI,
+  breaks = quantile(
+    phl_sales_final_sf_final$meanMHI,
+    probs = seq(0, 1, 0.25),   
+    na.rm = TRUE
+  ),
+  include.lowest = TRUE,
+  labels = c("Q1 (lowest)", "Q2", "Q3", "Q4 (highest)")
+)
 ```
 
 ### Calculating distance to schools using K-nearest method
@@ -863,8 +874,7 @@ mean_nearest5 <- apply(dist_matrix, 1, function(x) mean(sort(x)[1:5]))
 
 phl_sales_final_sf_final$mean_5nn_dist <- mean_nearest5
 
-# Optional: store indices as a text column
-phl_sales_final_sf_final$nearest_ids <- apply(nearest_5, 2, paste, collapse = ",")
+
 
 ```
 
@@ -888,6 +898,29 @@ phl_sales_final_sf_final$nearest_ids <- apply(nearest_5, 2, paste, collapse = ",
 ### Summary table
 
 ```{r}
+# 1️⃣ Drop geometry and identifier columns
+phl_sales_final_sf_final2=phl_sales_final_sf_final%>%
+  mutate(econkde=EconKDE)%>%
+  mutate(treekde=TreeKDE)
+summary_data <- phl_sales_final_sf_final2 %>%
+  st_drop_geometry() %>%
+  select(-c(
+    census_tract, shape, NAME.x, NAME.y, MAPNAME,
+    Shape_Area, Shape_Leng, location, zip_code, GEOID, 
+    variable, age_group, quality_grade, LISTNAME, MHI_quantile
+  ))
+
+# 2️⃣ Keep only numeric columns
+summary_numeric <- summary_data %>%
+  select(where(is.numeric))
+
+# 3️⃣ Generate summary table with stargazer
+stargazer(summary_numeric,
+          type = "text",           # "text" for console, "latex" or "html" for export
+          title = "Summary Statistics",
+          digits = 2,
+          summary.stat = c("n", "mean", "sd", "min", "median", "max"))
+
 
 ```
 
