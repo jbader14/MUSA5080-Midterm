@@ -36,7 +36,7 @@ options(tigris_use_cache = TRUE, tigris_progress = FALSE)
 ## 1.1 Load and Philadelphia house sales data
 ```{r}
 # Load Philly Property Sales data
-phl_sales <- read_csv("C:/Users/wensh/Desktop/opa_properties_public.csv", show_col_types = FALSE)
+phl_sales <- read_csv("~/Desktop/FW 25/MUSA 5080/opa_properties_public.csv", show_col_types = FALSE)
 ```
 
 ### Filter to residential properties, 2023-2024 sales
@@ -274,7 +274,7 @@ philly_censustract <- read_csv(census_csv_path, show_col_types = FALSE)
 philly_tract_sf <- st_read(census_shp_path, quiet = TRUE)
 ```
 
-#### Observe Summary Statistics from target metrics.
+#### Observe Summary Statistics from target metrics.x
 
 ```{r}
 numeric_vars <- c("median_income", "pct_white", "pct_bachelors", "pct_vacant")
@@ -1172,4 +1172,170 @@ stargazer(model1,model2,model3,model4,
           out = "regression.html")
 
 ```
+
+
+#Phase 5: Model Validation
+
+### Set up 10-fold cross-validation (no output produced yet)
+```{r}
+set.seed(123)
+k <- 10
+folds <- cut(seq(1, nrow(for_model_building)), breaks = k, labels = FALSE)
+```
+
+### CV for Model 1
+```{r}
+rmse_cv_1 <- mae_cv_1 <- r2_cv_1 <- numeric(k)
+
+for (i in 1:k) {
+  test_indices <- which(folds == i)
+  cv_train <- for_model_building[-test_indices, ]
+  cv_test <- for_model_building[test_indices, ]
+  
+  #fit model
+  fit <- lm(log_price~log_total_livable_area+number_of_bedrooms+number_of_bathrooms+age
+            +interior_condition+quality_grade, data = cv_train)
+  preds <- predict(fit, newdata = cv_test)
+  
+  #calculate metrics
+  rmse_cv_1[i] <- sqrt(mean((cv_test$log_price - preds)^2, na.rm = TRUE))
+  mae_cv_1[i] <- mean(abs(cv_test$log_price - preds), na.rm = TRUE)
+  ss_res <- sum((cv_test$log_price - preds)^2, na.rm = TRUE)
+  ss_tot <- sum((cv_test$log_price - mean(cv_test$log_price))^2, na.rm = TRUE)
+  r2_cv_1[i] <- 1 - (ss_res / ss_tot)
+}
+```
+
+### CV for Model 2
+```{r}
+rmse_cv_2 <- mae_cv_2 <- r2_cv_2 <- numeric(k)
+
+for (i in 1:k) {
+  test_indices <- which(folds == i)
+  cv_train <- for_model_building[-test_indices, ]
+  cv_test <- for_model_building[test_indices, ]
+  
+  #fit model
+  fit <- lm(log_price~log_total_livable_area+number_of_bedrooms+number_of_bathrooms+age
+            +interior_condition+median_income+I(family_hh/total_hh)
+            +pct_bachelors+pct_vacant+pct_white+quality_grade, data = cv_train)
+  preds <- predict(fit, newdata = cv_test)
+  
+  #calculate metrics
+  rmse_cv_2[i] <- sqrt(mean((cv_test$log_price - preds)^2, na.rm = TRUE))
+  mae_cv_2[i] <- mean(abs(cv_test$log_price - preds), na.rm = TRUE)
+  ss_res <- sum((cv_test$log_price - preds)^2, na.rm = TRUE)
+  ss_tot <- sum((cv_test$log_price - mean(cv_test$log_price))^2, na.rm = TRUE)
+  r2_cv_2[i] <- 1 - (ss_res / ss_tot)
+}
+```
+
+### CV for Model 3
+```{r}
+rmse_cv_3 <- mae_cv_3 <- r2_cv_3 <- numeric(k)
+
+for (i in 1:k) {
+  test_indices <- which(folds == i)
+  cv_train <- for_model_building[-test_indices, ]
+  cv_test <- for_model_building[test_indices, ]
+  
+  #fit model
+  fit <- lm(log_price~log_total_livable_area+number_of_bedrooms+number_of_bathrooms+age
+            +interior_condition+median_income+I(family_hh/total_hh)
+            +pct_bachelors+pct_vacant+pct_white+EconKDE+I(EconKDE^2)+TreeKDE
+            +mean_3nn_dist+quality_grade, data = cv_train)
+  preds <- predict(fit, newdata = cv_test)
+  
+  #calculate metrics
+  rmse_cv_3[i] <- sqrt(mean((cv_test$log_price - preds)^2, na.rm = TRUE))
+  mae_cv_3[i] <- mean(abs(cv_test$log_price - preds), na.rm = TRUE)
+  ss_res <- sum((cv_test$log_price - preds)^2, na.rm = TRUE)
+  ss_tot <- sum((cv_test$log_price - mean(cv_test$log_price))^2, na.rm = TRUE)
+  r2_cv_3[i] <- 1 - (ss_res / ss_tot)
+}
+```
+
+### CV for Model 4
+```{r}
+rmse_cv_4 <- mae_cv_4 <- r2_cv_4 <- numeric(k)
+
+for (i in 1:k) {
+  test_indices <- which(folds == i)
+  cv_train <- for_model_building[-test_indices, ]
+  cv_test <- for_model_building[test_indices, ]
+  
+  #fit model
+  fit <- lm(log_price~log_total_livable_area+number_of_bedrooms+number_of_bathrooms+age
+            +interior_condition+median_income+I(family_hh/total_hh)
+            +pct_bachelors+pct_vacant+pct_white+EconKDE+I(EconKDE^2)+TreeKDE
+            +mean_3nn_dist+MHI_quantile*age+quality_grade, data = cv_train)
+  preds <- predict(fit, newdata = cv_test)
+  
+  #calculate metrics
+  rmse_cv_4[i] <- sqrt(mean((cv_test$log_price - preds)^2, na.rm = TRUE))
+  mae_cv_4[i] <- mean(abs(cv_test$log_price - preds), na.rm = TRUE)
+  ss_res <- sum((cv_test$log_price - preds)^2, na.rm = TRUE)
+  ss_tot <- sum((cv_test$log_price - mean(cv_test$log_price))^2, na.rm = TRUE)
+  r2_cv_4[i] <- 1 - (ss_res / ss_tot)
+}
+```
+
+### CV Results Summary
+```{r}
+cv_summary <- data.frame(
+  Model = c("Model 1", "Model 2", "Model 3", "Model 4"),
+  CV_RMSE = round(c(mean(rmse_cv_1), mean(rmse_cv_2), mean(rmse_cv_3), mean(rmse_cv_4)), 3),
+  CV_MAE = round(c(mean(mae_cv_1), mean(mae_cv_2), mean(mae_cv_3), mean(mae_cv_4)), 3),
+  CV_R2 = round(c(mean(r2_cv_1), mean(r2_cv_2), mean(r2_cv_3), mean(r2_cv_4)), 3)
+)
+
+stargazer(cv_summary,
+          type = "text",
+          title = "10-Fold Cross-Validation Results",
+          summary = FALSE,
+          rownames = FALSE)
+
+stargazer(cv_summary,
+          type = "html",
+          title = "10-Fold Cross-Validation Results",
+          summary = FALSE,
+          rownames = FALSE,
+          out = "cv_results.html")
+```
+
+###Predicted vs. Actual Plot
+```{r}
+#generate predictions using model4
+final_predictions <- predict(model4, newdata = for_model_building)
+
+#create scatter plot
+plot(for_model_building$log_price, final_predictions,
+     xlab = "Actual Log(Sale Price)",
+     ylab = "Predicted Log(Sale Price)",
+     main = "Predicted vs. Actual Sale Prices",
+     pch = 16, col = rgb(0, 0, 1, 0.3))
+abline(0, 1, col = "red", lwd = 2, lty = 2)
+```
+
+
+#Phase 6: Model Diagnostics
+
+## Diagnostic Plots for Best Model (Model 4) (for now - could change later)
+```{r}
+#generate diagnostic plots
+plot(model4)
+```
+
+## Cook's Distance Plot
+```{r}
+#identify influential observations
+cooks_d <- cooks.distance(model4)
+plot(cooks_d, type = "h", main = "Cook's Distance",
+     ylab = "Cook's Distance", xlab = "Observation")
+abline(h = 4/nrow(for_model_building), col = "red", lty = 2)
+```
+
+
+#Phase 7: Conclusions & Recommendations
+
 
