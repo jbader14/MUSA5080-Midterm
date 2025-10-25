@@ -320,7 +320,7 @@ head(philly_neighborhoods)
 
 ```{r}
 # downloading osm data from geofabrik:https://download.geofabrik.de/north-america/us-northeast.html
-input_pbf <- "D:/ppa midterm/us-northeast-251022.osm.pbf"
+input_pbf <- "~/Desktop/FW 25/MUSA 5080/us-northeast-251024.osm.pbf"
 
 
 # get boundary of Philadelphia County
@@ -1085,7 +1085,7 @@ The residual plot for model 3 does not change that much compared to model 2. The
 model4=lm(log_price~log_total_livable_area+number_of_bedrooms+number_of_bathrooms+age
           +interior_condition+median_income+I(family_hh/total_hh)
           +pct_bachelors+pct_vacant+pct_white+EconKDE+I(EconKDE^2)+TreeKDE
-          +mean_3nn_dist+MHI_quantile*age+quality_grade,data=for_model_building)
+          +mean_3nn_dist+MHI_quantile*age,data=for_model_building)
 
 summary(model4)
 #percent of family hh become not significant, number of bedrooms become significant again
@@ -1104,7 +1104,7 @@ bptest(model4)
 model_train_4 <- lm(log_price~log_total_livable_area+number_of_bedrooms+number_of_bathrooms+age
           +interior_condition+median_income+I(family_hh/total_hh)
           +pct_bachelors+pct_vacant+pct_white+EconKDE+I(EconKDE^2)+TreeKDE
-          +mean_3nn_dist+MHI_quantile*age+quality_grade,data = train_data)
+          +mean_3nn_dist+MHI_quantile*age,data = train_data)
 test_predictions_4 <- predict(model_train_4, newdata = test_data)
 rmse_test_4 <- sqrt(mean((test_data$log_price - test_predictions_4)^2,na.rm = TRUE))
 rmse_train_4 <- summary(model_train_4)$sigma
@@ -1176,7 +1176,7 @@ stargazer(model1,model2,model3,model4,
 
 #Phase 5: Model Validation
 
-### Set up 10-fold cross-validation (no output produced yet)
+### Set up 10-fold cross-validation
 ```{r}
 set.seed(123)
 k <- 10
@@ -1268,7 +1268,7 @@ for (i in 1:k) {
   fit <- lm(log_price~log_total_livable_area+number_of_bedrooms+number_of_bathrooms+age
             +interior_condition+median_income+I(family_hh/total_hh)
             +pct_bachelors+pct_vacant+pct_white+EconKDE+I(EconKDE^2)+TreeKDE
-            +mean_3nn_dist+MHI_quantile*age+quality_grade, data = cv_train)
+            +mean_3nn_dist+MHI_quantile*age, data = cv_train)
   preds <- predict(fit, newdata = cv_test)
   
   #calculate metrics
@@ -1320,7 +1320,7 @@ abline(0, 1, col = "red", lwd = 2, lty = 2)
 
 #Phase 6: Model Diagnostics
 
-## Diagnostic Plots for Best Model (Model 4) (for now - could change later)
+## Diagnostic Plots for Best Model
 ```{r}
 #generate diagnostic plots
 plot(model4)
@@ -1333,6 +1333,8 @@ cooks_d <- cooks.distance(model4)
 plot(cooks_d, type = "h", main = "Cook's Distance",
      ylab = "Cook's Distance", xlab = "Observation")
 abline(h = 4/nrow(for_model_building), col = "red", lty = 2)
+
+#The Cook’s Distance plot shows that while a few observations exert relatively higher influence on the regression model, the vast majority of cases have negligible influence, and no single data point appears to unduly distort the model’s estimated coefficients.
 ```
 
 
