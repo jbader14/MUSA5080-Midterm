@@ -1358,21 +1358,15 @@ abline(0, 1, col = "red", lwd = 2, lty = 2)
 ### Feature Importance Analysis
 ```{r}
 coefs <- coef(model4)[-1]
-coefs <- coefs[!grepl("\\^2|:", names(coefs))]
 
-# Get top 10 features by absolute coefficient value
-top10 <- sort(abs(coefs), decreasing = TRUE)[1:10]
-
-# Create ranking table
 feature_importance <- data.frame(
-  Rank = 1:10,
-  Feature = names(top10),
-  Coefficient = round(as.numeric(top10), 4)
+  Feature = names(coefs),
+  Coefficient = round(as.numeric(coefs), 4)
 )
 
 print(feature_importance)
 
-#The most important feature is EconKDE. It has the largest coefficient compared for all the other features. This reflects that being close to commerical activities is really important to housing prices. There is also a pattern that spatial features are important.
+#The most important feature is I(EconKDE^2). It has the largest coefficient compared for all the other features. This reflects that being close to commerical activities is really important to housing prices. There is also a pattern that spatial features are important.
 ```
 
 
@@ -1404,5 +1398,15 @@ abline(h = 4/nrow(for_model_building), col = "red", lty = 2)
 
 
 #Phase 7: Conclusions & Recommendations
+
+###What is your final model’s accuracy?
+
+###Which features matter most for Philadelphia prices?
+
+###Which neighborhoods are hardest to predict?
+
+###Equity concerns?
+
+###Limitations?
 
 
