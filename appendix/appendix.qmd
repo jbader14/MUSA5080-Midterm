@@ -956,13 +956,136 @@ Lastly, different from poi and trees, a high cluster of schools may not reflect 
 model1=lm(log_price~log_total_livable_area+number_of_bedrooms+number_of_bathrooms+age
           +interior_condition+quality_grade,data=for_model_building)
 summary(model1)
-#check co linearity
+
+#check colinearity
 vif(model1)
 #vif looks fine, check heteroskedasticity
+
 bptest(model1)
 #p-value is way too small, implying more variables may be needed (make sense)
+
 plot(model1)
+
+
+
+
+```
+In residual plot, more observations are clustered when fitted value is lower, indicating bad distribution of residuals and nonlinearity. 
+
+Same issue is reflected in Q-Q plot as well, the unlinearity revels the distribution of residual is not normal.
+
+There is also heteroskedasticity, as the scale location shows, the line is not linear at all. 
+
+The outliers seems to have small influence on the leverage,as the line is almost linear shown in the last graph
+
+
+
+####Model 2: add census variables into regression
+```{r}
+model2=lm(log_price~log_total_livable_area+number_of_bedrooms+number_of_bathrooms+age
+          +interior_condition+median_income+I(family_hh/total_hh)
+          +pct_bachelors+pct_vacant+pct_white+quality_grade ,data=for_model_building)
+
+summary(model2)
+#number of bedroom becomes statistical insignificant after controling census variable
+
+#check colinearity
+vif(model2)
+#edu_attainment and mhi may have muticolinearity
+
+bptest(model2)
+#p-value is way too small, implying more variables may be needed (make sense)
+
+plot(model2)
+
+```
+The residual plot for model 2 looks much better than that in model 1. The number of observations are clustered when fitted value is lower decreases, indicating better distribution of residuals. The non-linearity issue also gets better
+
+Q-Q plot still does not look good, especially for the outliers. It seems that outliers is influencing the normality of residuals
+
+There is also heteroskedasticity, as the scale location shows, the line is not linear at all. 
+
+The outlier seems to have small influence on the leverage,as the line is almost linear shown in the last graph
+
+####Model 3: add spatial variables into regression
+```{r}
+model3=lm(log_price~log_total_livable_area+number_of_bedrooms+number_of_bathrooms+age
+          +interior_condition+median_income+I(family_hh/total_hh)
+          +pct_bachelors+pct_vacant+pct_white+EconKDE+I(EconKDE^2)+TreeKDE
+          +mean_3nn_dist+quality_grade,data=for_model_building)
+
+summary(model3)
+#percent of family hh become not significant, number of bedrooms become significant again
+
+
+#check colinearity
+vif(model3)
+#very sure edu_attainment and mhi may have muticolinearity, make sense EconKDE and its squared term have high vif score as we are taking quadratic term
+
+bptest(model3)
+#p-value is way too small, implying more variables may be needed 
+
+plot(model3)
+
+```
+The residual plot for model 3 does not change that much compared to model 2. The majority of the issues remain.....
+
+####Model 4: add fixed variable and interaction terms into regression
+```{r}
+model4=lm(log_price~log_total_livable_area+number_of_bedrooms+number_of_bathrooms+age
+          +interior_condition+median_income+I(family_hh/total_hh)
+          +pct_bachelors+pct_vacant+pct_white+EconKDE+I(EconKDE^2)+TreeKDE
+          +mean_3nn_dist+MHI_quantile*age+quality_grade,data=for_model_building)
+
+summary(model4)
+#percent of family hh become not significant, number of bedrooms become significant again
+
+
+#check colinearity
+vif(model4)
+#very sure edu_attainment and mhi may have muticolinearity
+#tree seems to be correlated with neighborhood (make sense)
+#make sense EconKDE and its squared term have high vif score as we are taking quadratic term
+
+bptest(model4)
+#p-value is way too small, implying more variables may be needed 
+
+plot(model4)
+```
+
+#one comparison table (RMSE, R² for 4 different models you constructed in your process)
+```{r}
 
 ```
 
+
+
+#stargazer regression results
+```{r}
+stargazer(model1,model2,model3,model4,
+          type = "html", #could be changed to text if needed
+          title = "Model Results",
+          dep.var.labels = c("Log of Sale Price"),
+          covariate.labels = c(
+            "Log(Total Livable Area)",
+            "Number of Bedrooms",
+            "Number of Bathrooms",
+            "Building Age",
+            "Interior Condition",
+            "Median Household Income",
+            "Family Household Share (Family HH / Total HH)",
+            "% Bachelor's Degree Holders",
+            "% Vacant Housing Units",
+            "% White Population",
+            "Economic Density (EconKDE)",
+            "Economic Density² (EconKDE²)",
+            "Tree Density (TreeKDE)",
+            "Mean 3-Nearest Neighbor Distance",
+            "Income Q2","Income Q3", "Income Q4"
+          ),
+          omit.stat = c("f", "ser"),
+          digits = 3,
+          out = "regression.html")
+
+```
 
