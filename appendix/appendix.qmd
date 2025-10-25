@@ -920,7 +920,19 @@ stargazer(summary_numeric_df,
           out = "summary_statistics.html")
 
 
-
+# Print as txt in R
+stargazer(summary_numeric_df,
+          type = "text",
+          title = "Summary Statistics",
+          digits = 2,
+          summary.stat = c("n", "mean", "sd", "min", "median", "max"),
+          covariate.labels = c("Sale Price", "Log Price", "Total Livable Area", 
+                            "Log Total Livable Area", "Bedrooms", "Bathrooms", 
+                            "Year Built", "Age", "Interior Condition", 
+                            "Median Income","Family HH", 
+                            "Total HH", "% Bachelors", "% Vacant", "% White",
+                            "Econ KDE", "Tree KDE", "Mean MHI", 
+                            "Mean 3 closest School Dist"))
 ```
 ### Final Cleaning Before Building the Model
 
@@ -949,6 +961,17 @@ Lastly, different from poi and trees, a high cluster of schools may not reflect 
 
 #Phase 4: Model Building
 
+####create train/test data first (make workflow smoother)
+```{r}
+set.seed(123)
+n <- nrow(for_model_building)
+
+# 70% training, 30% testing
+train_indices <- sample(1:n, size = 0.7 * n)
+train_data <- for_model_building[train_indices, ]
+test_data <- for_model_building[-train_indices, ]
+```
+
 ###Building the model progressively
 ####Model 1: Individual characteristic only
 ```{r}
@@ -964,11 +987,14 @@ vif(model1)
 bptest(model1)
 #p-value is way too small, implying more variables may be needed (make sense)
 
+#calculate the RMSE
+model_train_1 <- lm(log_price~log_total_livable_area+number_of_bedrooms+number_of_bathrooms+age+interior_condition+quality_grade,data = train_data)
+test_predictions_1 <- predict(model_train_1, newdata = test_data)
+rmse_test_1 <- sqrt(mean((test_data$log_price - test_predictions_1)^2,na.rm = TRUE))
+rmse_train_1 <- summary(model_train_1)$sigma
+
+
 plot(model1)
-
-
-
-
 ```
 In residual plot, more observations are clustered when fitted value is lower, indicating bad distribution of residuals and nonlinearity. 
 
@@ -995,6 +1021,18 @@ vif(model2)
 
 bptest(model2)
 #p-value is way too small, implying more variables may be needed (make sense)
+
+#calculate the RMSE
+model_train_2 <- lm(log_price~log_total_livable_area+number_of_bedrooms
+                    +number_of_bathrooms+age+interior_condition+median_income
+                    +I(family_hh/total_hh)
+                    +pct_bachelors+pct_vacant+pct_white
+                    +quality_grade,data = train_data)
+test_predictions_2 <- predict(model_train_2, newdata = test_data)
+rmse_test_2 <- sqrt(mean((test_data$log_price - test_predictions_2)^2,na.rm = TRUE))
+rmse_train_2 <- summary(model_train_2)$sigma
+
+
 
 plot(model2)
 
@@ -1025,6 +1063,18 @@ vif(model3)
 bptest(model3)
 #p-value is way too small, implying more variables may be needed 
 
+#calculate the RMSE
+model_train_3 <- lm(log_price~log_total_livable_area+number_of_bedrooms+number_of_bathrooms+age
+          +interior_condition+median_income+I(family_hh/total_hh)
+          +pct_bachelors+pct_vacant+pct_white+EconKDE+I(EconKDE^2)+TreeKDE
+          +mean_3nn_dist+quality_grade,data = train_data)
+test_predictions_3 <- predict(model_train_3, newdata = test_data)
+rmse_test_3 <- sqrt(mean((test_data$log_price - test_predictions_3)^2,na.rm = TRUE))
+rmse_train_3 <- summary(model_train_3)$sigma
+
+
+
+
 plot(model3)
 
 ```
@@ -1050,12 +1100,46 @@ vif(model4)
 bptest(model4)
 #p-value is way too small, implying more variables may be needed 
 
+#calculate the RMSE
+model_train_4 <- lm(log_price~log_total_livable_area+number_of_bedrooms+number_of_bathrooms+age
+          +interior_condition+median_income+I(family_hh/total_hh)
+          +pct_bachelors+pct_vacant+pct_white+EconKDE+I(EconKDE^2)+TreeKDE
+          +mean_3nn_dist+MHI_quantile*age+quality_grade,data = train_data)
+test_predictions_4 <- predict(model_train_4, newdata = test_data)
+rmse_test_4 <- sqrt(mean((test_data$log_price - test_predictions_4)^2,na.rm = TRUE))
+rmse_train_4 <- summary(model_train_4)$sigma
+
 plot(model4)
 ```
 
 #one comparison table (RMSE, R² for 4 different models you constructed in your process)
 ```{r}
+rmse_values = c(rmse_test_1,rmse_test_2,rmse_test_3,rmse_test_4)
+adj_r2 = c(
+  summary(model1)$adj.r.squared,
+  summary(model2)$adj.r.squared,
+  summary(model3)$adj.r.squared,
+  summary(model4)$adj.r.squared
+)
+model_summary <- data.frame(
+  Model = c("Model 1", "Model 2", "Model 3", "Model 4"),
+  RMSE = round(rmse_values, 3),
+  Adj_R2 = round(adj_r2, 3)
+)
 
+stargazer(model_summary,
+          type = "html",
+          title = "Model Performance Summary",
+          summary = FALSE,
+          rownames = FALSE,
+          out = "model_performance_summary.html")
+
+
+stargazer(model_summary,
+          type = "text",
+          title = "Model Performance Summary",
+          summary = FALSE,
+          rownames = FALSE)
 ```
 
 

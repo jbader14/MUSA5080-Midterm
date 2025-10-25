@@ -1,6 +1,6 @@
 This is the metadata for the dataframe in our appendix to help us better know which dataframe is which, hopefully it would help you better know about our final data!
 
-Update: I have already run the initial four regressions with testing, I have indicated some of the problematic variables but have not excluded them yet. Feel free to build on models based on your preferences. Stargazer output has been created, be careful with the label when you are chaning the regression variables as stargazer just label the variables based on the order of the variables. Feel free to text me if you have questions--Tim
+Update: I have basically finish phase 4 except writing down the Coefficient interpretations, I have indicated some of the problematic variables but have not excluded them yet. Feel free to play around with the models based on your preferences. Stargazer output has been created, be careful with the label when you are chaning the regression variables as stargazer just label the variables based on the order of the variables. Feel free to text me if you have questions--Tim
 
 Housing sale prices (before cleaning): phl_sales_clean
 Housing sale prices with spatial feature (before cleaning): phl_sales_clean_sf
