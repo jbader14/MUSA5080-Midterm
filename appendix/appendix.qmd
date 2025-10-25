@@ -26,6 +26,8 @@ library(httr)
 library(jsonlite)
 library(FNN)
 library(stargazer)
+library(car)
+library(lmtest)
 options(tigris_use_cache = TRUE, tigris_progress = FALSE) 
 ```
 
@@ -847,7 +849,7 @@ mean_mhi_by_poly <- points_joined %>%
 phl_sales_final_sf_final <- phl_sales_final_sf_final %>%
   left_join(mean_mhi_by_poly, by = "MAPNAME")%>%
   st_as_sf() 
-
+# reclassify the neighborhood data based on quantile (25%)
 phl_sales_final_sf_final$MHI_quantile <- cut(
   phl_sales_final_sf_final$meanMHI,
   breaks = quantile(
@@ -879,23 +881,15 @@ phl_sales_final_sf_final$mean_3nn_dist <- mean_nearest3
 ```
 
 
-### Census variables
-
-```{r}
-
-
-```
-
-
 ### Summary table
 
 ```{r}
-
+#reformat raster data into a "readable" format by stargazer
   phl_sales_final_sf_final <- phl_sales_final_sf_final %>%
   mutate(EconKDE = EconKDE$lyr.1,
          TreeKDE = TreeKDE$lyr.1) 
 
-
+#exclude the unnecessary data
 summary_data <- phl_sales_final_sf_final %>%
   st_drop_geometry() %>%
   select(-c(
@@ -944,5 +938,31 @@ for_model_building <- phl_sales_final_sf_final %>%
 
 
 ### Justification of feature engineered variables
-We have used a number of methods to create spatial features in both Phase 1 and 3. First, in Phase 1, we use Kernel Density method  
+We have used a number of methods to create spatial features in both Phase 1 and 3. First, in Phase 1, since commercial and office POI and trees are point data, and the more they cluster the higher the housing price will be. As a result, we use Kernel Density method to estimate the density of them. Value of the cell was assign to the point (housing prices), if the point falls within it. 
+
+Second, as census tracts and neighborhood are polygon data, a st_within spatial join was used to join them with housing data. Values from polygon data will assign to the points when points fall within it. 
+
+Third, as there are too many neighborhoods, it is hard to interpret the coefficient of them as it is a categorical variable. We reclassify it with four different categories based on quantile of MHI(25%). To calculate the MHI each neighborhood, we first take the centroid of each census tract and summarize them within each neighborhood. Then we take the mean of MHI of the tracts that fall within the neighborhood.  
+
+Lastly, different from poi and trees, a high cluster of schools may not reflect a high housing price. As a result, instead of using density estimation, we use 3-nearest distance and take the mean to capture some of the closest schools.
+
+
+#Phase 4: Model Building
+
+###Building the model progressively
+####Model 1: Individual characteristic only
+```{r}
+#run regression based on houses own characteristic
+model1=lm(log_price~log_total_livable_area+number_of_bedrooms+number_of_bathrooms+age
+          +interior_condition+quality_grade,data=for_model_building)
+summary(model1)
+#check co linearity
+vif(model1)
+#vif looks fine, check heteroskedasticity
+bptest(model1)
+#p-value is way too small, implying more variables may be needed (make sense)
+plot(model1)
+
+```
+
 
