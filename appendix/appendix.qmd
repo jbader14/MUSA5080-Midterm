@@ -976,6 +976,8 @@ test_data <- for_model_building[-train_indices, ]
 ####Model 1: Individual characteristic only
 ```{r}
 #run regression based on houses own characteristic
+options(scipen = 999)
+
 model1=lm(log_price~log_total_livable_area+number_of_bedrooms+number_of_bathrooms+age
           +interior_condition+quality_grade,data=for_model_building)
 summary(model1)
@@ -1008,6 +1010,8 @@ The outliers seems to have small influence on the leverage,as the line is almost
 
 ####Model 2: add census variables into regression
 ```{r}
+options(scipen = 999)
+
 model2=lm(log_price~log_total_livable_area+number_of_bedrooms+number_of_bathrooms+age
           +interior_condition+median_income+I(family_hh/total_hh)
           +pct_bachelors+pct_vacant+pct_white+quality_grade ,data=for_model_building)
@@ -1047,6 +1051,8 @@ The outlier seems to have small influence on the leverage,as the line is almost 
 
 ####Model 3: add spatial variables into regression
 ```{r}
+options(scipen = 999)
+
 model3=lm(log_price~log_total_livable_area+number_of_bedrooms+number_of_bathrooms+age
           +interior_condition+median_income+I(family_hh/total_hh)
           +pct_bachelors+pct_vacant+pct_white+EconKDE+I(EconKDE^2)+TreeKDE
@@ -1082,6 +1088,8 @@ The residual plot for model 3 does not change that much compared to model 2. The
 
 ####Model 4: add fixed variable and interaction terms into regression
 ```{r}
+options(scipen = 999)
+
 model4=lm(log_price~log_total_livable_area+number_of_bedrooms+number_of_bathrooms+age
           +interior_condition+median_income+I(family_hh/total_hh)
           +pct_bachelors+pct_vacant+pct_white+EconKDE+I(EconKDE^2)+TreeKDE
@@ -1204,6 +1212,9 @@ for (i in 1:k) {
   ss_tot <- sum((cv_test$log_price - mean(cv_test$log_price))^2, na.rm = TRUE)
   r2_cv_1[i] <- 1 - (ss_res / ss_tot)
 }
+
+print(data.frame(Fold = 1:k, RMSE = round(rmse_cv_1, 4), 
+                 MAE = round(mae_cv_1, 4), R2 = round(r2_cv_1, 4)))
 ```
 
 ### CV for Model 2
@@ -1228,6 +1239,9 @@ for (i in 1:k) {
   ss_tot <- sum((cv_test$log_price - mean(cv_test$log_price))^2, na.rm = TRUE)
   r2_cv_2[i] <- 1 - (ss_res / ss_tot)
 }
+
+print(data.frame(Fold = 1:k, RMSE = round(rmse_cv_2, 4), 
+                 MAE = round(mae_cv_2, 4), R2 = round(r2_cv_2, 4)))
 ```
 
 ### CV for Model 3
@@ -1253,6 +1267,9 @@ for (i in 1:k) {
   ss_tot <- sum((cv_test$log_price - mean(cv_test$log_price))^2, na.rm = TRUE)
   r2_cv_3[i] <- 1 - (ss_res / ss_tot)
 }
+
+print(data.frame(Fold = 1:k, RMSE = round(rmse_cv_3, 4), 
+                 MAE = round(mae_cv_3, 4), R2 = round(r2_cv_3, 4)))
 ```
 
 ### CV for Model 4
@@ -1278,6 +1295,9 @@ for (i in 1:k) {
   ss_tot <- sum((cv_test$log_price - mean(cv_test$log_price))^2, na.rm = TRUE)
   r2_cv_4[i] <- 1 - (ss_res / ss_tot)
 }
+
+print(data.frame(Fold = 1:k, RMSE = round(rmse_cv_4, 4), 
+                 MAE = round(mae_cv_4, 4), R2 = round(r2_cv_4, 4)))
 ```
 
 ### CV Results Summary
@@ -1303,6 +1323,25 @@ stargazer(cv_summary,
           out = "cv_results.html")
 ```
 
+### Detailed CV Results by Fold
+```{r}
+# Show detailed fold-by-fold performance for model 4
+detailed_cv <- data.frame(
+  Fold = 1:k,
+  RMSE = round(rmse_cv_4, 4),
+  MAE = round(mae_cv_4, 4),
+  R2 = round(r2_cv_4, 4)
+)
+
+print(detailed_cv)
+
+# Summary statistics across folds
+cat("\nModel 4 CV Performance Summary:\n")
+cat("RMSE: Mean =", round(mean(rmse_cv_4), 4), ", SD =", round(sd(rmse_cv_4), 4), "\n")
+cat("MAE:  Mean =", round(mean(mae_cv_4), 4), ", SD =", round(sd(mae_cv_4), 4), "\n")
+cat("R²:   Mean =", round(mean(r2_cv_4), 4), ", SD =", round(sd(r2_cv_4), 4), "\n")
+```
+
 ###Predicted vs. Actual Plot
 ```{r}
 #generate predictions using model4
@@ -1316,6 +1355,25 @@ plot(for_model_building$log_price, final_predictions,
      pch = 16, col = rgb(0, 0, 1, 0.3))
 abline(0, 1, col = "red", lwd = 2, lty = 2)
 ```
+### Feature Importance Analysis
+```{r}
+coefs <- coef(model4)[-1]
+coefs <- coefs[!grepl("\\^2|:", names(coefs))]
+
+# Get top 10 features by absolute coefficient value
+top10 <- sort(abs(coefs), decreasing = TRUE)[1:10]
+
+# Create ranking table
+feature_importance <- data.frame(
+  Rank = 1:10,
+  Feature = names(top10),
+  Coefficient = round(as.numeric(top10), 4)
+)
+
+print(feature_importance)
+
+#The most important feature is EconKDE. It has the largest coefficient compared for all the other features. This reflects that being close to commerical activities is really important to housing prices. There is also a pattern that spatial features are important.
+```
 
 
 #Phase 6: Model Diagnostics
@@ -1324,6 +1382,13 @@ abline(0, 1, col = "red", lwd = 2, lty = 2)
 ```{r}
 #generate diagnostic plots
 plot(model4)
+
+#Residual Plot:
+#The Residuals vs Fitted plot shows mild heteroskedasticity and a small degree of curvature, which is expected in a dataset of this size, and the model performs consistently well across most of the fitted range with only a few isolated outliers.
+
+#QQ-Plot:
+#The Q-Q plot shows slight deviation from normality in the extreme tails, which is common in large real-world housing datasets, while the majority of residuals align closely with the theoretical normal distribution, indicating that model inference remains reliable.
+
 ```
 
 ## Cook's Distance Plot
