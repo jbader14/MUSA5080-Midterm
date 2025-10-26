@@ -569,9 +569,7 @@ df_95_exclude <- phl_sales_clean %>%
 
 df_95_exclude_sf <- df_95_exclude %>%
   mutate(geometry = st_as_sfc(shape)) %>%
-  st_as_sf(crs = 2272)
-
-df_95_exclude_sf <- df_95_exclude_sf %>%
+  st_as_sf(crs = 2272) %>%
   st_join(philly_tract_map, join = st_within)
 
 tract_price_summary <- df_95_exclude_sf %>%
@@ -584,7 +582,7 @@ philly_price_map <- philly_tract_map %>%
 
 tmap_mode("plot")
 
-tm_shape(philly_price_map) +
+price_map <- tm_shape(philly_price_map) +
   tm_polygons(
     col = "median_price",
     style = "quantile",
@@ -593,7 +591,10 @@ tm_shape(philly_price_map) +
     title = "Median Sale Price (≤ 95th Percentile)"
   ) +
   tm_layout(
-    title = "Median Home Sale Prices by Census Tract (Filtered to ≤ 95th Percentile)",
+    main.title = "Median Home Sale Prices by Census Tract (Filtered to ≤ 95th Percentile)",
+    main.title.position = "center",
+    main.title.fontface = "bold",
+    outer.margins = c(0.10, 0.02, 0.02, 0.02),
     legend.outside = TRUE
   ) +
   tm_shape(df_95_exclude_sf) +
@@ -603,6 +604,8 @@ tm_shape(philly_price_map) +
     size = 0.02,
     legend.show = FALSE
   )
+
+price_map
 ```
 
 **Interpretation:**
@@ -623,10 +626,11 @@ mean_income_by_neighborhood <- points_joined %>%
 philly_neighborhood_income <- philly_neighborhoods %>%
   left_join(mean_income_by_neighborhood, by = "MAPNAME")
 
-# 4. Plot choropleth
+library(tmap)
+
 tmap_mode("plot")
 
-tm_shape(philly_neighborhood_income) +
+neighborhood_income_map <- tm_shape(philly_neighborhood_income) +
   tm_polygons(
     col = "mean_income",
     style = "quantile",
@@ -635,10 +639,18 @@ tm_shape(philly_neighborhood_income) +
     title = "Median Household Income"
   ) +
   tm_layout(
-    title = "Median Household Income by Neighborhood",
+    main.title = "Median Household Income by Neighborhood",
+    main.title.position = "center",
+    outer.margins = c(0.10, 0.02, 0.02, 0.02),  # <-- more top padding
     legend.outside = TRUE
   )
+
+neighborhood_income_map
+
 ```
+
+```
+
 **Interpretation:**
 
 In this visualization depicting median incomes of residents by neighborhoods, we observe continued spatial clustering of wealth indicators in areas like Center City, Northwest Philadelphia, and South Philadlephia. This is consistent with the basic aggregation of home sale prices on census tracts. The presence of high income in tandem with high housing cost serves as an indication of their relationship and justifies the use of economic predictors in our model. With this spatial auto-correlation, it is important that the model absorbs spatial variation by utilizing additional spatial features.   

@@ -35,12 +35,11 @@ format:
 
 
 ## A mapped observations
-(i.e. where are expensive homes)
-
-- Missing?
-
+ - Median houseing prices are clustered in specific areas of the City
+ - Center City, Northwest Philadelphia, and select areas of South Philadelphia see the highest home prices
 
 
+![Home Price Across the City](median_price_map.png)
 ## Price Drivers
 
 - Economic Density
@@ -59,9 +58,9 @@ format:
 
 Affleunt neigborhoods
 
-- Do we have a map for this?
+Neighborhood affluence concentrated in areas around Center City, Northwest Philadelpiha, and Soth Philadelphia
 
-
+![Affluent Neighborhoods](neighborhood_income_map.png)
 ## Recommendations
 
 
