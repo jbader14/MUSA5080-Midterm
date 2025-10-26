@@ -36,7 +36,8 @@ options(tigris_use_cache = TRUE, tigris_progress = FALSE)
 ## 1.1 Load and Philadelphia house sales data
 ```{r}
 # Load Philly Property Sales data
-phl_sales <- read_csv("C:/Users/matth/Documents/pennFall25/PPA/midterm/opa_properties_public.csv", show_col_types = FALSE)
+phl_sales <- read_csv(here("data", "raw", "opa_properties_public.csv"))
+
 ```
 
 ### Filter to residential properties, 2023-2024 sales
@@ -557,13 +558,56 @@ ggplot(df_95_exclude, aes(sale_price)) +
 
 **Interpretation:** In this revised histogram, we get a much better sense of how the sales prices are distributed without the presence of extreme outliers. As we saw before, the data is definitely right-skewed since the median (\$235,250) is less than the mean (\$322,231) even when removing large outliers from the top 5% of the distribution. We can visualize that the standard housing market in Philadelphia from 2023-2024 ranges between \$0 and \$800,000. The distribution has a single peak around \$200,000, indicating that it is unimodal with a typical (or most common) home sale price in the realm of \$150,000 to \$250,000. This is an indication that it may be best to omit these significant outliers from our dataset when building our model for home sale price prediction. The homes on the higher end of the sale price distribution are determined by a combination of structural features (such total livable area) and spatial features (such as nearby city centers) that drive up the prices of these homes. The goal of this study is to determine what features, both structural and spatial, are significant in predicting home sale prices in Philadelphia and create an accurate model to help policy makers in valuating property tax assessments.
 
-### Geographic distribution (map)
+### Geographic distribution of sales price by tract
 
 ```{r}
+library(tmap)
 
+price_95_perc <- quantile(phl_sales_clean$sale_price, 0.95, na.rm = TRUE)
+df_95_exclude <- phl_sales_clean %>%
+  filter(sale_price <= price_95_perc)
+
+df_95_exclude_sf <- df_95_exclude %>%
+  mutate(geometry = st_as_sfc(shape)) %>%
+  st_as_sf(crs = 2272)
+
+df_95_exclude_sf <- df_95_exclude_sf %>%
+  st_join(philly_tract_map, join = st_within)
+
+tract_price_summary <- df_95_exclude_sf %>%
+  st_drop_geometry() %>%
+  group_by(GEOID) %>%
+  summarize(median_price = median(sale_price, na.rm = TRUE))
+
+philly_price_map <- philly_tract_map %>%
+  left_join(tract_price_summary, by = "GEOID")
+
+tmap_mode("plot")
+
+tm_shape(philly_price_map) +
+  tm_polygons(
+    col = "median_price",
+    style = "quantile",
+    n = 5,
+    palette = "YlGnBu",
+    title = "Median Sale Price (≤ 95th Percentile)"
+  ) +
+  tm_layout(
+    title = "Median Home Sale Prices by Census Tract (Filtered to ≤ 95th Percentile)",
+    legend.outside = TRUE
+  ) +
+  tm_shape(df_95_exclude_sf) +
+  tm_dots(
+    col = "gray30",
+    alpha = 0.3,
+    size = 0.02,
+    legend.show = FALSE
+  )
 ```
 
 **Interpretation:**
+
+This visualization shows clear spatial clustering of home prices in Philadelphia when looking at the typical market excluding outliers. Higher median prices are concentrated in Center City, University City, and select neighborhoods in South Philadelphia and Northwest Philadelphia. This supports our need to include additional predictors to account amenity density and economic activity.
 
 ### Price vs. structural features
 
