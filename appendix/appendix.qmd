@@ -139,7 +139,7 @@ Housing vacancy rate (B25002)
 
 Racial composition: percent white (B02001)
 
-```{r api key,eval=FALSE, include=FALSE}
+```{r api key, eval=FALSE, include=FALSE}
 
 # This Block is the code that I used to Pull and Manipulate the Census Data. I condensed it and included it in one block for the team's reference. This output files have been uploaded to the project and will be pulled in the next code block to reduce computation.
 
@@ -258,10 +258,9 @@ philly_tract_map <- philly_tract_sf %>%
   left_join(philly_censustract, by = "GEOID")
 ```
 
-#### Load Philly Census Data from Previously Retrieved Files (not sure if still work after switching to census tract)
+#### Load Philly Census Data from Previously Retrieved Files
 
 ```{r}
-##Delete this??
 
 # Relative to project root
 census_path <- here("data", "Philly Census")
