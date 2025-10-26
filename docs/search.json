@@ -60,7 +60,7 @@
     "href": "presentation/presentation.html",
     "title": "Predicting Housing Sales",
     "section": "",
-    "text": "Our model had an avereage error of 48.31% and explains 64% of the variance of logged housing prices (need help explaining this).\nFindings\n\n\nThe number of bathrooms is a better predictor than number of bedrooms\n\nBathrooms: β = 0.151, p &lt; 0.001\nBedrooms: β = 0.018, p &lt; 0.001\n\nLivable Area still King\n\nLog(Livable Area):β = 0.508, p &lt; 0.001\n\n\n\nRecommendations\n\n\nSubsidize affordable housing construction to bring prices down to level of older units\n\n\n\n\n\n\nSale by Age"
+    "text": "The City of Philadelphia’s current automated valuation model (AVM) is underpreforming\n\n\nSo what factors strongly influence housing price that the city could be overlooking?"
   },
   {
     "objectID": "presentation/presentation.html#most-impactful-features",
@@ -73,8 +73,8 @@
     "objectID": "presentation/presentation.html#key-issues",
     "href": "presentation/presentation.html#key-issues",
     "title": "Predicting Housing Sales",
-    "section": "Key Issues",
-    "text": "Key Issues"
+    "section": "",
+    "text": "The City of Philadelphia’s current automated valuation model (AVM) is underpreforming\n\n\nSo what factors strongly influence housing price that the city could be overlooking?"
   },
   {
     "objectID": "presentation/presentation.html#data-sources",
@@ -88,7 +88,7 @@
     "href": "presentation/presentation.html#a-mapped-observations",
     "title": "Predicting Housing Sales",
     "section": "A mapped observations",
-    "text": "A mapped observations\n(i.e. where are expensive homes)\n\nMissing?"
+    "text": "A mapped observations\n\nMedian houseing prices are clustered in specific areas of the City\nCenter City, Northwest Philadelphia, and select areas of South Philadelphia see the highest home prices"
   },
   {
     "objectID": "presentation/presentation.html#price-drivers",
@@ -109,25 +109,81 @@
     "href": "presentation/presentation.html#hardest-neighborhoods-to-predict",
     "title": "Predicting Housing Sales",
     "section": "Hardest Neighborhoods to Predict",
-    "text": "Hardest Neighborhoods to Predict"
+    "text": "Hardest Neighborhoods to Predict\nAffluent neigborhoods\nNeighborhood affluence concentrated in areas around Center City, Northwest Philadelphia, and South Philadelphia"
   },
   {
     "objectID": "presentation/presentation.html#recommendations",
     "href": "presentation/presentation.html#recommendations",
     "title": "Predicting Housing Sales",
     "section": "Recommendations",
-    "text": "Recommendations"
+    "text": "Recommendations\nThink about spatial variables\nVariables such as economic density and neighborhood play a large role\nRemain Nuanced\nThe influence of a factor will likely vary by neighborhood\nBathrooms &gt; Bedrooms\nImagine a 4 bed 4 BR unit vs a 4 bed 1 BR unit, the different in desirability is exponential"
   },
   {
     "objectID": "presentation/presentation.html#limitations-next-steps",
     "href": "presentation/presentation.html#limitations-next-steps",
     "title": "Predicting Housing Sales",
     "section": "Limitations & Next Steps",
-    "text": "Limitations & Next Steps"
+    "text": "Limitations & Next Steps\n\nThe inability to quantify word of mouth\nPercieved neighborhood vibe shift can radically alter future housing prices\n\nI.e. Fishtown\n\nThe non-incorporation of Philadelphia’s future plans\nPlanned and ongoing infrastructure development greatly impacts where housing is developed"
   },
   {
     "objectID": "presentation/presentation.html#questions",
     "href": "presentation/presentation.html#questions",
+    "title": "Predicting Housing Sales",
+    "section": "Questions?",
+    "text": "Questions?\n\nThank you!\n\n\nContact Information:\n\nJack Bader\n\njbader14@upenn.edu\n\nMatthew Levy\n\nmblevy@upenn.edu\n\nTim Wen\n\nsw6as@upenn.edu\n\n\n\n\nJoey Cahill\n\ncahill1@upenn.edu\n\nSam Sen\n\nsen1@upenn.edu\n\nYe Zhang\n\nyezhang1@upenn.edu"
+  },
+  {
+    "objectID": "presentation/presentation.html#key-issues-1",
+    "href": "presentation/presentation.html#key-issues-1",
+    "title": "Predicting Housing Sales",
+    "section": "",
+    "text": "The City of Philadelphia’s current automated valuation model (AVM) is underpreforming\n\n\nSo what factors strongly influence housing price that the city could be overlooking?"
+  },
+  {
+    "objectID": "presentation/presentation.html#data-sources-1",
+    "href": "presentation/presentation.html#data-sources-1",
+    "title": "Predicting Housing Sales",
+    "section": "Data Sources",
+    "text": "Data Sources\n\nCity of Philadelphia\nPhiladelphia Properties and Current Assessments\nOpenDataPhilly\n\nPhiladelphia Neighborhoods Polygon\nSchool attendance, withdrawls, location\n\nGeofrabrik\n\nEconomic activity locations\n\nUS Census:\n\n5-year ACS data\n\nEducation, vacancy, family share, percent white, median income"
+  },
+  {
+    "objectID": "presentation/presentation.html#a-mapped-observations-1",
+    "href": "presentation/presentation.html#a-mapped-observations-1",
+    "title": "Predicting Housing Sales",
+    "section": "A mapped observations",
+    "text": "A mapped observations\n\nMedian houseing prices are clustered in specific areas of the City\nCenter City, Northwest Philadelphia, and select areas of South Philadelphia see the highest home prices\n\n # Price Drivers"
+  },
+  {
+    "objectID": "presentation/presentation.html#model-comparison-1",
+    "href": "presentation/presentation.html#model-comparison-1",
+    "title": "Predicting Housing Sales",
+    "section": "Model Comparison",
+    "text": "Model Comparison"
+  },
+  {
+    "objectID": "presentation/presentation.html#hardest-neighborhoods-to-predict-1",
+    "href": "presentation/presentation.html#hardest-neighborhoods-to-predict-1",
+    "title": "Predicting Housing Sales",
+    "section": "Hardest Neighborhoods to Predict",
+    "text": "Hardest Neighborhoods to Predict\nAffluent neigborhoods\nNeighborhood affluence concentrated in areas around Center City, Northwest Philadelphia, and South Philadelphia\n\n\n\nAffluent Neighborhoods"
+  },
+  {
+    "objectID": "presentation/presentation.html#recommendations-1",
+    "href": "presentation/presentation.html#recommendations-1",
+    "title": "Predicting Housing Sales",
+    "section": "Recommendations",
+    "text": "Recommendations"
+  },
+  {
+    "objectID": "presentation/presentation.html#limitations-next-steps-1",
+    "href": "presentation/presentation.html#limitations-next-steps-1",
+    "title": "Predicting Housing Sales",
+    "section": "Limitations & Next Steps",
+    "text": "Limitations & Next Steps\n\nThe inability to quantify word of mouth\nPercieved neighborhood vibe shift can radically alter future housing prices\n\nI.e. Fishtown\n\nThe non-incorporation of Philadelphia’s future plans\nPlanned and ongoing infrastructure development greatly impacts where housing is developed"
+  },
+  {
+    "objectID": "presentation/presentation.html#questions-1",
+    "href": "presentation/presentation.html#questions-1",
     "title": "Predicting Housing Sales",
     "section": "Questions?",
     "text": "Questions?\n\nThank you!\n\n\nContact Information:\n\nJack Bader\n\njbader14@upenn.edu\n\nMatthew Levy\n\nmblevy@upenn.edu\n\nTim Wen\n\nsw6as@upenn.edu\n\n\n\n\nJoey Cahill\n\ncahill1@upenn.edu\n\nSam Sen\n\nsen1@upenn.edu\n\nYe Zhang\n\nyezhang1@upenn.edu"

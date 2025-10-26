@@ -2,9 +2,9 @@
 title: "Predicting Housing Sales"
 subtitle: "Team Jai Ho Midterm"
 author: "Jack Bader, Joey Cahill, Matthew Levy, Sam Sen, Tim Wen, Ye Zhang"
-date: "October 21, 2025"
+date: "October 26, 2025"
 format: 
-  revealjs: 
+  revealjs:
     theme: simple
     slide-number: true
     chalkboard: true
@@ -15,9 +15,16 @@ format:
 ---
 
 
+
 ## Key Issues
 
+- The City of Philadelphia's current automated valuation model (AVM) is underpreforming
+- 
 
+So what factors strongly influence housing price that the city could be overlooking?
+
+
+---
 
 ## Data Sources
 
@@ -32,7 +39,7 @@ format:
   - 5-year ACS data
     - Education, vacancy, family share, percent white, median income
 
-
+---
 
 ## A mapped observations
  - Median houseing prices are clustered in specific areas of the City
@@ -40,6 +47,8 @@ format:
 
 
 ![Home Price Across the City](median_price_map.png)
+---
+
 ## Price Drivers
 
 - Economic Density
@@ -48,22 +57,39 @@ format:
 - Building Age
 ![Sale by Age](homeSaleAge.jpeg)
 
-
+---
 
 ## Model Comparison
 
-
+---
 
 ## Hardest Neighborhoods to Predict
 
-Affleunt neigborhoods
+Affluent neigborhoods
 
-Neighborhood affluence concentrated in areas around Center City, Northwest Philadelpiha, and Soth Philadelphia
+Neighborhood affluence concentrated in areas around Center City, Northwest Philadelphia, and South Philadelphia
 
 ![Affluent Neighborhoods](neighborhood_income_map.png)
+---
+
 ## Recommendations
 
 
+**Think about spatial variables**
+
+Variables such as economic density and neighborhood play a large role
+
+**Remain Nuanced**
+
+The influence of a factor will likely vary by neighborhood
+
+**Bathrooms > Bedrooms**
+
+Imagine a 4 bed 4 BR unit vs a 4 bed 1 BR unit, the different in desirability is exponential
+
+
+
+---
 
 
 ## Limitations & Next Steps
@@ -74,7 +100,7 @@ Neighborhood affluence concentrated in areas around Center City, Northwest Phila
 - The non-incorporation of Philadelphia's future plans
  - Planned and ongoing infrastructure development greatly impacts where housing is developed 
 
-
+---
 
 ## Questions?
 

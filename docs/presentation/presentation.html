@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jack Bader, Joey Cahill, Matthew Levy, Sam Sen, Tim Wen, Ye Zhang">
-<meta name="dcterms.date" content="2025-10-21">
+<meta name="dcterms.date" content="2025-10-26">
 
 <title>Predicting Housing Sales – Philadelphia Housing Price Prediction</title>
 <style>
@@ -142,7 +142,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 21, 2025</p>
+      <p class="date">October 26, 2025</p>
     </div>
   </div>
   
@@ -154,11 +154,14 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="team-jai-ho" class="level3">
-<h3 class="anchored" data-anchor-id="team-jai-ho">Team Jai Ho</h3>
-</section>
 <section id="key-issues" class="level2">
 <h2 class="anchored" data-anchor-id="key-issues">Key Issues</h2>
+<ul>
+<li>The City of Philadelphia’s current automated valuation model (AVM) is underpreforming</li>
+<li></li>
+</ul>
+<p>So what factors strongly influence housing price that the city could be overlooking?</p>
+<hr>
 </section>
 <section id="data-sources" class="level2">
 <h2 class="anchored" data-anchor-id="data-sources">Data Sources</h2>
@@ -182,13 +185,17 @@ ul.task-list li input[type="checkbox"] {
 </ul></li>
 </ul></li>
 </ul>
+<hr>
 </section>
 <section id="a-mapped-observations" class="level2">
 <h2 class="anchored" data-anchor-id="a-mapped-observations">A mapped observations</h2>
-<p>(i.e.&nbsp;where are expensive homes)</p>
 <ul>
-<li>Missing?</li>
+<li>Median houseing prices are clustered in specific areas of the City</li>
+<li>Center City, Northwest Philadelphia, and select areas of South Philadelphia see the highest home prices</li>
 </ul>
+</section>
+<section id="home-price-across-the-city" class="level2">
+<h2 class="anchored" data-anchor-id="home-price-across-the-city"><img src="median_price_map.png" class="img-fluid" alt="Home Price Across the City"></h2>
 </section>
 <section id="price-drivers" class="level2">
 <h2 class="anchored" data-anchor-id="price-drivers">Price Drivers</h2>
@@ -198,18 +205,42 @@ ul.task-list li input[type="checkbox"] {
 <li>Bedrooms v Bathrooms</li>
 <li>Building Age <img src="homeSaleAge.jpeg" class="img-fluid" alt="Sale by Age"></li>
 </ul>
+<hr>
 </section>
 <section id="model-comparison" class="level2">
 <h2 class="anchored" data-anchor-id="model-comparison">Model Comparison</h2>
+<hr>
 </section>
 <section id="hardest-neighborhoods-to-predict" class="level2">
 <h2 class="anchored" data-anchor-id="hardest-neighborhoods-to-predict">Hardest Neighborhoods to Predict</h2>
+<p>Affluent neigborhoods</p>
+<p>Neighborhood affluence concentrated in areas around Center City, Northwest Philadelphia, and South Philadelphia</p>
+</section>
+<section id="affluent-neighborhoods" class="level2">
+<h2 class="anchored" data-anchor-id="affluent-neighborhoods"><img src="neighborhood_income_map.png" class="img-fluid" alt="Affluent Neighborhoods"></h2>
 </section>
 <section id="recommendations" class="level2">
 <h2 class="anchored" data-anchor-id="recommendations">Recommendations</h2>
+<p><strong>Think about spatial variables</strong></p>
+<p>Variables such as economic density and neighborhood play a large role</p>
+<p><strong>Remain Nuanced</strong></p>
+<p>The influence of a factor will likely vary by neighborhood</p>
+<p><strong>Bathrooms &gt; Bedrooms</strong></p>
+<p>Imagine a 4 bed 4 BR unit vs a 4 bed 1 BR unit, the different in desirability is exponential</p>
+<hr>
 </section>
 <section id="limitations-next-steps" class="level2">
 <h2 class="anchored" data-anchor-id="limitations-next-steps">Limitations &amp; Next Steps</h2>
+<ul>
+<li>The inability to quantify word of mouth</li>
+<li>Percieved neighborhood vibe shift can radically alter future housing prices
+<ul>
+<li>I.e. Fishtown</li>
+</ul></li>
+<li>The non-incorporation of Philadelphia’s future plans</li>
+<li>Planned and ongoing infrastructure development greatly impacts where housing is developed</li>
+</ul>
+<hr>
 </section>
 <section id="questions" class="level2">
 <h2 class="anchored" data-anchor-id="questions">Questions?</h2>
