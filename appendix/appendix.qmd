@@ -609,6 +609,40 @@ tm_shape(philly_price_map) +
 
 This visualization shows clear spatial clustering of home prices in Philadelphia when looking at the typical market excluding outliers. Higher median prices are concentrated in Center City, University City, and select neighborhoods in South Philadelphia and Northwest Philadelphia. This supports our need to include additional predictors to account amenity density and economic activity.
 
+### Distribution of median income by neighborhood
+
+```{r}
+census_points <- st_centroid(philly_tract_map)
+points_joined <- st_join(census_points, philly_neighborhoods)
+
+mean_income_by_neighborhood <- points_joined %>%
+  st_drop_geometry() %>%
+  group_by(MAPNAME) %>%
+  summarise(mean_income = mean(median_income, na.rm = TRUE))
+
+philly_neighborhood_income <- philly_neighborhoods %>%
+  left_join(mean_income_by_neighborhood, by = "MAPNAME")
+
+# 4. Plot choropleth
+tmap_mode("plot")
+
+tm_shape(philly_neighborhood_income) +
+  tm_polygons(
+    col = "mean_income",
+    style = "quantile",
+    n = 5,
+    palette = "YlOrRd",
+    title = "Median Household Income"
+  ) +
+  tm_layout(
+    title = "Median Household Income by Neighborhood",
+    legend.outside = TRUE
+  )
+```
+**Interpretation:**
+
+In this visualization depicting median incomes of residents by neighborhoods, we observe continued spatial clustering of wealth indicators in areas like Center City, Northwest Philadelphia, and South Philadlephia. This is consistent with the basic aggregation of home sale prices on census tracts. The presence of high income in tandem with high housing cost serves as an indication of their relationship and justifies the use of economic predictors in our model. With this spatial auto-correlation, it is important that the model absorbs spatial variation by utilizing additional spatial features.   
+
 ### Price vs. structural features
 
 #### 1. Number of Bathrooms
