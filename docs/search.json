@@ -26,5 +26,110 @@
     "title": "Philadelphia Housing Price Prediction",
     "section": "",
     "text": "Project Overview:\n\nMembers: Jack Bader, Date: October 27, 2025"
+  },
+  {
+    "objectID": "presentation/presentation.html#key-findings-and-recommendations",
+    "href": "presentation/presentation.html#key-findings-and-recommendations",
+    "title": "Predicting Housing Sales",
+    "section": "Key Findings and Recommendations",
+    "text": "Key Findings and Recommendations\n\nOur model had an average error of 48.31% and explains 64% of the variance of logged housing prices (need help explaining this).\nFindings\n\nRecommendations\n\n\nConsidering a tax scheme that subsidizes the upkeep and affordability of the middle-aged housing units"
+  },
+  {
+    "objectID": "presentation/presentation.html#nuanced-neighborhoods",
+    "href": "presentation/presentation.html#nuanced-neighborhoods",
+    "title": "Predicting Housing Sales",
+    "section": "Nuanced Neighborhoods",
+    "text": "Nuanced Neighborhoods"
+  },
+  {
+    "objectID": "presentation/presentation.html#equity-concerns",
+    "href": "presentation/presentation.html#equity-concerns",
+    "title": "Predicting Housing Sales",
+    "section": "Equity Concerns",
+    "text": "Equity Concerns"
+  },
+  {
+    "objectID": "presentation/presentation.html#limitations",
+    "href": "presentation/presentation.html#limitations",
+    "title": "Predicting Housing Sales",
+    "section": "Limitations",
+    "text": "Limitations"
+  },
+  {
+    "objectID": "presentation/presentation.html",
+    "href": "presentation/presentation.html",
+    "title": "Predicting Housing Sales",
+    "section": "",
+    "text": "Our model had an avereage error of 48.31% and explains 64% of the variance of logged housing prices (need help explaining this).\nFindings\n\n\nThe number of bathrooms is a better predictor than number of bedrooms\n\nBathrooms: β = 0.151, p &lt; 0.001\nBedrooms: β = 0.018, p &lt; 0.001\n\nLivable Area still King\n\nLog(Livable Area):β = 0.508, p &lt; 0.001\n\n\n\nRecommendations\n\n\nSubsidize affordable housing construction to bring prices down to level of older units\n\n\n\n\n\n\nSale by Age"
+  },
+  {
+    "objectID": "presentation/presentation.html#most-impactful-features",
+    "href": "presentation/presentation.html#most-impactful-features",
+    "title": "Predicting Housing Sales",
+    "section": "Most Impactful features",
+    "text": "Most Impactful features"
+  },
+  {
+    "objectID": "presentation/presentation.html#key-issues",
+    "href": "presentation/presentation.html#key-issues",
+    "title": "Predicting Housing Sales",
+    "section": "Key Issues",
+    "text": "Key Issues"
+  },
+  {
+    "objectID": "presentation/presentation.html#data-sources",
+    "href": "presentation/presentation.html#data-sources",
+    "title": "Predicting Housing Sales",
+    "section": "Data Sources",
+    "text": "Data Sources\n\nCity of Philadelphia\nPhiladelphia Properties and Current Assessments\nOpenDataPhilly\n\nPhiladelphia Neighborhoods Polygon\nSchool attendance, withdrawls, location\n\nGeofrabrik\n\nEconomic activity locations\n\nUS Census:\n\n5-year ACS data\n\nEducation, vacancy, family share, percent white, median income"
+  },
+  {
+    "objectID": "presentation/presentation.html#a-mapped-observations",
+    "href": "presentation/presentation.html#a-mapped-observations",
+    "title": "Predicting Housing Sales",
+    "section": "A mapped observations",
+    "text": "A mapped observations\n(i.e. where are expensive homes)\n\nMissing?"
+  },
+  {
+    "objectID": "presentation/presentation.html#price-drivers",
+    "href": "presentation/presentation.html#price-drivers",
+    "title": "Predicting Housing Sales",
+    "section": "Price Drivers",
+    "text": "Price Drivers\n\nEconomic Density\nLivable Space\nBedrooms v Bathrooms\nBuilding Age"
+  },
+  {
+    "objectID": "presentation/presentation.html#model-comparison",
+    "href": "presentation/presentation.html#model-comparison",
+    "title": "Predicting Housing Sales",
+    "section": "Model Comparison",
+    "text": "Model Comparison"
+  },
+  {
+    "objectID": "presentation/presentation.html#hardest-neighborhoods-to-predict",
+    "href": "presentation/presentation.html#hardest-neighborhoods-to-predict",
+    "title": "Predicting Housing Sales",
+    "section": "Hardest Neighborhoods to Predict",
+    "text": "Hardest Neighborhoods to Predict"
+  },
+  {
+    "objectID": "presentation/presentation.html#recommendations",
+    "href": "presentation/presentation.html#recommendations",
+    "title": "Predicting Housing Sales",
+    "section": "Recommendations",
+    "text": "Recommendations"
+  },
+  {
+    "objectID": "presentation/presentation.html#limitations-next-steps",
+    "href": "presentation/presentation.html#limitations-next-steps",
+    "title": "Predicting Housing Sales",
+    "section": "Limitations & Next Steps",
+    "text": "Limitations & Next Steps"
+  },
+  {
+    "objectID": "presentation/presentation.html#questions",
+    "href": "presentation/presentation.html#questions",
+    "title": "Predicting Housing Sales",
+    "section": "Questions?",
+    "text": "Questions?\n\nThank you!\n\n\nContact Information:\n\nJack Bader\n\njbader14@upenn.edu\n\nMatthew Levy\n\nmblevy@upenn.edu\n\nTim Wen\n\nsw6as@upenn.edu\n\n\n\n\nJoey Cahill\n\ncahill1@upenn.edu\n\nSam Sen\n\nsen1@upenn.edu\n\nYe Zhang\n\nyezhang1@upenn.edu"
   }
 ]

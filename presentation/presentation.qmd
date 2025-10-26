@@ -1,5 +1,108 @@
 ---
-title: "presentation"
-format: html
+title: "Predicting Housing Sales"
+subtitle: "Team Jai Ho Midterm"
+author: "Jack Bader, Joey Cahill, Matthew Levy, Sam Sen, Tim Wen, Ye Zhang"
+date: "October 21, 2025"
+format: 
+  revealjs: 
+    theme: simple
+    slide-number: true
+    chalkboard: true
+    code-line-numbers: true
+    incremental: false
+    smaller: true
+    scrollable: true
 ---
 
+
+## Key Issues
+
+
+
+## Data Sources
+
+- City of Philadelphia
+ - Philadelphia Properties and Current Assessments
+- OpenDataPhilly
+  - Philadelphia Neighborhoods Polygon
+  - School attendance, withdrawls, location
+- Geofrabrik
+  - Economic activity locations
+- US Census:
+  - 5-year ACS data
+    - Education, vacancy, family share, percent white, median income
+
+
+
+## A mapped observations
+(i.e. where are expensive homes)
+
+- Missing?
+
+
+
+## Price Drivers
+
+- Economic Density
+- Livable Space
+- Bedrooms v Bathrooms
+- Building Age
+![Sale by Age](homeSaleAge.jpeg)
+
+
+
+## Model Comparison
+
+
+
+## Hardest Neighborhoods to Predict
+
+Affleunt neigborhoods
+
+- Do we have a map for this?
+
+
+## Recommendations
+
+
+
+
+## Limitations & Next Steps
+
+-  The inability to quantify word of mouth
+  - Percieved neighborhood vibe shift can radically alter  future housing prices
+    - I.e. Fishtown
+- The non-incorporation of Philadelphia's future plans
+ - Planned and ongoing infrastructure development greatly impacts where housing is developed 
+
+
+
+## Questions?
+
+- Thank you!
+
+:::: {.columns}
+
+Contact Information:
+
+::: {.column width="50%"}
+- Jack Bader
+  - jbader14@upenn.edu
+- Matthew Levy
+  - mblevy@upenn.edu
+- Tim Wen
+  - sw6as@upenn.edu
+
+:::
+ 
+::: {.column width="50%"}
+- Joey Cahill
+  - cahill1@upenn.edu
+- Sam Sen
+  - sen1@upenn.edu
+- Ye Zhang
+  - yezhang1@upenn.edu
+
+:::
+
+::::

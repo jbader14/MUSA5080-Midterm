@@ -2,12 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.24">
+<meta name="generator" content="quarto-1.8.23">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Jack Bader, Joey Cahill, Matthew Levy, Sam Sen, Tim Wen, Ye Zhang">
+<meta name="dcterms.date" content="2025-10-21">
 
-<title>presentation – Philadelphia Housing Price Prediction</title>
+<title>Predicting Housing Sales – Philadelphia Housing Price Prediction</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -37,7 +39,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-1fe81d0376b2c50856e68e651e390326.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-e31584831b205ffbb2d98406f31c2a5b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -72,7 +74,7 @@ ul.task-list li input[type="checkbox"] {
 
 </head>
 
-<body class="nav-fixed fullcontent quarto-light">
+<body class="nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -114,20 +116,35 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="presentation.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">presentation</h1>
+<h1 class="title">Predicting Housing Sales</h1>
+<p class="subtitle lead">Team Jai Ho Midterm</p>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Jack Bader, Joey Cahill, Matthew Levy, Sam Sen, Tim Wen, Ye Zhang </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 21, 2025</p>
+    </div>
+  </div>
   
     
   </div>
@@ -137,8 +154,104 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="team-jai-ho" class="level3">
+<h3 class="anchored" data-anchor-id="team-jai-ho">Team Jai Ho</h3>
+</section>
+<section id="key-issues" class="level2">
+<h2 class="anchored" data-anchor-id="key-issues">Key Issues</h2>
+</section>
+<section id="data-sources" class="level2">
+<h2 class="anchored" data-anchor-id="data-sources">Data Sources</h2>
+<ul>
+<li>City of Philadelphia</li>
+<li>Philadelphia Properties and Current Assessments</li>
+<li>OpenDataPhilly
+<ul>
+<li>Philadelphia Neighborhoods Polygon</li>
+<li>School attendance, withdrawls, location</li>
+</ul></li>
+<li>Geofrabrik
+<ul>
+<li>Economic activity locations</li>
+</ul></li>
+<li>US Census:
+<ul>
+<li>5-year ACS data
+<ul>
+<li>Education, vacancy, family share, percent white, median income</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="a-mapped-observations" class="level2">
+<h2 class="anchored" data-anchor-id="a-mapped-observations">A mapped observations</h2>
+<p>(i.e.&nbsp;where are expensive homes)</p>
+<ul>
+<li>Missing?</li>
+</ul>
+</section>
+<section id="price-drivers" class="level2">
+<h2 class="anchored" data-anchor-id="price-drivers">Price Drivers</h2>
+<ul>
+<li>Economic Density</li>
+<li>Livable Space</li>
+<li>Bedrooms v Bathrooms</li>
+<li>Building Age <img src="homeSaleAge.jpeg" class="img-fluid" alt="Sale by Age"></li>
+</ul>
+</section>
+<section id="model-comparison" class="level2">
+<h2 class="anchored" data-anchor-id="model-comparison">Model Comparison</h2>
+</section>
+<section id="hardest-neighborhoods-to-predict" class="level2">
+<h2 class="anchored" data-anchor-id="hardest-neighborhoods-to-predict">Hardest Neighborhoods to Predict</h2>
+</section>
+<section id="recommendations" class="level2">
+<h2 class="anchored" data-anchor-id="recommendations">Recommendations</h2>
+</section>
+<section id="limitations-next-steps" class="level2">
+<h2 class="anchored" data-anchor-id="limitations-next-steps">Limitations &amp; Next Steps</h2>
+</section>
+<section id="questions" class="level2">
+<h2 class="anchored" data-anchor-id="questions">Questions?</h2>
+<ul>
+<li>Thank you!</li>
+</ul>
+<div class="columns">
+<p>Contact Information:</p><div class="column" style="width:50%;">
+<ul>
+<li>Jack Bader
+<ul>
+<li>jbader14@upenn.edu</li>
+</ul></li>
+<li>Matthew Levy
+<ul>
+<li>mblevy@upenn.edu</li>
+</ul></li>
+<li>Tim Wen
+<ul>
+<li>sw6as@upenn.edu</li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<ul>
+<li>Joey Cahill
+<ul>
+<li>cahill1@upenn.edu</li>
+</ul></li>
+<li>Sam Sen
+<ul>
+<li>sen1@upenn.edu</li>
+</ul></li>
+<li>Ye Zhang
+<ul>
+<li>yezhang1@upenn.edu</li>
+</ul></li>
+</ul>
+</div>
+</div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
