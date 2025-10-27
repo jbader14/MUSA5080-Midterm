@@ -216,10 +216,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#phase-6-model-diagnostics" id="toc-phase-6-model-diagnostics" class="nav-link" data-scroll-target="#phase-6-model-diagnostics">PHASE 6: Model Diagnostics</a>
   <ul class="collapse">
   <li><a href="#diagnostic-plots-for-best-model" id="toc-diagnostic-plots-for-best-model" class="nav-link" data-scroll-target="#diagnostic-plots-for-best-model">Diagnostic Plots for Best Model</a></li>
-  </ul></li>
   <li><a href="#residual-plot" id="toc-residual-plot" class="nav-link" data-scroll-target="#residual-plot">Residual Plot:</a></li>
-  <li><a href="#qq-plot" id="toc-qq-plot" class="nav-link" data-scroll-target="#qq-plot">QQ-Plot:</a>
-  <ul class="collapse">
+  <li><a href="#qq-plot" id="toc-qq-plot" class="nav-link" data-scroll-target="#qq-plot">QQ-Plot:</a></li>
   <li><a href="#cooks-distance-plot" id="toc-cooks-distance-plot" class="nav-link" data-scroll-target="#cooks-distance-plot">Cook’s Distance Plot</a></li>
   </ul></li>
   <li><a href="#phase-7-conclusions-recommendations" id="toc-phase-7-conclusions-recommendations" class="nav-link" data-scroll-target="#phase-7-conclusions-recommendations">PHASE 7: Conclusions &amp; Recommendations</a></li>
@@ -3096,14 +3094,14 @@ Model 4 CV Performance Summary:</code></pre>
 </div>
 </div>
 </section>
-</section>
-<section id="residual-plot" class="level1">
-<h1>Residual Plot:</h1>
+<section id="residual-plot" class="level3">
+<h3 class="anchored" data-anchor-id="residual-plot">Residual Plot:</h3>
 <p>The Residuals vs Fitted plot shows mild heteroskedasticity and a small degree of curvature, which is expected in a dataset of this size, and the model performs consistently well across most of the fitted range with only a few isolated outliers.</p>
 </section>
-<section id="qq-plot" class="level1">
-<h1>QQ-Plot:</h1>
+<section id="qq-plot" class="level3">
+<h3 class="anchored" data-anchor-id="qq-plot">QQ-Plot:</h3>
 <p>The Q-Q plot shows slight deviation from normality in the extreme tails, which is common in large real-world housing datasets, while the majority of residuals align closely with the theoretical normal distribution, indicating that model inference remains reliable.</p>
+</section>
 <section id="cooks-distance-plot" class="level3">
 <h3 class="anchored" data-anchor-id="cooks-distance-plot">Cook’s Distance Plot</h3>
 <div class="cell">
