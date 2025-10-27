@@ -156,7 +156,7 @@ Jack Bader, Joey Cahill, Matthew Levy, Sam Sen, Tim Wen, Ye Zhang
 <ul>
 <li><strong>City of Philadelphia</strong>
 <ul>
-<li>Philadelphia Properties and Current Assessments</li>
+<li>Philadelphia Properties and Current Assessments (n= 21,807 Home Sales)</li>
 </ul></li>
 <li><strong>OpenDataPhilly</strong>
 <ul>
@@ -178,21 +178,24 @@ Jack Bader, Joey Cahill, Matthew Levy, Sam Sen, Tim Wen, Ye Zhang
 </ul>
 </section>
 <section id="mapped-observations" class="slide level2">
-<h2>Mapped observations</h2>
+<h2>Mapped Observations</h2>
 <div class="columns">
-<div class="column">
+<div class="column" style="width:70%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="median_price_map.png" style="width:100.0%"></p>
 <figcaption>Home Price Across the City</figcaption>
 </figure>
 </div>
-</div><div class="column">
+</div><div class="column" style="width:30%;">
 <h3 id="key-findings"><strong>Key Findings</strong></h3>
 <ul>
-<li>Prices cluster spatially</li>
-<li>Center City &amp; NW Philly are highest</li>
-<li>South Philly shows additional hotspots</li>
+<li>Prices cluster spatially<br>
+</li>
+<li>Center City &amp; Northwest Philadelphia show highest home values<br>
+</li>
+<li>Additional hotspots in South Philadelphia<br>
+</li>
 </ul>
 </div></div>
 </section>
@@ -205,18 +208,24 @@ Jack Bader, Joey Cahill, Matthew Levy, Sam Sen, Tim Wen, Ye Zhang
 <li>Building Age <img data-src="homeSaleAge.jpeg" alt="Sale by Age"></li>
 </ul>
 </section>
-<section id="stepwise-modeling-strategy" class="slide level2 scrollable">
-<h2>Stepwise Modeling Strategy</h2>
-<ol type="1">
-<li><strong>Model 1:</strong> Structural features only<br>
-</li>
-<li><strong>Model 2:</strong> + Census tract demographics<br>
-</li>
-<li><strong>Model 3:</strong> + Spatial features (KDE, proximity)<br>
-</li>
-<li><strong>Model 4:</strong> + Interactions and neighborhood effects</li>
-</ol>
+<section id="progressive-regression-models" class="slide level2">
+<h2>Progressive Regression Models</h2>
 <p><strong>Goal:</strong> Test whether place-based factors improve predictive accuracy.</p>
+<p><span class="math display">\[
+\begin{aligned}
+\log(\text{Price}) = \beta_0 &amp;+ \color{red}{\beta_1 \log(\text{Livable\ Area}) + \beta_2 \text{Bedrooms} + \beta_3 \text{Bathrooms}} \\
+&amp;+ \color{red}{\beta_4 \text{Age} + \beta_5 \text{Interior\ Condition} + \beta_6 \text{Quality\ Grade}} \\
+&amp;+ \color{orange}{\beta_7 \text{Median\ Income} + \beta_8 \text{Family\ HH\ Ratio} + \beta_9 \text{\% Bachelors}} \\
+&amp;+ \color{orange}{\beta_{10} \text{\% Vacant} + \beta_{11} \text{\% White}} \\
+&amp;+ \color{blue}{\beta_{12} \text{EconKDE} + \beta_{13} \text{EconKDE}^2 + \beta_{14} \text{TreeKDE} + \beta_{15} \text{Mean\ 3NN\ Dist}} \\
+&amp;+ \color{green}{\beta_{16} \text{MHI\ Quantile} + \beta_{17} (\text{MHI\ Quantile} \times \text{Age})} + \varepsilon
+\end{aligned}
+\]</span></p>
+<p><strong>Model Layers</strong><br>
+- <span style="color:red">Model 1: Structural</span><br>
+- <span style="color:orange">Model 2: + Demographics</span><br>
+- <span style="color:blue">Model 3: + Spatial</span><br>
+- <span style="color:green">Model 4: + Interactions</span></p>
 </section>
 <section id="model-performance-improves-at-each-stage" class="slide level2">
 <h2>Model Performance Improves at Each Stage</h2>
@@ -264,43 +273,69 @@ Jack Bader, Joey Cahill, Matthew Levy, Sam Sen, Tim Wen, Ye Zhang
 <div class="column">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="neighborhood_income_map.png" style="width:100.0%"></p>
-<figcaption>Affluent Neighborhoods</figcaption>
+<p><img data-src="residual_map.png" style="width:100.0%"></p>
+<figcaption>Problem Neighborhoods</figcaption>
 </figure>
 </div>
 </div><div class="column">
 <h3 id="key-insight"><strong>Key Insight</strong></h3>
 <ul>
-<li>Affluent neighborhoods are the <strong>least predictable</strong></li>
-<li>Highest incomes cluster in:
-<ul>
-<li>Center City</li>
-<li>Northwest Philadelphia</li>
-<li>Parts of South Philadelphia</li>
-</ul></li>
-<li>Prices influenced by <strong>amenities, prestige, and perception</strong>, which are hard to quantify</li>
+<li>The model struggles most in <strong>high-value, high-amenity neighborhoods</strong></li>
+<li><strong>Under-predicted (red):</strong> Center City, Northwest Philly, Fishtown, South Philly<br>
+→ Homes sell for <strong>more than the model expects</strong></li>
+<li><strong>Over-predicted (blue):</strong> Economically underserved neighborhoods<br>
+→ Homes sell for <strong>less than predicted</strong></li>
+<li><strong>Why?</strong> Prestige, walkability, and growing interest are <strong>not fully captured</strong> by structural or census variables</li>
 </ul>
 </div></div>
 </section>
+<section id="key-findings-1" class="slide level2">
+<h2>Key Findings</h2>
+<p><strong>Model Accuracy:</strong> RMSE = 0.479 (log scale)<br>
+<strong>Model Fit:</strong> R² = 0.64 (0.65 with K-fold CV)</p>
+<p><strong>Top Predictors</strong></p>
+<ul>
+<li><strong>Economic Density (U-shaped effect):</strong> Strongest spatial driver of price</li>
+<li><strong>Home Size (β = 0.509, p &lt; 0.001):</strong> 1% increase in area → ~0.5% ↑ in price</li>
+<li><strong>Bathrooms (β = 0.151, p &lt; 0.001):</strong> Large value premium per added bath</li>
+<li><strong>Neighborhood Composition:</strong> Higher education (+) and vacancy (–) strongly shape prices</li>
+</ul>
+<p><strong>Key Insight:</strong><br>
+Neighborhood effects matter as much as home features — <em>location premiums are real, measurable, and spatially clustered.</em> —</p>
+</section>
 <section id="recommendations" class="slide level2">
 <h2>Recommendations</h2>
-<p><strong>Think about spatial variables</strong></p>
-<p>Variables such as economic density and neighborhood play a large role</p>
-<p><strong>Remain Nuanced</strong></p>
-<p>The influence of a factor will likely vary by neighborhood</p>
-<p><strong>Bathrooms &gt; Bedrooms</strong></p>
-<p>Imagine a 4 bed 4 BR unit vs a 4 bed 1 BR unit, the different in desirability is exponential</p>
+<p><strong>Improve the City’s AVM by Incorporating:</strong></p>
+<ul>
+<li><strong>Amenity-based spatial features</strong> (EconKDE, trees, school access)</li>
+<li><strong>Neighborhood context variables</strong> to capture local market conditions</li>
+</ul>
+<p><strong>Policy Implications</strong></p>
+<ul>
+<li>Current AVM likely <strong>undervalues booming neighborhoods</strong> near economic hubs</li>
+<li><strong>Affluent areas remain hardest to predict</strong> due to prestige and perception effects</li>
+<li>Add monitoring for <strong>rapidly changing neighborhoods (e.g., Fishtown)</strong></li>
+</ul>
+<p><strong>Bottom Line:</strong><br>
+To reduce inequity and improve accuracy, the AVM must move beyond structure-only predictors and account for <strong>context, amenities, and spatial clustering.</strong></p>
 </section>
 <section id="limitations-next-steps" class="slide level2">
 <h2>Limitations &amp; Next Steps</h2>
+<p><strong>Key Limitations</strong></p>
 <ul>
-<li>The inability to quantify word of mouth</li>
-<li>Percieved neighborhood vibe shift can radically alter future housing prices
+<li>The model cannot quantify <em>word-of-mouth effects</em><br>
+→ Perceived “vibe shifts” can rapidly change prices</li>
+<li>Future plans are not incorporated<br>
+→ Planned infrastructure can greatly alter market outcomes</li>
+</ul>
+<p><strong>Where Do We Go From Here?</strong></p>
 <ul>
-<li>I.e. Fishtown</li>
-</ul></li>
-<li>The non-incorporation of Philadelphia’s future plans</li>
-<li>Planned and ongoing infrastructure development greatly impacts where housing is developed</li>
+<li><p>Build an enhanced model that includes:<br>
+→ Amenity proximity<br>
+→ Economic development indicators<br>
+→ Spatial clustering of sale prices</p></li>
+<li><p>Continue data collection to track a changing housing landscape</p></li>
+<li><p>Consult with local government on new projects and emerging trends</p></li>
 </ul>
 </section>
 <section id="questions" class="slide level2">

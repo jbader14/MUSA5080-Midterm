@@ -1357,8 +1357,48 @@ stargazer(model1,model2,model3,model4,
 
 The economic density relationship is particularly noteworthy—it demonstrates that Philadelphia's housing market exhibits a complex spatial pattern where moderate commercial activity may initially depress values, but high-density commercial areas (like Center City) command significant premiums, reflecting the urban amenities premium that characterizes successful city centers.
 
+### Mean Residuals By Neighborhood
 
+```{r}
 
+### Spatial Residual Analysis (Residuals by Neighborhood)
+
+# Extract data used by model 4 and join with residuals
+# aggregate mean residual by neighborhood
+# join to neighborhood shapes and plot
+model_data_with_resid <- model4$model %>%
+  mutate(residual = model4$residuals)
+
+resid_sf <- phl_sales_final_sf_final %>%
+  right_join(model_data_with_resid, by = c("log_price", "log_total_livable_area"))
+
+resid_by_neighborhood <- resid_sf %>%
+  st_drop_geometry() %>%
+  group_by(MAPNAME) %>%
+  summarize(mean_residual = mean(residual, na.rm = TRUE))
+
+philly_residual_map <- philly_neighborhoods %>%
+  left_join(resid_by_neighborhood, by = "MAPNAME")
+
+tmap_mode("plot")
+
+residual_map <- tm_shape(philly_residual_map) +
+  tm_polygons(
+    col = "mean_residual",
+    palette = "-RdBu",
+    style = "quantile",
+    n = 5,
+    title = "Mean Residual (Predicted - Actual)"
+  ) +
+  tm_layout(
+    main.title = "Residuals by Neighborhood (Model 4)",
+    main.title.position = "center",
+    legend.outside = TRUE
+  )
+
+residual_map
+
+```
 # PHASE 5: Model Validation
 
 ### Set up 10-fold cross-validation
