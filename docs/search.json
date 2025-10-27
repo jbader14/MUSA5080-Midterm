@@ -35,6 +35,13 @@
     "text": "Stepwise Modeling Strategy\n\nModel 1: Structural features only\n\nModel 2: + Census tract demographics\n\nModel 3: + Spatial features (KDE, proximity)\n\nModel 4: + Interactions and neighborhood effects\n\nGoal: Test whether place-based factors improve predictive accuracy."
   },
   {
+    "objectID": "presentation/presentation.html#progressive-regression-models",
+    "href": "presentation/presentation.html#progressive-regression-models",
+    "title": "Predicting Housing Sales",
+    "section": "Progressive Regression Models",
+    "text": "Progressive Regression Models\n\\[\n\\begin{aligned}\n\\log(\\text{Price}) = \\beta_0 &+ \\color{red}{\\beta_1 \\log(\\text{Livable Area}) + \\beta_2 \\text{Bedrooms} + \\beta_3 \\text{Bathrooms}} \\\\\n&+ \\color{red}{\\beta_4 \\text{Age} + \\beta_5 \\text{Interior Condition} + \\beta_6 \\text{Quality Grade}} \\\\\n&+ \\color{orange}{\\beta_7 \\text{Median Income} + \\beta_8 \\text{Family HH Ratio} + \\beta_9 \\text{% Bachelors}} \\\\\n&+ \\color{orange}{\\beta_{10} \\text{% Vacant} + \\beta_{11} \\text{% White}} \\\\\n&+ \\color{blue}{\\beta_{12} \\text{EconKDE} + \\beta_{13} \\text{EconKDE}^2 + \\beta_{14} \\text{TreeKDE} + \\beta_{15} \\text{Mean 3NN Dist}} \\\\\n&+ \\color{green}{\\beta_{16} \\text{MHI Quantile} + \\beta_{17} (\\text{MHI Quantile} \\times \\text{Age})} + \\varepsilon\n\\end{aligned}\n\\]\nModel 1: Structural | Model 2: + Demographics | Model 3: + Spatial | Model 4: + Interactions"
+  },
+  {
     "objectID": "presentation/presentation.html#model-performance-improves-at-each-stage",
     "href": "presentation/presentation.html#model-performance-improves-at-each-stage",
     "title": "Predicting Housing Sales",
