@@ -11,7 +11,7 @@
     "href": "presentation/presentation.html#data-sources",
     "title": "Predicting Housing Sales",
     "section": "Data Sources",
-    "text": "Data Sources\n\nCity of Philadelphia\n\nPhiladelphia Properties and Current Assessments (n= 21,807 Home Sales)\n\nOpenDataPhilly\n\nNeighborhood Boundaries (Polygon)\nSchool Locations, Attendance, and Withdrawals\n\nGeofabrik (OpenStreetMap)\n\nCommercial and Economic Activity Points\n\nU.S. Census (ACS 5-Year)\n\nEducation\nVacancy Rates\nFamily Household Share\nPercent White\nMedian Household Income"
+    "text": "Data Sources\n\nCity of Philadelphia\n\nPhiladelphia Properties and Current Assessments (n= 21,807 Home Sales)\n\nOpenDataPhilly\n\nNeighborhood Boundaries (Polygon)\nSchool Locations, Attendance, and Withdrawals\n\nGeofabrik (OpenStreetMap)\n\nCommercial and Economic Activity Points\n\nU.S. Census (ACS 5-Year)\n\nEducation, Vacancy Rates, Family Household Share, Percent White, Median Household Income"
   },
   {
     "objectID": "presentation/presentation.html#mapped-observations",

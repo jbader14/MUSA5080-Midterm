@@ -40,11 +40,7 @@ What key predictors are missing from the legacy model, and how can we improve it
   - Commercial and Economic Activity Points
 
 - **U.S. Census (ACS 5-Year)**
-  - Education
-  - Vacancy Rates
-  - Family Household Share
-  - Percent White
-  - Median Household Income
+  - Education, Vacancy Rates, Family Household Share, Percent White, Median Household Income
 
 
 ---
@@ -71,19 +67,19 @@ What key predictors are missing from the legacy model, and how can we improve it
 
 ::: columns
 ::: column
-![](bathrooms.png){height="40vh"}
+![](bathrooms.png){height="35vh"}
 :::
 ::: column
-![](bedrooms.png){height="40vh"}
+![](bedrooms.png){height="35vh"}
 :::
 :::
 
 ::: columns
 ::: column
-![](area.png){height="40vh"}
+![](area.png){height="35vh"}
 :::
 ::: column
-![](age.png){height="40vh"}
+![](age.png){height="35vh"}
 :::
 :::
 
