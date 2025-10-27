@@ -144,46 +144,57 @@ Jack Bader, Joey Cahill, Matthew Levy, Sam Sen, Tim Wen, Ye Zhang
 
   <p class="date">2025-10-26</p>
 </section>
-<section id="key-issues" class="slide level2">
-<h2>Key Issues</h2>
-<ul>
-<li>The City of Philadelphia’s current automated valuation model (AVM) is underpreforming</li>
-<li></li>
-</ul>
-<p>So what factors strongly influence housing price that the city could be overlooking?</p>
+<section id="project-intention" class="slide level2">
+<h2>Project Intention</h2>
+<h3 id="why-it-matters"><strong>Why it Matters</strong></h3>
+<p>Philadelphia’s current Automated Valuation Model (AVM) is underperforming, leading to inconsistent and inequitable property assessments.</p>
+<h3 id="our-guiding-question"><strong>Our Guiding Question</strong></h3>
+<p>What key predictors are missing from the legacy model, and how can we improve its accuracy and fairness?</p>
 </section>
 <section id="data-sources" class="slide level2">
 <h2>Data Sources</h2>
 <ul>
-<li>City of Philadelphia</li>
+<li><strong>City of Philadelphia</strong>
+<ul>
 <li>Philadelphia Properties and Current Assessments</li>
-<li>OpenDataPhilly
-<ul>
-<li>Philadelphia Neighborhoods Polygon</li>
-<li>School attendance, withdrawls, location</li>
 </ul></li>
-<li>Geofrabrik
+<li><strong>OpenDataPhilly</strong>
 <ul>
-<li>Economic activity locations</li>
+<li>Neighborhood Boundaries (Polygon)</li>
+<li>School Locations, Attendance, and Withdrawals</li>
 </ul></li>
-<li>US Census:
+<li><strong>Geofabrik (OpenStreetMap)</strong>
 <ul>
-<li>5-year ACS data
-<ul>
-<li>Education, vacancy, family share, percent white, median income</li>
+<li>Commercial and Economic Activity Points</li>
 </ul></li>
+<li><strong>U.S. Census (ACS 5-Year)</strong>
+<ul>
+<li>Education</li>
+<li>Vacancy Rates</li>
+<li>Family Household Share</li>
+<li>Percent White</li>
+<li>Median Household Income</li>
 </ul></li>
 </ul>
 </section>
-<section id="a-mapped-observations" class="slide level2">
-<h2>A mapped observations</h2>
+<section id="mapped-observations" class="slide level2">
+<h2>Mapped observations</h2>
+<div class="columns">
+<div class="column">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="median_price_map.png" style="width:100.0%"></p>
+<figcaption>Home Price Across the City</figcaption>
+</figure>
+</div>
+</div><div class="column">
+<h3 id="key-findings"><strong>Key Findings</strong></h3>
 <ul>
-<li>Median houseing prices are clustered in specific areas of the City</li>
-<li>Center City, Northwest Philadelphia, and select areas of South Philadelphia see the highest home prices</li>
+<li>Prices cluster spatially</li>
+<li>Center City &amp; NW Philly are highest</li>
+<li>South Philly shows additional hotspots</li>
 </ul>
-</section>
-<section id="home-price-across-the-city" class="slide level2">
-<h2><img data-src="median_price_map.png" alt="Home Price Across the City"></h2>
+</div></div>
 </section>
 <section id="price-drivers" class="slide level2">
 <h2>Price Drivers</h2>
@@ -199,11 +210,27 @@ Jack Bader, Joey Cahill, Matthew Levy, Sam Sen, Tim Wen, Ye Zhang
 </section>
 <section id="hardest-neighborhoods-to-predict" class="slide level2">
 <h2>Hardest Neighborhoods to Predict</h2>
-<p>Affluent neigborhoods</p>
-<p>Neighborhood affluence concentrated in areas around Center City, Northwest Philadelphia, and South Philadelphia</p>
-</section>
-<section id="affluent-neighborhoods" class="slide level2">
-<h2><img data-src="neighborhood_income_map.png" alt="Affluent Neighborhoods"></h2>
+<div class="columns">
+<div class="column">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="neighborhood_income_map.png" style="width:100.0%"></p>
+<figcaption>Affluent Neighborhoods</figcaption>
+</figure>
+</div>
+</div><div class="column">
+<h3 id="key-insight"><strong>Key Insight</strong></h3>
+<ul>
+<li>Affluent neighborhoods are the <strong>least predictable</strong></li>
+<li>Highest incomes cluster in:
+<ul>
+<li>Center City</li>
+<li>Northwest Philadelphia</li>
+<li>Parts of South Philadelphia</li>
+</ul></li>
+<li>Prices influenced by <strong>amenities, prestige, and perception</strong>, which are hard to quantify</li>
+</ul>
+</div></div>
 </section>
 <section id="recommendations" class="slide level2">
 <h2>Recommendations</h2>

@@ -11,7 +11,7 @@
     "href": "presentation/presentation.html#data-sources",
     "title": "Predicting Housing Sales",
     "section": "Data Sources",
-    "text": "Data Sources\n\nCity of Philadelphia\nPhiladelphia Properties and Current Assessments\nOpenDataPhilly\n\nPhiladelphia Neighborhoods Polygon\nSchool attendance, withdrawls, location\n\nGeofrabrik\n\nEconomic activity locations\n\nUS Census:\n\n5-year ACS data\n\nEducation, vacancy, family share, percent white, median income"
+    "text": "Data Sources\n\nCity of Philadelphia\n\nPhiladelphia Properties and Current Assessments\n\nOpenDataPhilly\n\nNeighborhood Boundaries (Polygon)\nSchool Locations, Attendance, and Withdrawals\n\nGeofabrik (OpenStreetMap)\n\nCommercial and Economic Activity Points\n\nU.S. Census (ACS 5-Year)\n\nEducation\nVacancy Rates\nFamily Household Share\nPercent White\nMedian Household Income"
   },
   {
     "objectID": "presentation/presentation.html#a-mapped-observations",
@@ -39,7 +39,7 @@
     "href": "presentation/presentation.html#hardest-neighborhoods-to-predict",
     "title": "Predicting Housing Sales",
     "section": "Hardest Neighborhoods to Predict",
-    "text": "Hardest Neighborhoods to Predict\nAffluent neigborhoods\nNeighborhood affluence concentrated in areas around Center City, Northwest Philadelphia, and South Philadelphia"
+    "text": "Hardest Neighborhoods to Predict\n\n\n\n\n\nAffluent Neighborhoods\n\n\n\nKey Insight\n\nAffluent neighborhoods are the least predictable\nHighest incomes cluster in:\n\nCenter City\nNorthwest Philadelphia\nParts of South Philadelphia\n\nPrices influenced by amenities, prestige, and perception, which are hard to quantify"
   },
   {
     "objectID": "presentation/presentation.html#recommendations",
@@ -110,5 +110,19 @@
     "title": "Philadelphia Housing Price Prediction",
     "section": "",
     "text": "Project Overview:\n\nMembers: Jack Bader, Date: October 27, 2025"
+  },
+  {
+    "objectID": "presentation/presentation.html#project-intention",
+    "href": "presentation/presentation.html#project-intention",
+    "title": "Predicting Housing Sales",
+    "section": "Project Intention",
+    "text": "Project Intention\nWhy it Matters\nPhiladelphia’s current Automated Valuation Model (AVM) is underperforming, leading to inconsistent and inequitable property assessments.\nOur Guiding Question\nWhat key predictors are missing from the legacy model, and how can we improve its accuracy and fairness?"
+  },
+  {
+    "objectID": "presentation/presentation.html#mapped-observations",
+    "href": "presentation/presentation.html#mapped-observations",
+    "title": "Predicting Housing Sales",
+    "section": "Mapped observations",
+    "text": "Mapped observations\n\n\n\n\n\nHome Price Across the City\n\n\n\nKey Findings\n\nPrices cluster spatially\nCenter City & NW Philly are highest\nSouth Philly shows additional hotspots"
   }
 ]
