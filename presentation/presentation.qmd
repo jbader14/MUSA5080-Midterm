@@ -1,6 +1,6 @@
 ---
 title: "Predicting Housing Sales"
-subtitle: "Team Jai Ho Midterm"
+subtitle: "Team Jai Ho"
 author: "Jack Bader, Joey Cahill, Matthew Levy, Sam Sen, Tim Wen, Ye Zhang"
 date: "October 26, 2025"
 format: 
