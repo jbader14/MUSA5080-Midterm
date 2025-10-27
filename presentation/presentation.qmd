@@ -74,14 +74,12 @@ What key predictors are missing from the legacy model, and how can we improve it
 
 ## Stepwise Modeling Strategy
 
-1. **Model 1:** Structural features only  
-2. **Model 2:** + Census tract demographics  
-3. **Model 3:** + Spatial features (KDE, proximity)  
-4. **Model 4:** + Interactions and neighborhood effects
+1. **Model 1:** Structural features only {style="color: red;"} 
+2. **Model 2:** + Census tract demographics {style="color: orange;"}
+3. **Model 3:** + Spatial features (KDE, proximity) {style="color: blue;"} 
+4. **Model 4:** + Interactions and neighborhood effects {style="color: green;"}
 
 **Goal:** Test whether place-based factors improve predictive accuracy.
-
-## Progressive Regression Models
 
 $$
 \begin{aligned}
@@ -94,7 +92,6 @@ $$
 \end{aligned}
 $$
 
-[**Model 1:** Structural]{style="color: red;"} | [**Model 2:** + Demographics]{style="color: orange;"} | [**Model 3:** + Spatial]{style="color: blue;"} | [**Model 4:** + Interactions]{style="color: green;"}
 
 ---
 
