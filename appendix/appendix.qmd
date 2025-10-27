@@ -1064,22 +1064,6 @@ summary_numeric <- summary_data %>%
   select(where(is.numeric))
 summary_numeric_df <- as.data.frame(summary_numeric)
 
-# Save as HTML locally
-stargazer(summary_numeric_df,
-          type = "html",
-          title = "Summary Statistics",
-          digits = 2,
-          summary.stat = c("n", "mean", "sd", "min", "median", "max"),
-          covariate.labels = c("Sale Price", "Log Price", "Total Livable Area", 
-                            "Log Total Livable Area", "Bedrooms", "Bathrooms", 
-                            "Year Built", "Age", "Interior Condition", 
-                            "Median Income","Family HH", 
-                            "Total HH", "% Bachelors", "% Vacant", "% White",
-                            "Econ KDE", "Tree KDE", "Mean MHI", 
-                            "Mean 3 closest School Dist"),
-          out = "summary_statistics.html")
-
-
 # Print as txt in R
 stargazer(summary_numeric_df,
           type = "text",
