@@ -1279,12 +1279,6 @@ model_summary <- data.frame(
   Adj_R2 = round(adj_r2, 3)
 )
 
-stargazer(model_summary,
-          type = "html",
-          title = "Model Performance Summary",
-          summary = FALSE,
-          rownames = FALSE,
-          out = "model_performance_summary.html")
 
 
 stargazer(model_summary,
@@ -1299,7 +1293,7 @@ stargazer(model_summary,
 ### stargazer regression results
 ```{r}
 stargazer(model1,model2,model3,model4,
-          type = "html", #could be changed to text if needed
+          type = "text", #could be changed to text if needed
           title = "Model Results",
           dep.var.labels = c("Log of Sale Price"),
           covariate.labels = c(
@@ -1320,8 +1314,7 @@ stargazer(model1,model2,model3,model4,
             "Income Q2","Income Q3", "Income Q4"
           ),
           omit.stat = c("f", "ser"),
-          digits = 3,
-          out = "regression.html")
+          digits = 3)
 
 ```
 
