@@ -1103,9 +1103,9 @@ Third, as there are too many neighborhoods, it is hard to interpret the coeffici
 Lastly, different from poi and trees, a high cluster of schools may not reflect a high housing price. As a result, instead of using density estimation, we use 3-nearest distance and take the mean to capture some of the closest schools.
 
 
-#Phase 4: Model Building
+# PHASE 4: Model Building
 
-####create train/test data first (make workflow smoother)
+### create train/test data first (make workflow smoother)
 ```{r}
 set.seed(123)
 n <- nrow(for_model_building)
@@ -1116,8 +1116,8 @@ train_data <- for_model_building[train_indices, ]
 test_data <- for_model_building[-train_indices, ]
 ```
 
-###Building the model progressively
-####Model 1: Individual characteristic only
+### Building the model progressively
+#### Model 1: Individual characteristic only
 ```{r}
 #run regression based on houses own characteristic
 options(scipen = 999)
@@ -1152,7 +1152,7 @@ The outliers seems to have small influence on the leverage,as the line is almost
 
 
 
-####Model 2: add census variables into regression
+#### Model 2: add census variables into regression
 ```{r}
 options(scipen = 999)
 
@@ -1193,7 +1193,7 @@ There is also heteroskedasticity, as the scale location shows, the line is not l
 
 The outlier seems to have small influence on the leverage,as the line is almost linear shown in the last graph
 
-####Model 3: add spatial variables into regression
+#### Model 3: add spatial variables into regression
 ```{r}
 options(scipen = 999)
 
@@ -1228,9 +1228,9 @@ rmse_train_3 <- summary(model_train_3)$sigma
 plot(model3)
 
 ```
-The residual plot for model 3 does not change that much compared to model 2. The majority of the issues remain.....
+The residual plot for model 3 does not change that much compared to model 2. The majority of the issues remain the same
 
-####Model 4: add fixed variable and interaction terms into regression
+#### Model 4: add fixed variable and interaction terms into regression
 ```{r}
 options(scipen = 999)
 
@@ -1264,7 +1264,7 @@ rmse_train_4 <- summary(model_train_4)$sigma
 plot(model4)
 ```
 
-#one comparison table (RMSE, R² for 4 different models you constructed in your process)
+#### comparison table (RMSE, R² for 4 different models you constructed in your process)
 ```{r}
 rmse_values = c(rmse_test_1,rmse_test_2,rmse_test_3,rmse_test_4)
 adj_r2 = c(
@@ -1296,7 +1296,7 @@ stargazer(model_summary,
 
 
 
-#stargazer regression results
+### stargazer regression results
 ```{r}
 stargazer(model1,model2,model3,model4,
           type = "html", #could be changed to text if needed
@@ -1326,7 +1326,7 @@ stargazer(model1,model2,model3,model4,
 ```
 
 
-#Phase 5: Model Validation
+# PHASE 5: Model Validation
 
 ### Set up 10-fold cross-validation
 ```{r}
@@ -1486,7 +1486,7 @@ cat("MAE:  Mean =", round(mean(mae_cv_4), 4), ", SD =", round(sd(mae_cv_4), 4), 
 cat("R²:   Mean =", round(mean(r2_cv_4), 4), ", SD =", round(sd(r2_cv_4), 4), "\n")
 ```
 
-###Predicted vs. Actual Plot
+### Predicted vs. Actual Plot
 ```{r}
 #generate predictions using model4
 final_predictions <- predict(model4, newdata = for_model_building)
@@ -1514,9 +1514,9 @@ print(feature_importance)
 ```
 
 
-#Phase 6: Model Diagnostics
+# PHASE 6: Model Diagnostics
 
-## Diagnostic Plots for Best Model
+### Diagnostic Plots for Best Model
 ```{r}
 #generate diagnostic plots
 plot(model4)
@@ -1529,7 +1529,7 @@ plot(model4)
 
 ```
 
-## Cook's Distance Plot
+### Cook's Distance Plot
 ```{r}
 #identify influential observations
 cooks_d <- cooks.distance(model4)
@@ -1541,7 +1541,7 @@ abline(h = 4/nrow(for_model_building), col = "red", lty = 2)
 ```
 
 
-#Phase 7: Conclusions & Recommendations
+# PHASE 7: Conclusions & Recommendations
 
 Our final model's is able to explain 64% of the variation on *logged* (is this right way to describe this?) house prices in Philadelphia, with an average error of 48.31%. Our residuals mostly fall along the Q-Q plot's line and are homoscadestic (as seen in the Scale-Location plot), meaning that the residuals both fall on a normal distribution and the variance of residuals is consistent across all independent variable values. Our K-folds analysis returned an R2 of .65 (higher than the model's original .64), illustrating our model's efficacy with non-test data. The feature that matters most is the economic density around the examined housing unit, as it first has a positive relationship with housing price and then has a negative relationship.
 
