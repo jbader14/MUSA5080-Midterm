@@ -129,7 +129,7 @@ $$
 :::
 
 ::: column
-### **Key Insight**
+
 - The model struggles most in **high-value & low-value neighborhoods** (extremes of the sale price distribution)
 - **Over-predicted (red):** Center City, Northwest Philly, Fishtown, South Philly  
   → Homes sell for **less than the model expects**
