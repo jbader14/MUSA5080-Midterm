@@ -83,8 +83,8 @@ $$
 \begin{aligned}
 \log(\text{Price}) = \beta_0 &+ \color{red}{\beta_1 \log(\text{Livable Area}) + \beta_2 \text{Bedrooms} + \beta_3 \text{Bathrooms}} \\
 &+ \color{red}{\beta_4 \text{Age} + \beta_5 \text{Interior Condition} + \beta_6 \text{Quality Grade}} \\
-&+ \color{orange}{\beta_7 \text{Median Income} + \beta_8 \text{Family Household Ratio} + \beta_9 \text{% Bachelors}} \\
-&+ \color{orange}{\beta_{10} \text{% Vacant} + \beta_{11} \text{% White}} \\
+&+ \color{orange}{\beta_7 \text{Median Income} + \beta_8 \text{Family Household Ratio}}  \\
+&+ \color{orange}{\beta_9 \text{% Bachelors}+ \beta_{10} \text{% Vacant} + \beta_{11} \text{% White}} \\
 &+ \color{blue}{\beta_{12} \text{EconKDE} + \beta_{13} \text{EconKDE}^2 + \beta_{14} \text{TreeKDE} + \beta_{15} \text{Mean 3NN Dist}} \\
 &+ \color{green}{\beta_{16} \text{MHI Quantile} + \beta_{17} (\text{MHI Quantile} \times \text{Age})} + \varepsilon
 \end{aligned}
