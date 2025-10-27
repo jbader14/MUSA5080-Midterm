@@ -46,7 +46,7 @@
     "href": "presentation/presentation.html#hardest-neighborhoods-to-predict",
     "title": "Predicting Housing Sales",
     "section": "Hardest Neighborhoods to Predict",
-    "text": "Hardest Neighborhoods to Predict\n\n\n\n\n\nProblem Neighborhoods\n\n\n\nKey Insight\n\nThe model struggles most in high-value and low-value neighborhoods; in other words, the extremes of the home sale price distribution.\nOver-predicted (red): Center City, Northwest Philly, Fishtown, South Philly\n→ Homes sell for less than the model expects\nUnder-predicted (blue): Economically underserved neighborhoods\n→ Homes sell for more than predicted\nWhy? Prestige, walkability, and growing interest are not fully captured by structural or census variables"
+    "text": "Hardest Neighborhoods to Predict\n\n\n\n\n\nProblem Neighborhoods\n\n\n\nKey Insight\n\nThe model struggles most in high-value & low-value neighborhoods (extremes of the sale price distribution)\nOver-predicted (red): Center City, Northwest Philly, Fishtown, South Philly\n→ Homes sell for less than the model expects\nUnder-predicted (blue): Economically underserved neighborhoods\n→ Homes sell for more than predicted\nWhy? Prestige, walkability, and growing interest are not fully captured by structural or census variables"
   },
   {
     "objectID": "presentation/presentation.html#key-findings-1",
