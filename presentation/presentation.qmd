@@ -65,13 +65,13 @@ What key predictors are missing from the legacy model, and how can we improve it
 
 ---
 
-## Price Drivers
+## Structural Price Drivers
 
-- Economic Density
-- Livable Space
-- Bedrooms v Bathrooms
-- Building Age
-![Sale by Age](homeSaleAge.jpeg)
+![](bathrooms.png){fig-alt="Bathrooms" width=48%}
+![](bedrooms.png){fig-alt="Bedrooms" width=48%}
+
+![](area.png){fig-alt="Area" width=48%}
+![](age.png){fig-alt="Age" width=48%}
 
 ---
 
