@@ -2401,6 +2401,32 @@ Note:                                                                     *p&lt;
 </div>
 </div>
 </section>
+<section id="coefficient-interpretations" class="level2">
+<h2 class="anchored" data-anchor-id="coefficient-interpretations">Coefficient Interpretations</h2>
+<p><strong>Structural Features:</strong> - <strong>Log(Total Livable Area) (β = 0.509, p &lt; 0.001)</strong>: A 1% increase in total livable area is associated with a 0.509% increase in sale price, holding all other factors constant. This represents the strongest predictor in our model, indicating that size is the primary driver of housing value in Philadelphia.</p>
+<ul>
+<li><p><strong>Number of Bedrooms (β = 0.018, p &lt; 0.001)</strong>: Each additional bedroom is associated with approximately a 1.8% increase in sale price. This positive coefficient suggests that bedrooms add value, though the effect is modest compared to other structural features.</p></li>
+<li><p><strong>Number of Bathrooms (β = 0.151, p &lt; 0.001)</strong>: Each additional bathroom is associated with approximately a 16.3% increase in sale price. This substantial effect indicates that bathrooms are highly valued amenities in Philadelphia’s housing market, likely reflecting both functional utility and luxury appeal.</p></li>
+<li><p><strong>Building Age (β = -0.004, p &lt; 0.001)</strong>: Each additional year of building age is associated with approximately a 0.4% decrease in sale price. This suggests that newer homes command premium prices, reflecting depreciation over time and the value of modern amenities and construction standards.</p></li>
+<li><p><strong>Interior Condition (β = -0.164, p &lt; 0.001)</strong>: Each unit increase in interior condition rating (where higher numbers indicate worse condition) is associated with approximately a 17.9% decrease in sale price. This substantial effect demonstrates the critical importance of property condition in determining market value.</p></li>
+</ul>
+<p><strong>Neighborhood Demographics:</strong> - <strong>Median Household Income (β = 0.00000, p &lt; 0.1)</strong>: While statistically significant, the coefficient is extremely small, suggesting that tract-level median income has a minimal direct effect on individual property prices when controlling for other factors.</p>
+<ul>
+<li><p><strong>% Bachelor’s Degree Holders (β = 0.008, p &lt; 0.001)</strong>: A 1 percentage point increase in the proportion of residents with bachelor’s degrees is associated with approximately a 0.8% increase in sale price. This reflects the premium associated with highly educated neighborhoods or higher ability to pay for degree-holding buyers.</p></li>
+<li><p><strong>% Vacant Housing Units (β = -0.011, p &lt; 0.001)</strong>: A 1 percentage point increase in vacancy rate is associated with approximately a 1.1% decrease in sale price. This negative relationship reflects the detrimental effects of neighborhood blight and disinvestment on property values.</p></li>
+<li><p><strong>% White Population (β = 0.004, p &lt; 0.001)</strong>: A 1 percentage point increase in the white population share is associated with approximately a 0.4% increase in sale price. This coefficient likely captures both historical patterns of neighborhood investment and ongoing racial disparities in housing markets.</p></li>
+</ul>
+<p><strong>Spatial Features:</strong> - <strong>Economic Density (EconKDE) (β = -3,726.664, p &lt; 0.001)</strong>: The linear term shows a negative coefficient, suggesting that at low levels of economic activity, proximity to commercial areas may initially depress housing values, possibly due to noise, traffic, or other negative externalities.</p>
+<ul>
+<li><p><strong>Economic Density² (EconKDE²) (β = 26,476,926, p &lt; 0.001)</strong>: The positive quadratic term indicates that the relationship between economic density and housing prices is U-shaped. As economic activity increases beyond a certain threshold, the benefits of proximity to amenities, employment, and urban vibrancy begin to outweigh the costs, leading to premium pricing in highly commercial areas.</p></li>
+<li><p><strong>Mean 3-Nearest Neighbor Distance (β = 0.00002, p &lt; 0.001)</strong>: The positive coefficient suggests that properties located farther from their three nearest neighbors command slightly higher prices, possibly reflecting larger lot sizes or more exclusive locations.</p></li>
+</ul>
+<p><strong>Income Quantile Effects:</strong> - <strong>MHI_quantileQ2 (β = 0.136, p &lt; 0.001)</strong>: Properties in the second income quartile neighborhoods command approximately 14.6% higher prices than those in the lowest quartile, reflecting the premium associated with middle-income areas.</p>
+<ul>
+<li><strong>Age-Income Interactions</strong>: The positive interaction terms between age and higher income quantiles (Q2: β = 0.001, Q3: β = 0.003, Q4: β = 0.004) suggest that older homes retain more value in wealthier neighborhoods, likely due to better maintenance, historic preservation, or neighborhood character that offsets age-related depreciation.</li>
+</ul>
+<p>The economic density relationship is particularly noteworthy—it demonstrates that Philadelphia’s housing market exhibits a complex spatial pattern where moderate commercial activity may initially depress values, but high-density commercial areas (like Center City) command significant premiums, reflecting the urban amenities premium that characterizes successful city centers.</p>
+</section>
 </section>
 <section id="phase-5-model-validation" class="level1">
 <h1>PHASE 5: Model Validation</h1>
@@ -2792,34 +2818,8 @@ Model 4 CV Performance Summary:</code></pre>
 <h1>PHASE 7: Conclusions &amp; Recommendations</h1>
 <p>Our final model’s is able to explain 64% of the variation on <em>logged</em> (is this right way to describe this?) house prices in Philadelphia, with an average error of 48.31%. Our residuals mostly fall along the Q-Q plot’s line and are homoscadestic (as seen in the Scale-Location plot), meaning that the residuals both fall on a normal distribution and the variance of residuals is consistent across all independent variable values. Our K-folds analysis returned an R2 of .65 (higher than the model’s original .64), illustrating our model’s efficacy with non-test data. The feature that matters most is the economic density around the examined housing unit, as it first has a positive relationship with housing price and then has a negative relationship.</p>
 <p>Hardest neighborhoods to predict are the most affluent areas — as the social connotations of these spaces are both largely influential in housing prices as well as unquantifiable. Becuase of historical underdevelopment and the history of how that is tied to both race and class, housing prices are intrinsically tied to these vulnerable groups. A model that predicts housing prices is also convincing developers to focus on already well-to-do neighborhoods, whether it be when building housing or commercial centers. There are pros and cons to this, as it may protect neighborhoods from gentrification, but it could also exclude them from capital infusions and access to goods/services. Our model is limited in numerous ways, one of which is the inability to quantify power of word of mouth. For example, once the general vibe around a neighborhood — such as Fishtown — changes from working class (or from another marginalized group) to “up and coming” or “hip”, future housing prices in the area may radically change. Another limitation is the non-incorporation of Philadelphia’s future plans. For example, if the Roosevelt Boulevard extension was to begin construction, then our model would be unable to predict the change in housing price until the stations were built and the local impacts began.</p>
-<section id="coefficient-interpretations" class="level2">
-<h2 class="anchored" data-anchor-id="coefficient-interpretations">Coefficient Interpretations</h2>
-<p><strong>Structural Features:</strong> - <strong>Log(Total Livable Area) (β = 0.509, p &lt; 0.001)</strong>: A 1% increase in total livable area is associated with a 0.509% increase in sale price, holding all other factors constant. This represents the strongest predictor in our model, indicating that size is the primary driver of housing value in Philadelphia.</p>
-<ul>
-<li><p><strong>Number of Bedrooms (β = 0.018, p &lt; 0.001)</strong>: Each additional bedroom is associated with approximately a 1.8% increase in sale price. This positive coefficient suggests that bedrooms add value, though the effect is modest compared to other structural features.</p></li>
-<li><p><strong>Number of Bathrooms (β = 0.151, p &lt; 0.001)</strong>: Each additional bathroom is associated with approximately a 16.3% increase in sale price. This substantial effect indicates that bathrooms are highly valued amenities in Philadelphia’s housing market, likely reflecting both functional utility and luxury appeal.</p></li>
-<li><p><strong>Building Age (β = -0.004, p &lt; 0.001)</strong>: Each additional year of building age is associated with approximately a 0.4% decrease in sale price. This suggests that newer homes command premium prices, reflecting depreciation over time and the value of modern amenities and construction standards.</p></li>
-<li><p><strong>Interior Condition (β = -0.164, p &lt; 0.001)</strong>: Each unit increase in interior condition rating (where higher numbers indicate worse condition) is associated with approximately a 17.9% decrease in sale price. This substantial effect demonstrates the critical importance of property condition in determining market value.</p></li>
-</ul>
-<p><strong>Neighborhood Demographics:</strong> - <strong>Median Household Income (β = 0.00000, p &lt; 0.1)</strong>: While statistically significant, the coefficient is extremely small, suggesting that tract-level median income has a minimal direct effect on individual property prices when controlling for other factors.</p>
-<ul>
-<li><p><strong>% Bachelor’s Degree Holders (β = 0.008, p &lt; 0.001)</strong>: A 1 percentage point increase in the proportion of residents with bachelor’s degrees is associated with approximately a 0.8% increase in sale price. This reflects the premium associated with highly educated neighborhoods or higher ability to pay for degree-holding buyers.</p></li>
-<li><p><strong>% Vacant Housing Units (β = -0.011, p &lt; 0.001)</strong>: A 1 percentage point increase in vacancy rate is associated with approximately a 1.1% decrease in sale price. This negative relationship reflects the detrimental effects of neighborhood blight and disinvestment on property values.</p></li>
-<li><p><strong>% White Population (β = 0.004, p &lt; 0.001)</strong>: A 1 percentage point increase in the white population share is associated with approximately a 0.4% increase in sale price. This coefficient likely captures both historical patterns of neighborhood investment and ongoing racial disparities in housing markets.</p></li>
-</ul>
-<p><strong>Spatial Features:</strong> - <strong>Economic Density (EconKDE) (β = -3,726.664, p &lt; 0.001)</strong>: The linear term shows a negative coefficient, suggesting that at low levels of economic activity, proximity to commercial areas may initially depress housing values, possibly due to noise, traffic, or other negative externalities.</p>
-<ul>
-<li><p><strong>Economic Density² (EconKDE²) (β = 26,476,926, p &lt; 0.001)</strong>: The positive quadratic term indicates that the relationship between economic density and housing prices is U-shaped. As economic activity increases beyond a certain threshold, the benefits of proximity to amenities, employment, and urban vibrancy begin to outweigh the costs, leading to premium pricing in highly commercial areas.</p></li>
-<li><p><strong>Mean 3-Nearest Neighbor Distance (β = 0.00002, p &lt; 0.001)</strong>: The positive coefficient suggests that properties located farther from their three nearest neighbors command slightly higher prices, possibly reflecting larger lot sizes or more exclusive locations.</p></li>
-</ul>
-<p><strong>Income Quantile Effects:</strong> - <strong>MHI_quantileQ2 (β = 0.136, p &lt; 0.001)</strong>: Properties in the second income quartile neighborhoods command approximately 14.6% higher prices than those in the lowest quartile, reflecting the premium associated with middle-income areas.</p>
-<ul>
-<li><strong>Age-Income Interactions</strong>: The positive interaction terms between age and higher income quantiles (Q2: β = 0.001, Q3: β = 0.003, Q4: β = 0.004) suggest that older homes retain more value in wealthier neighborhoods, likely due to better maintenance, historic preservation, or neighborhood character that offsets age-related depreciation.</li>
-</ul>
-<p>The economic density relationship is particularly noteworthy—it demonstrates that Philadelphia’s housing market exhibits a complex spatial pattern where moderate commercial activity may initially depress values, but high-density commercial areas (like Center City) command significant premiums, reflecting the urban amenities premium that characterizes successful city centers.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
