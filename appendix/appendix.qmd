@@ -318,11 +318,11 @@ head(philly_neighborhoods)
 ```
 
 
-### Commercial and office points of interests (Amenities)
+### Commercial and office points of interests (Amenities)(alternative at line 360 if you do not want to download pbf data)
 
 ```{r}
 # downloading osm data from geofabrik:https://download.geofabrik.de/north-america/us-northeast.html
-input_pbf <- "C:/Users/matth/Documents/pennFall25/PPA/midterm/us-northeast-251024.osm.pbf"
+input_pbf <- "D:/ppa midterm/us-northeast-251022.osm.pbf"
 
 
 # get boundary of Philadelphia County
@@ -350,7 +350,7 @@ if ("other_tags" %in% names(poi)) {
   poi_filtered <- poi %>%
     filter(grepl(pattern, other_tags, ignore.case = TRUE))
   
-  cat("✅ Filtered POIs found:", nrow(poi_filtered), "of", nrow(poi), "\n")
+  cat("filtered POIs found:", nrow(poi_filtered), "of", nrow(poi), "\n")
   
 } 
 
@@ -462,6 +462,11 @@ r_trees <- mask(r_trees, vect(philly_boundary))  # mask to county boundary
 ### Joining data together
 As our housing data is point, while census tract and neighborhood are polygon. A spatial join with within as the method was performed to merge them. For raster, the value of the cell that the point locate was joined. 
 ```{r}
+# Geometry - Cenus Data Merge
+philly_tract_sf$GEOID=as.numeric(philly_tract_sf$GEOID)
+philly_tract_map <- philly_tract_sf %>%
+  left_join(philly_censustract, by = "GEOID")
+
 #convert housing prices data into point data
 phl_sales_clean_sf = phl_sales_clean%>%
   mutate(geometry = st_as_sfc(shape)) %>%   # parse WKT into geometry
@@ -985,8 +990,8 @@ summary_data <- phl_sales_final_sf_final %>%
   select(-c(
     census_tract, shape, NAME.x, NAME.y, MAPNAME,
     Shape_Area, Shape_Leng, location, zip_code, GEOID, 
-    variable, age_group, quality_grade, LISTNAME, MHI_quantile,
-    estimate,moe
+    variabl, age_group, quality_grade, LISTNAME, MHI_quantile,
+    estimat,moe,pct_bch,pct_vcn,pct_wht,mdn_ncm,fmly_hh,totl_hh
   ))
 
 # Keep only numeric columns
@@ -1032,8 +1037,8 @@ for_model_building <- phl_sales_final_sf_final %>%
   select(-c(
     census_tract, shape, NAME.x, NAME.y,
     Shape_Area, Shape_Leng, location, zip_code, GEOID, 
-    variable, LISTNAME, 
-    estimate,moe
+    variabl, LISTNAME, 
+    estimat,moe,pct_bch,pct_vcn,pct_wht,mdn_ncm,fmly_hh,totl_hh
   ))
 ```
 
