@@ -95,7 +95,8 @@ $$
 &+ \color{red}{\beta_4 \text{Age} + \beta_5 \text{Interior Condition} + \beta_6 \text{Quality Grade}} \\
 &+ \color{orange}{\beta_7 \text{Median Income} + \beta_8 \text{Family Household Ratio}}  \\
 &+ \color{orange}{\beta_9 \text{% Bachelors}+ \beta_{10} \text{% Vacant} + \beta_{11} \text{% White}} \\
-&+ \color{blue}{\beta_{12} \text{EconKDE} + \beta_{13} \text{EconKDE}^2 + \beta_{14} \text{TreeKDE} + \beta_{15} \text{Mean 3NN Dist}} \\
+&+ \color{blue}{\beta_{12} \text{EconKDE} + \beta_{13} \text{EconKDE}^2 + \beta_{14} \text{TreeKDE} \\
++ \beta_{15} \text{Mean 3NN Dist}} \\
 &+ \color{green}{\beta_{16} \text{MHI Quantile} + \beta_{17} (\text{MHI Quantile} \times \text{Age})} + \varepsilon
 \end{aligned}
 $$
@@ -131,10 +132,10 @@ $$
 ::: column
 
 - The model struggles most in **high-value & low-value neighborhoods** (extremes of the sale price distribution)
-- **Over-predicted (red):** Center City, Northwest Philly, Fishtown, South Philly  
-  → Homes sell for **less than the model expects**
-- **Under-predicted (blue):** Economically underserved neighborhoods  
-  → Homes sell for **more than predicted**
+- **Under-predicted (red):** Center City, Northwest Philly, Fishtown, South Philly  
+  → Homes sell for **more than the model expects**
+- **Over-predicted (blue):** Economically underserved neighborhoods  
+  → Homes sell for **less than predicted**
 - **Why?** Prestige, walkability, and growing interest are **not fully captured** by structural or census variables
 :::
 ::::

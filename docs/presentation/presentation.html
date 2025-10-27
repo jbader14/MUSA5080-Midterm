@@ -219,7 +219,8 @@ Jack Bader, Joey Cahill, Matthew Levy, Sam Sen, Tim Wen, Ye Zhang
 &amp;+ \color{red}{\beta_4 \text{Age} + \beta_5 \text{Interior Condition} + \beta_6 \text{Quality Grade}} \\
 &amp;+ \color{orange}{\beta_7 \text{Median Income} + \beta_8 \text{Family Household Ratio}}  \\
 &amp;+ \color{orange}{\beta_9 \text{% Bachelors}+ \beta_{10} \text{% Vacant} + \beta_{11} \text{% White}} \\
-&amp;+ \color{blue}{\beta_{12} \text{EconKDE} + \beta_{13} \text{EconKDE}^2 + \beta_{14} \text{TreeKDE} + \beta_{15} \text{Mean 3NN Dist}} \\
+&amp;+ \color{blue}{\beta_{12} \text{EconKDE} + \beta_{13} \text{EconKDE}^2 + \beta_{14} \text{TreeKDE} \\
++ \beta_{15} \text{Mean 3NN Dist}} \\
 &amp;+ \color{green}{\beta_{16} \text{MHI Quantile} + \beta_{17} (\text{MHI Quantile} \times \text{Age})} + \varepsilon
 \end{aligned}
 \]</span></p>
@@ -282,10 +283,10 @@ Jack Bader, Joey Cahill, Matthew Levy, Sam Sen, Tim Wen, Ye Zhang
 </div><div class="column">
 <ul>
 <li>The model struggles most in <strong>high-value &amp; low-value neighborhoods</strong> (extremes of the sale price distribution)</li>
-<li><strong>Over-predicted (red):</strong> Center City, Northwest Philly, Fishtown, South Philly<br>
-→ Homes sell for <strong>less than the model expects</strong></li>
-<li><strong>Under-predicted (blue):</strong> Economically underserved neighborhoods<br>
-→ Homes sell for <strong>more than predicted</strong></li>
+<li><strong>Under-predicted (red):</strong> Center City, Northwest Philly, Fishtown, South Philly<br>
+→ Homes sell for <strong>more than the model expects</strong></li>
+<li><strong>Over-predicted (blue):</strong> Economically underserved neighborhoods<br>
+→ Homes sell for <strong>less than predicted</strong></li>
 <li><strong>Why?</strong> Prestige, walkability, and growing interest are <strong>not fully captured</strong> by structural or census variables</li>
 </ul>
 </div></div>
