@@ -12,3 +12,9 @@ renv/staging/
 
 /.quarto/
 **/*.quarto_ipynb
+.DS_Store
+.quarto/
+*_cache/
+.Rproj.user/
+.Rhistory
+.RData
