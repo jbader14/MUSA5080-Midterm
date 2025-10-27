@@ -466,7 +466,9 @@ r_trees <- mask(r_trees, vect(philly_boundary))  # mask to county boundary
 ```
 
 ### Joining data together
-As our housing data is point, while census tract and neighborhood are polygon. A spatial join with within as the method was performed to merge them. For raster, the value of the cell that the point locate was joined. 
+First, since commercial and office POI and trees are point data, and the more they cluster the higher the housing price will be. As a result, we use Kernel Density method to estimate the density of them. Value of the cell was assign to the point (housing prices), if the point falls within it. 
+
+Second, as census tracts and neighborhood are polygon data, a st_within spatial join was used to join them with housing data. Values from polygon data will assign to the points when points fall within it.  
 ```{r}
 # Geometry - Cenus Data Merge
 philly_tract_sf$GEOID=as.numeric(philly_tract_sf$GEOID)
@@ -494,6 +496,31 @@ phl_sales_clean_sf_final$TreeKDE <- raster::extract(r_trees, phl_sales_clean_sf_
 phl_sales_clean_sf_final=phl_sales_clean_sf_final%>%
   st_transform(2272)
 ```
+
+
+### Summary table before and after dimensions
+```{r}
+before_after_summary <- data.frame(
+  Stage = c("Raw Data", 
+            "After Residential Filter (2023–24)", 
+            "After Removing Errors & NAs", 
+            "After Spatial Joins & Final Cleaning"),
+  Rows = c(nrow(phl_sales),
+           nrow(phl_sales_res_23_24),
+           nrow(phl_sales_clean),
+           nrow(phl_sales_clean_sf_final)),
+  Columns = c(ncol(phl_sales),
+              ncol(phl_sales_res_23_24),
+              ncol(phl_sales_clean),
+              ncol(phl_sales_clean_sf_final))
+)
+
+knitr::kable(before_after_summary, caption = "Table A1. Data dimensions before and after cleaning")
+
+```
+
+
+
 
 # PHASE 2: EXPLORATORY DATA ANALYSIS
 
