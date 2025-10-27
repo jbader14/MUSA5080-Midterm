@@ -100,8 +100,85 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Philadelphia Housing Price Prediction",
+    "title": "Predicting Housing Sales",
     "section": "",
-    "text": "Project Overview:\n\nMembers: Jack Bader, Joey Cahill, Matthew Levy, Sam Sen, Tim Wen, Ye Zhang Date: October 27, 2025"
+    "text": "Project Overview: Our team was tasked by the Philadelphia Office of Property Assessment with the mission to improve upon the Automated Valuation Model (AVM) to deliver more accurate property tax assessments. In the end, we built a model that accurately predicts house sale prices in the Philadelphia are using structural, Census, and spatial variables. The goal is to use our model to support data-driven policy decisions related in the city to deliver equitable property assessments and increase fairness, trust, etc. fo all residents.\nMembers: Jack Bader, Joey Cahill, Matthew Levy, Sam Sen, Tim Wen, Ye Zhang\nDate: October 27, 2025"
+  },
+  {
+    "objectID": "index.html#project-intention",
+    "href": "index.html#project-intention",
+    "title": "Predicting Housing Sales",
+    "section": "Project Intention",
+    "text": "Project Intention\n\nWhy it Matters\nPhiladelphia’s current Automated Valuation Model (AVM) is underperforming, leading to inconsistent and inequitable property assessments.\n\n\nOur Guiding Question\nWhat key predictors are missing from the legacy model, and how can we improve its accuracy and fairness?"
+  },
+  {
+    "objectID": "index.html#data-sources",
+    "href": "index.html#data-sources",
+    "title": "Predicting Housing Sales",
+    "section": "Data Sources",
+    "text": "Data Sources\n\nCity of Philadelphia\n\nPhiladelphia Properties and Current Assessments (n= 21,807 Home Sales)\n\nOpenDataPhilly\n\nNeighborhood Boundaries (Polygon)\nSchool Locations, Attendance, and Withdrawals\n\nGeofabrik (OpenStreetMap)\n\nCommercial and Economic Activity Points\n\nU.S. Census (ACS 5-Year)\n\nEducation\nVacancy Rates\nFamily Household Share\nPercent White\nMedian Household Income"
+  },
+  {
+    "objectID": "index.html#mapped-observations",
+    "href": "index.html#mapped-observations",
+    "title": "Predicting Housing Sales",
+    "section": "Mapped Observations",
+    "text": "Mapped Observations\n\n\n\n\n\nHome Price Across the City\n\n\n\n\nKey Findings\n\nPrices cluster spatially\n\nCenter City & Northwest Philadelphia show highest home values\n\nAdditional hotspots in South Philadelphia"
+  },
+  {
+    "objectID": "index.html#structural-price-drivers",
+    "href": "index.html#structural-price-drivers",
+    "title": "Predicting Housing Sales",
+    "section": "Structural Price Drivers",
+    "text": "Structural Price Drivers"
+  },
+  {
+    "objectID": "index.html#progressive-regression-models",
+    "href": "index.html#progressive-regression-models",
+    "title": "Predicting Housing Sales",
+    "section": "Progressive Regression Models",
+    "text": "Progressive Regression Models\nGoal: Test whether place-based factors improve predictive accuracy.\n\\[\n\\begin{aligned}\n\\log(\\text{Price}) = \\beta_0 &+ \\color{red}{\\beta_1 \\log(\\text{Livable Area}) + \\beta_2 \\text{Bedrooms} + \\beta_3 \\text{Bathrooms}} \\\\\n&+ \\color{red}{\\beta_4 \\text{Age} + \\beta_5 \\text{Interior Condition} + \\beta_6 \\text{Quality Grade}} \\\\\n&+ \\color{orange}{\\beta_7 \\text{Median Income} + \\beta_8 \\text{Family Household Ratio}}  \\\\\n&+ \\color{orange}{\\beta_9 \\text{% Bachelors}+ \\beta_{10} \\text{% Vacant} + \\beta_{11} \\text{% White}} \\\\\n&+ \\color{blue}{\\beta_{12} \\text{EconKDE} + \\beta_{13} \\text{EconKDE}^2 + \\beta_{14} \\text{TreeKDE} + \\beta_{15} \\text{Mean 3NN Dist}} \\\\\n&+ \\color{green}{\\beta_{16} \\text{MHI Quantile} + \\beta_{17} (\\text{MHI Quantile} \\times \\text{Age})} + \\varepsilon\n\\end{aligned}\n\\]\nModel Layers\n- Model 1: Structural\n- Model 2: + Demographics\n- Model 3: + Spatial\n- Model 4: + Interactions"
+  },
+  {
+    "objectID": "index.html#model-performance-improves-at-each-stage",
+    "href": "index.html#model-performance-improves-at-each-stage",
+    "title": "Predicting Housing Sales",
+    "section": "Model Performance Improves at Each Stage",
+    "text": "Model Performance Improves at Each Stage\n\n\n\n\n\n\n\n\nModel\nAdj. R²\nInterpretation\n\n\n\n\n(1) Structural\n0.38\nHouse features alone are not enough\n\n\n(2) + Census\n0.60\nNeighborhood socioeconomic patterns matter\n\n\n(3) + Spatial\n0.61\nLocation and amenities add signal\n\n\n(4) + Interactions\n0.64\nWealthy areas shape how homes retain value\n\n\n\nTakeaway: Spatial + neighborhood effects are essential to explaining price variation in Philadelphia."
+  },
+  {
+    "objectID": "index.html#hardest-neighborhoods-to-predict",
+    "href": "index.html#hardest-neighborhoods-to-predict",
+    "title": "Predicting Housing Sales",
+    "section": "Hardest Neighborhoods to Predict",
+    "text": "Hardest Neighborhoods to Predict\n\n\n\n\n\nProblem Neighborhoods\n\n\n\n\nKey Insight\n\nThe model struggles most in high-value, high-amenity neighborhoods\nUnder-predicted (red): Center City, Northwest Philly, Fishtown, South Philly\n→ Homes sell for more than the model expects\nOver-predicted (blue): Economically underserved neighborhoods\n→ Homes sell for less than predicted\nWhy? Prestige, walkability, and growing interest are not fully captured by structural or census variables"
+  },
+  {
+    "objectID": "index.html#key-findings-1",
+    "href": "index.html#key-findings-1",
+    "title": "Predicting Housing Sales",
+    "section": "Key Findings",
+    "text": "Key Findings\nModel Accuracy: RMSE = 0.479 (log scale)\nModel Fit: R² = 0.64 (0.65 with K-fold CV)\nTop Predictors\n\nEconomic Density (U-shaped effect): Strongest spatial driver of price\nHome Size (β = 0.509, p &lt; 0.001): 1% increase in area → ~0.5% ↑ in price\nBathrooms (β = 0.151, p &lt; 0.001): Large value premium per added bath\nNeighborhood Composition: Higher education (+) and vacancy (–) strongly shape prices\n\nKey Insight:\nNeighborhood effects matter as much as home features — location premiums are real, measurable, and spatially clustered. —"
+  },
+  {
+    "objectID": "index.html#recommendations",
+    "href": "index.html#recommendations",
+    "title": "Predicting Housing Sales",
+    "section": "Recommendations",
+    "text": "Recommendations\nImprove the City’s AVM by Incorporating:\n\nAmenity-based spatial features (EconKDE, trees, school access)\nNeighborhood context variables to capture local market conditions\n\nPolicy Implications\n\nCurrent AVM likely undervalues booming neighborhoods near economic hubs\nAffluent areas remain hardest to predict due to prestige and perception effects\nAdd monitoring for rapidly changing neighborhoods (e.g., Fishtown)\n\nBottom Line:\nTo reduce inequity and improve accuracy, the AVM must move beyond structure-only predictors and account for context, amenities, and spatial clustering."
+  },
+  {
+    "objectID": "index.html#limitations-next-steps",
+    "href": "index.html#limitations-next-steps",
+    "title": "Predicting Housing Sales",
+    "section": "Limitations & Next Steps",
+    "text": "Limitations & Next Steps\nKey Limitations\n\nThe model cannot quantify word-of-mouth effects\n→ Perceived “vibe shifts” can rapidly change prices\nFuture plans are not incorporated\n→ Planned infrastructure can greatly alter market outcomes\n\nWhere Do We Go From Here?\n\nBuild an enhanced model that includes:\n→ Amenity proximity\n→ Economic development indicators\n→ Spatial clustering of sale prices\nContinue data collection to track a changing housing landscape\nConsult with local government on new projects and emerging trends"
+  },
+  {
+    "objectID": "index.html#questions",
+    "href": "index.html#questions",
+    "title": "Predicting Housing Sales",
+    "section": "Questions?",
+    "text": "Questions?\n\nThank you!\n\n\nContact Information:\n\nJack Bader\n\njbader14@upenn.edu\n\nMatthew Levy\n\nmblevy@upenn.edu\n\nTim Wen\n\nsw6as@upenn.edu\n\n\n\n\nJoey Cahill\n\ncahill1@upenn.edu\n\nSam Sen\n\nsen1@upenn.edu\n\nYe Zhang\n\nyezhang1@upenn.edu"
   }
 ]
