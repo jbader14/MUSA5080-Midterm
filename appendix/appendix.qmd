@@ -382,8 +382,8 @@ pa_counties <- counties(state = "PA", year = 2023)
 # Filter to Philadelphia County
 philly_boundary <- subset(pa_counties, NAME == "Philadelphia")
 
-philly_boundary <- st_transform(philly_boundary, 2272)  
-poi <- st_transform(poi, 2272)
+philly_boundary <- st_transform(philly_boundary, 3364)  
+poi <- st_transform(poi, 3364)
 # ==== Prepare point pattern ====
 # Convert sf points to spatstat ppp object
 win <- as.owin(st_union(philly_boundary))  # window from county boundary
@@ -453,7 +453,7 @@ tree_shp_path <- file.path(tree_path, "ppr_tree_inventory_2024.shp")
 
 
 trees=st_read(tree_shp_path)
-trees=st_transform(trees,2272)
+trees=st_transform(trees,3364)
 
 # Convert sf points to spatstat ppp object
 coords_trees <- st_coordinates(trees)

@@ -729,8 +729,8 @@ Geodetic CRS:  WGS 84</code></pre>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter to Philadelphia County</span></span>
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>philly_boundary <span class="ot">&lt;-</span> <span class="fu">subset</span>(pa_counties, NAME <span class="sc">==</span> <span class="st">"Philadelphia"</span>)</span>
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>philly_boundary <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(philly_boundary, <span class="dv">2272</span>)  </span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>poi <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(poi, <span class="dv">2272</span>)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>philly_boundary <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(philly_boundary, <span class="dv">3364</span>)  </span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>poi <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(poi, <span class="dv">3364</span>)</span>
 <span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co"># ==== Prepare point pattern ====</span></span>
 <span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert sf points to spatstat ppp object</span></span>
 <span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>win <span class="ot">&lt;-</span> <span class="fu">as.owin</span>(<span class="fu">st_union</span>(philly_boundary))  <span class="co"># window from county boundary</span></span>
@@ -839,7 +839,7 @@ Projected CRS: WGS 84 / Pseudo-Mercator</code></pre>
 </div>
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>trees<span class="ot">=</span><span class="fu">st_transform</span>(trees,<span class="dv">2272</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>trees<span class="ot">=</span><span class="fu">st_transform</span>(trees,<span class="dv">3364</span>)</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert sf points to spatstat ppp object</span></span>
 <span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>coords_trees <span class="ot">&lt;-</span> <span class="fu">st_coordinates</span>(trees)</span>
@@ -1495,11 +1495,11 @@ fit well, and are therefore rescaled.
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
+<pre><code>Warning: Removed 13 rows containing non-finite outside the scale range
 (`stat_smooth()`).</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
+<pre><code>Warning: Removed 13 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
 </div>
 <div class="cell-output-display">
@@ -1751,8 +1751,8 @@ Total HH                   21,805  1,945.64    602.97       0       1,911     3,
 % Bachelors                21,802   32.42      22.73      1.50      26.33     94.84   
 % Vacant                   21,800    9.33       5.93      0.00      8.23      32.88   
 % White                    21,802   38.14      29.94      0.00      35.22     95.51   
-Econ KDE                   21,804   0.0000     0.0000     0.00     0.0000     0.0000  
-Tree KDE                   21,804   0.0000     0.0000    0.0000    0.0000     0.0001  
+Econ KDE                   21,794   0.0000     0.0000    0.0000    0.0000     0.0002  
+Tree KDE                   21,794   0.001      0.0002    0.0001    0.0005     0.001   
 Mean MHI                   21,459 66,651.63  27,950.13  18,646.00 59,779.14 168,021.00
 Mean 3 closest School Dist 21,805  2,598.76   1,190.85   336.99   2,363.89  11,109.39 
 --------------------------------------------------------------------------------------</code></pre>
@@ -2138,84 +2138,84 @@ lm(formula = log_price ~ log_total_livable_area + number_of_bedrooms +
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--4.0763 -0.1967  0.0608  0.2656  3.4935 
+-4.1314 -0.1880  0.0606  0.2601  3.5035 
 
 Coefficients:
-                                   Estimate           Std. Error t value
-(Intercept)                    8.3783299532         0.1740881213  48.127
-log_total_livable_area         0.5346093571         0.0187760802  28.473
-number_of_bedrooms             0.0011989834         0.0066624020   0.180
-number_of_bathrooms            0.1637190315         0.0071411581  22.926
-age                           -0.0014209099         0.0001532852  -9.270
-interior_condition            -0.1775947631         0.0045024707 -39.444
-median_income                  0.0000009704         0.0000002578   3.764
-I(family_hh/total_hh)          0.0331453924         0.0370507956   0.895
-pct_bachelors                  0.0115939901         0.0004236876  27.364
-pct_vacant                    -0.0132797438         0.0007638695 -17.385
-pct_white                      0.0050023781         0.0002087814  23.960
-EconKDE                   -15860.6841109123      2421.6438376466  -6.550
-I(EconKDE^2)           688762600.4846765995  85099552.5541760921   8.094
-TreeKDE                    -2341.5837838513       380.4441607759  -6.155
-mean_3nn_dist                  0.0000022820         0.0000037513   0.608
-quality_grade5                -0.4575975628         0.3725192300  -1.228
-quality_gradeA                 0.1078678888         0.1387476044   0.777
-quality_gradeA-                0.0920255443         0.1437689440   0.640
-quality_gradeA+                0.1149432705         0.1680622891   0.684
-quality_gradeB                 0.1124835660         0.1208036189   0.931
-quality_gradeB-                0.1950381512         0.1202029379   1.623
-quality_gradeB+                0.0515740734         0.1245540491   0.414
-quality_gradeC                 0.1774362098         0.1189221051   1.492
-quality_gradeC-                0.1384615299         0.1204398684   1.150
-quality_gradeC+                0.1987228541         0.1190544047   1.669
-quality_gradeD                 0.2119521212         0.1249195598   1.697
-quality_gradeD-               -0.0652079614         0.2531473729  -0.258
-quality_gradeD+                0.4061542964         0.1438730055   2.823
-quality_gradeE                -0.0115059364         0.1698254695  -0.068
-quality_gradeE-                0.1816007844         0.2129403013   0.853
-quality_gradeE+                0.0303578692         0.1977577410   0.154
-quality_gradeS                 0.4097776542         0.3727778195   1.099
-quality_gradeX-               -0.0047947570         0.3742122086  -0.013
+                                  Estimate          Std. Error t value
+(Intercept)                   8.4825695004        0.1727822499  49.094
+log_total_livable_area        0.5200971790        0.0186445116  27.895
+number_of_bedrooms            0.0151181173        0.0066533469   2.272
+number_of_bathrooms           0.1496901250        0.0071252064  21.009
+age                          -0.0016769416        0.0001509123 -11.112
+interior_condition           -0.1845077281        0.0044744419 -41.236
+median_income                 0.0000015682        0.0000002562   6.121
+I(family_hh/total_hh)        -0.0137941162        0.0373096992  -0.370
+pct_bachelors                 0.0111678353        0.0004338910  25.739
+pct_vacant                   -0.0128219856        0.0007592577 -16.888
+pct_white                     0.0044734242        0.0002090116  21.403
+EconKDE                   -5950.7059824794      394.3683600993 -15.089
+I(EconKDE^2)           35299866.1829479113  1854560.8472317727  19.034
+TreeKDE                     -71.7979060016       37.9804998669  -1.890
+mean_3nn_dist                 0.0000043985        0.0000037194   1.183
+quality_grade5               -0.3950544450        0.3695503925  -1.069
+quality_gradeA                0.1356751990        0.1376524779   0.986
+quality_gradeA-               0.1443683605        0.1426471818   1.012
+quality_gradeA+               0.1576314931        0.1667256811   0.945
+quality_gradeB                0.1627427910        0.1198662649   1.358
+quality_gradeB-               0.2286853144        0.1192576041   1.918
+quality_gradeB+               0.0990217756        0.1236050448   0.801
+quality_gradeC                0.2219126097        0.1179872232   1.881
+quality_gradeC-               0.1857588062        0.1194931791   1.555
+quality_gradeC+               0.2378951571        0.1181171045   2.014
+quality_gradeD                0.2702293545        0.1239775347   2.180
+quality_gradeD-              -0.0049626669        0.2511414610  -0.020
+quality_gradeD+               0.4364251755        0.1427211650   3.058
+quality_gradeE                0.0804800421        0.1685057337   0.478
+quality_gradeE-               0.2647980259        0.2112607536   1.253
+quality_gradeE+               0.1128301761        0.1961986400   0.575
+quality_gradeS                0.4843469009        0.3698006476   1.310
+quality_gradeX-               0.1420367199        0.3712200734   0.383
                                    Pr(&gt;|t|)    
 (Intercept)            &lt; 0.0000000000000002 ***
 log_total_livable_area &lt; 0.0000000000000002 ***
-number_of_bedrooms                 0.857184    
+number_of_bedrooms                  0.02308 *  
 number_of_bathrooms    &lt; 0.0000000000000002 ***
 age                    &lt; 0.0000000000000002 ***
 interior_condition     &lt; 0.0000000000000002 ***
-median_income                      0.000168 ***
-I(family_hh/total_hh)              0.371015    
+median_income                0.000000000949 ***
+I(family_hh/total_hh)               0.71160    
 pct_bachelors          &lt; 0.0000000000000002 ***
 pct_vacant             &lt; 0.0000000000000002 ***
 pct_white              &lt; 0.0000000000000002 ***
-EconKDE                 0.00000000005904720 ***
-I(EconKDE^2)            0.00000000000000061 ***
-TreeKDE                 0.00000000076502707 ***
-mean_3nn_dist                      0.542976    
-quality_grade5                     0.219316    
-quality_gradeA                     0.436908    
-quality_gradeA-                    0.522119    
-quality_gradeA+                    0.494025    
-quality_gradeB                     0.351798    
-quality_gradeB-                    0.104696    
-quality_gradeB+                    0.678827    
-quality_gradeC                     0.135704    
-quality_gradeC-                    0.250309    
-quality_gradeC+                    0.095097 .  
-quality_gradeD                     0.089767 .  
-quality_gradeD-                    0.796727    
-quality_gradeD+                    0.004762 ** 
-quality_gradeE                     0.945984    
-quality_gradeE-                    0.393766    
-quality_gradeE+                    0.877997    
-quality_gradeS                     0.271670    
-quality_gradeX-                    0.989777    
+EconKDE                &lt; 0.0000000000000002 ***
+I(EconKDE^2)           &lt; 0.0000000000000002 ***
+TreeKDE                             0.05872 .  
+mean_3nn_dist                       0.23699    
+quality_grade5                      0.28508    
+quality_gradeA                      0.32432    
+quality_gradeA-                     0.31152    
+quality_gradeA+                     0.34444    
+quality_gradeB                      0.17457    
+quality_gradeB-                     0.05518 .  
+quality_gradeB+                     0.42307    
+quality_gradeC                      0.06001 .  
+quality_gradeC-                     0.12007    
+quality_gradeC+                     0.04402 *  
+quality_gradeD                      0.02929 *  
+quality_gradeD-                     0.98423    
+quality_gradeD+                     0.00223 ** 
+quality_gradeE                      0.63293    
+quality_gradeE-                     0.21007    
+quality_gradeE+                     0.56524    
+quality_gradeS                      0.19029    
+quality_gradeX-                     0.70200    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 0.4995 on 20976 degrees of freedom
-  (因为不存在，798个观察量被删除了)
-Multiple R-squared:  0.6074,    Adjusted R-squared:  0.6068 
-F-statistic:  1014 on 32 and 20976 DF,  p-value: &lt; 0.00000000000000022</code></pre>
+Residual standard error: 0.4955 on 20966 degrees of freedom
+  (因为不存在，808个观察量被删除了)
+Multiple R-squared:  0.6137,    Adjusted R-squared:  0.6131 
+F-statistic:  1041 on 32 and 20966 DF,  p-value: &lt; 0.00000000000000022</code></pre>
 </div>
 <details open="" class="code-fold">
 <summary>Code</summary>
@@ -2227,21 +2227,21 @@ F-statistic:  1014 on 32 and 20976 DF,  p-value: &lt; 0.00000000000000022</code>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>                            GVIF Df GVIF^(1/(2*Df))
-log_total_livable_area  2.720483  1        1.649389
-number_of_bedrooms      1.863972  1        1.365273
-number_of_bathrooms     1.795800  1        1.340074
-age                     1.453332  1        1.205542
-interior_condition      1.279934  1        1.131342
-median_income           5.218998  1        2.284513
-I(family_hh/total_hh)   2.119492  1        1.455847
-pct_bachelors           7.779040  1        2.789093
-pct_vacant              1.730021  1        1.315303
-pct_white               3.275071  1        1.809716
-EconKDE                10.028263  1        3.166743
-I(EconKDE^2)            7.116771  1        2.667728
-TreeKDE                 4.100250  1        2.024907
-mean_3nn_dist           1.673421  1        1.293608
-quality_grade           1.817878 18        1.016741</code></pre>
+log_total_livable_area  2.724254  1        1.650532
+number_of_bedrooms      1.887567  1        1.373888
+number_of_bathrooms     1.815898  1        1.347552
+age                     1.431213  1        1.196333
+interior_condition      1.284072  1        1.133169
+median_income           5.237298  1        2.288514
+I(family_hh/total_hh)   2.182899  1        1.477464
+pct_bachelors           8.288260  1        2.878934
+pct_vacant              1.736725  1        1.317849
+pct_white               3.333800  1        1.825870
+EconKDE                22.223230  1        4.714152
+I(EconKDE^2)           13.997982  1        3.741388
+TreeKDE                 4.808879  1        2.192916
+mean_3nn_dist           1.668969  1        1.291886
+quality_grade           1.818447 18        1.016749</code></pre>
 </div>
 <details open="" class="code-fold">
 <summary>Code</summary>
@@ -2254,7 +2254,7 @@ quality_grade           1.817878 18        1.016741</code></pre>
     studentized Breusch-Pagan test
 
 data:  model3
-BP = 1136.8, df = 32, p-value &lt; 0.00000000000000022</code></pre>
+BP = 1167.1, df = 32, p-value &lt; 0.00000000000000022</code></pre>
 </div>
 <details open="" class="code-fold">
 <summary>Code</summary>
@@ -2330,60 +2330,60 @@ lm(formula = log_price ~ log_total_livable_area + number_of_bedrooms +
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--4.0161 -0.1883  0.0557  0.2501  3.5595 
+-4.0539 -0.1819  0.0537  0.2435  3.5634 
 
 Coefficients:
-                                         Estimate           Std. Error t value
-(Intercept)                          8.6125643428         0.1216159461  70.818
-log_total_livable_area               0.5259124938         0.0169476595  31.032
-number_of_bedrooms                   0.0047629608         0.0064527918   0.738
-number_of_bathrooms                  0.1641674908         0.0067744636  24.233
-age                                 -0.0042623902         0.0004263922  -9.996
-interior_condition                  -0.1589445783         0.0042365850 -37.517
-median_income                       -0.0000001065         0.0000002627  -0.405
-I(family_hh/total_hh)                0.0772305051         0.0360302644   2.143
-pct_bachelors                        0.0086856549         0.0004222698  20.569
-pct_vacant                          -0.0110405035         0.0007461681 -14.796
-pct_white                            0.0046941087         0.0002196660  21.369
-EconKDE                           1835.6937320806      2401.2669301564   0.764
-I(EconKDE^2)                 149940588.0799231231  82710328.6550365835   1.813
-TreeKDE                          -1444.8536167464       375.7923770221  -3.845
-mean_3nn_dist                        0.0000161774         0.0000037108   4.360
-MHI_quantileQ2                       0.1616120089         0.0513033653   3.150
-MHI_quantileQ3                      -0.0255255524         0.0472251379  -0.541
-MHI_quantileQ4 (highest)            -0.0976844912         0.0454156017  -2.151
-age:MHI_quantileQ2                   0.0011668614         0.0005459783   2.137
-age:MHI_quantileQ3                   0.0027411779         0.0004937926   5.551
-age:MHI_quantileQ4 (highest)         0.0045408378         0.0004522698  10.040
+                                        Estimate          Std. Error t value
+(Intercept)                         8.7570416602        0.1210319078  72.353
+log_total_livable_area              0.5092460398        0.0168380119  30.244
+number_of_bedrooms                  0.0175194574        0.0064478965   2.717
+number_of_bathrooms                 0.1512138374        0.0067673389  22.345
+age                                -0.0042403747        0.0004234892 -10.013
+interior_condition                 -0.1643092293        0.0042147921 -38.984
+median_income                       0.0000004415        0.0000002615   1.688
+I(family_hh/total_hh)               0.0427171820        0.0361347567   1.182
+pct_bachelors                       0.0083645685        0.0004316972  19.376
+pct_vacant                         -0.0109486916        0.0007418567 -14.758
+pct_white                           0.0042606473        0.0002195901  19.403
+EconKDE                         -3726.6639491539      388.2838619342  -9.598
+I(EconKDE^2)                 26476925.8415185846  1802282.7960894341  14.691
+TreeKDE                           -31.9325074043       37.2000867459  -0.858
+mean_3nn_dist                       0.0000163143        0.0000036828   4.430
+MHI_quantileQ2                      0.1359917901        0.0510125426   2.666
+MHI_quantileQ3                     -0.0226401590        0.0468922002  -0.483
+MHI_quantileQ4 (highest)           -0.0735598569        0.0450879150  -1.631
+age:MHI_quantileQ2                  0.0013681771        0.0005425357   2.522
+age:MHI_quantileQ3                  0.0026871056        0.0004898476   5.486
+age:MHI_quantileQ4 (highest)        0.0041725660        0.0004487845   9.297
                                          Pr(&gt;|t|)    
 (Intercept)                  &lt; 0.0000000000000002 ***
 log_total_livable_area       &lt; 0.0000000000000002 ***
-number_of_bedrooms                       0.460447    
+number_of_bedrooms                        0.00659 ** 
 number_of_bathrooms          &lt; 0.0000000000000002 ***
 age                          &lt; 0.0000000000000002 ***
 interior_condition           &lt; 0.0000000000000002 ***
-median_income                            0.685317    
-I(family_hh/total_hh)                    0.032085 *  
+median_income                             0.09139 .  
+I(family_hh/total_hh)                     0.23715    
 pct_bachelors                &lt; 0.0000000000000002 ***
 pct_vacant                   &lt; 0.0000000000000002 ***
 pct_white                    &lt; 0.0000000000000002 ***
-EconKDE                                  0.444596    
-I(EconKDE^2)                             0.069871 .  
-TreeKDE                                  0.000121 ***
-mean_3nn_dist                        0.0000130912 ***
-MHI_quantileQ2                           0.001634 ** 
-MHI_quantileQ3                           0.588853    
-MHI_quantileQ4 (highest)                 0.031495 *  
-age:MHI_quantileQ2                       0.032594 *  
-age:MHI_quantileQ3                   0.0000000287 ***
+EconKDE                      &lt; 0.0000000000000002 ***
+I(EconKDE^2)                 &lt; 0.0000000000000002 ***
+TreeKDE                                   0.39068    
+mean_3nn_dist                        0.0000094787 ***
+MHI_quantileQ2                            0.00769 ** 
+MHI_quantileQ3                            0.62923    
+MHI_quantileQ4 (highest)                  0.10280    
+age:MHI_quantileQ2                        0.01168 *  
+age:MHI_quantileQ3                   0.0000000417 ***
 age:MHI_quantileQ4 (highest) &lt; 0.0000000000000002 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 0.4866 on 21175 degrees of freedom
-  (因为不存在，611个观察量被删除了)
-Multiple R-squared:  0.6351,    Adjusted R-squared:  0.6347 
-F-statistic:  1843 on 20 and 21175 DF,  p-value: &lt; 0.00000000000000022</code></pre>
+Residual standard error: 0.4831 on 21165 degrees of freedom
+  (因为不存在，621个观察量被删除了)
+Multiple R-squared:  0.6403,    Adjusted R-squared:   0.64 
+F-statistic:  1884 on 20 and 21165 DF,  p-value: &lt; 0.00000000000000022</code></pre>
 </div>
 <details open="" class="code-fold">
 <summary>Code</summary>
@@ -2399,22 +2399,22 @@ consider setting type = 'predictor'; see ?vif</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                              GVIF Df GVIF^(1/(2*Df))
-log_total_livable_area    2.511143  1        1.584659
-number_of_bedrooms        1.864867  1        1.365601
-number_of_bathrooms       1.866932  1        1.366357
-age                      14.576046  1        3.817859
-interior_condition        1.401352  1        1.183787
-median_income             5.826827  1        2.413882
-I(family_hh/total_hh)     2.143307  1        1.464004
-pct_bachelors             8.315435  1        2.883650
-pct_vacant                1.753757  1        1.324295
-pct_white                 3.872115  1        1.967769
-EconKDE                  10.646189  1        3.262850
-I(EconKDE^2)              7.366401  1        2.714111
-TreeKDE                   4.295456  1        2.072548
-mean_3nn_dist             1.766341  1        1.329038
-MHI_quantile           4463.462105  3        4.057688
-age:MHI_quantile       4544.316974  3        4.069847</code></pre>
+log_total_livable_area    2.513009  1        1.585247
+number_of_bedrooms        1.887408  1        1.373830
+number_of_bathrooms       1.889034  1        1.374421
+age                      14.583408  1        3.818823
+interior_condition        1.406526  1        1.185970
+median_income             5.855517  1        2.419817
+I(family_hh/total_hh)     2.185634  1        1.478389
+pct_bachelors             8.813745  1        2.968795
+pct_vacant                1.758337  1        1.326023
+pct_white                 3.923157  1        1.980696
+EconKDE                  23.401381  1        4.837497
+I(EconKDE^2)             14.581832  1        3.818616
+TreeKDE                   4.944515  1        2.223626
+mean_3nn_dist             1.762006  1        1.327406
+MHI_quantile           4483.858830  3        4.060772
+age:MHI_quantile       4564.873265  3        4.072910</code></pre>
 </div>
 <details open="" class="code-fold">
 <summary>Code</summary>
@@ -2429,7 +2429,7 @@ age:MHI_quantile       4544.316974  3        4.069847</code></pre>
     studentized Breusch-Pagan test
 
 data:  model4
-BP = 1196.6, df = 20, p-value &lt; 0.00000000000000022</code></pre>
+BP = 1221.2, df = 20, p-value &lt; 0.00000000000000022</code></pre>
 </div>
 <details open="" class="code-fold">
 <summary>Code</summary>
@@ -2510,8 +2510,8 @@ Model   RMSE  Adj_R2
 --------------------
 Model 1 0.620 0.376 
 Model 2 0.491 0.604 
-Model 3 0.490 0.607 
-Model 4 0.479 0.635 
+Model 3 0.485 0.613 
+Model 4 0.475 0.640 
 --------------------</code></pre>
 </div>
 </div>
@@ -2554,127 +2554,127 @@ Model Results
                                                                  Log of Sale Price                   
                                                  (1)       (2)           (3)               (4)       
 -----------------------------------------------------------------------------------------------------
-Log(Total Livable Area)                       0.981***  0.554***       0.535***          0.526***    
+Log(Total Livable Area)                       0.981***  0.554***      0.520***          0.509***     
                                                (0.023)   (0.019)       (0.019)           (0.017)     
                                                                                                      
-Number of Bedrooms                            -0.154***   0.002         0.001             0.005      
+Number of Bedrooms                            -0.154***   0.002        0.015**          0.018***     
                                                (0.008)   (0.007)       (0.007)           (0.006)     
                                                                                                      
-Number of Bathrooms                           0.266***  0.166***       0.164***          0.164***    
+Number of Bathrooms                           0.266***  0.166***      0.150***          0.151***     
                                                (0.009)   (0.007)       (0.007)           (0.007)     
                                                                                                      
-Building Age                                  -0.002*** -0.002***     -0.001***         -0.004***    
-                                              (0.0002)  (0.0001)       (0.0002)          (0.0004)    
+Building Age                                  -0.002*** -0.002***     -0.002***         -0.004***    
+                                              (0.0002)  (0.0001)      (0.0002)          (0.0004)     
                                                                                                      
-Interior Condition                            -0.194*** -0.171***     -0.178***         -0.159***    
-                                               (0.005)   (0.004)       (0.005)           (0.004)     
+Interior Condition                            -0.194*** -0.171***     -0.185***         -0.164***    
+                                               (0.005)   (0.004)       (0.004)           (0.004)     
                                                                                                      
-Median Household Income                                 0.00000**     0.00000***         -0.00000    
+Median Household Income                                 0.00000**    0.00000***         0.00000*     
                                                         (0.00000)     (0.00000)         (0.00000)    
                                                                                                      
-Family Household Share (Family HH / Total HH)           0.144***        0.033            0.077**     
+Family Household Share (Family HH / Total HH)           0.144***       -0.014             0.043      
                                                          (0.035)       (0.037)           (0.036)     
                                                                                                      
-% Bachelor's Degree Holders                             0.010***       0.012***          0.009***    
-                                                        (0.0004)       (0.0004)          (0.0004)    
+% Bachelor's Degree Holders                             0.010***      0.011***          0.008***     
+                                                        (0.0004)      (0.0004)          (0.0004)     
                                                                                                      
 % Vacant Housing Units                                  -0.017***     -0.013***         -0.011***    
                                                          (0.001)       (0.001)           (0.001)     
                                                                                                      
-% White Population                                      0.006***       0.005***          0.005***    
-                                                        (0.0002)       (0.0002)          (0.0002)    
+% White Population                                      0.006***      0.004***          0.004***     
+                                                        (0.0002)      (0.0002)          (0.0002)     
                                                                                                      
-Economic Density (EconKDE)                                          -15,860.680***      1,835.694    
-                                                                     (2,421.644)       (2,401.267)   
+Economic Density (EconKDE)                                          -5,950.706***     -3,726.664***  
+                                                                      (394.368)         (388.284)    
                                                                                                      
-Economic Density² (EconKDE²)                                      688,762,600.000*** 149,940,588.000*
-                                                                   (85,099,553.000)  (82,710,329.000)
+Economic Density² (EconKDE²)                                      35,299,866.000*** 26,476,926.000***
+                                                                   (1,854,561.000)   (1,802,283.000) 
                                                                                                      
-Tree Density (TreeKDE)                                              -2,341.584***     -1,444.854***  
-                                                                      (380.444)         (375.792)    
+Tree Density (TreeKDE)                                                -71.798*           -31.933     
+                                                                      (37.980)          (37.200)     
                                                                                                      
-Mean 3-Nearest Neighbor Distance                                       0.00000          0.00002***   
+Mean 3-Nearest Neighbor Distance                                       0.00000         0.00002***    
                                                                       (0.00000)         (0.00000)    
                                                                                                      
-quality_grade5                                 -0.739    -0.434         -0.458                       
-                                               (0.471)   (0.374)       (0.373)                       
+quality_grade5                                 -0.739    -0.434        -0.395                        
+                                               (0.471)   (0.374)       (0.370)                       
                                                                                                      
-quality_gradeA                                  0.025     0.111         0.108                        
-                                               (0.175)   (0.139)       (0.139)                       
+quality_gradeA                                  0.025     0.111         0.136                        
+                                               (0.175)   (0.139)       (0.138)                       
                                                                                                      
-quality_gradeA-                                 0.030     0.070         0.092                        
-                                               (0.181)   (0.144)       (0.144)                       
+quality_gradeA-                                 0.030     0.070         0.144                        
+                                               (0.181)   (0.144)       (0.143)                       
                                                                                                      
-quality_gradeA+                                 0.061     0.114         0.115                        
-                                               (0.212)   (0.169)       (0.168)                       
+quality_gradeA+                                 0.061     0.114         0.158                        
+                                               (0.212)   (0.169)       (0.167)                       
                                                                                                      
-quality_gradeB                                  0.032     0.098         0.112                        
-                                               (0.152)   (0.121)       (0.121)                       
-                                                                                                     
-quality_gradeB-                                 0.127     0.180         0.195                        
+quality_gradeB                                  0.032     0.098         0.163                        
                                                (0.152)   (0.121)       (0.120)                       
                                                                                                      
-quality_gradeB+                                -0.047     0.025         0.052                        
-                                               (0.157)   (0.125)       (0.125)                       
+quality_gradeB-                                 0.127     0.180        0.229*                        
+                                               (0.152)   (0.121)       (0.119)                       
                                                                                                      
-quality_gradeC                                 -0.145     0.165         0.177                        
-                                               (0.150)   (0.119)       (0.119)                       
+quality_gradeB+                                -0.047     0.025         0.099                        
+                                               (0.157)   (0.125)       (0.124)                       
                                                                                                      
-quality_gradeC-                                -0.103     0.130         0.138                        
-                                               (0.152)   (0.121)       (0.120)                       
+quality_gradeC                                 -0.145     0.165        0.222*                        
+                                               (0.150)   (0.119)       (0.118)                       
                                                                                                      
-quality_gradeC+                                -0.027     0.187         0.199*                       
-                                               (0.150)   (0.120)       (0.119)                       
+quality_gradeC-                                -0.103     0.130         0.186                        
+                                               (0.152)   (0.121)       (0.119)                       
                                                                                                      
-quality_gradeD                                  0.147     0.187         0.212*                       
-                                               (0.157)   (0.125)       (0.125)                       
+quality_gradeC+                                -0.027     0.187        0.238**                       
+                                               (0.150)   (0.120)       (0.118)                       
                                                                                                      
-quality_gradeD-                                -0.221    -0.081         -0.065                       
-                                               (0.320)   (0.254)       (0.253)                       
+quality_gradeD                                  0.147     0.187        0.270**                       
+                                               (0.157)   (0.125)       (0.124)                       
                                                                                                      
-quality_gradeD+                                 0.227   0.399***       0.406***                      
-                                               (0.181)   (0.144)       (0.144)                       
+quality_gradeD-                                -0.221    -0.081        -0.005                        
+                                               (0.320)   (0.254)       (0.251)                       
                                                                                                      
-quality_gradeE                                -0.421**   -0.053         -0.012                       
-                                               (0.214)   (0.170)       (0.170)                       
+quality_gradeD+                                 0.227   0.399***      0.436***                       
+                                               (0.181)   (0.144)       (0.143)                       
                                                                                                      
-quality_gradeE-                               -0.694***   0.144         0.182                        
-                                               (0.250)   (0.214)       (0.213)                       
+quality_gradeE                                -0.421**   -0.053         0.080                        
+                                               (0.214)   (0.170)       (0.169)                       
                                                                                                      
-quality_gradeE+                                -0.369    -0.001         0.030                        
-                                               (0.250)   (0.199)       (0.198)                       
+quality_gradeE-                               -0.694***   0.144         0.265                        
+                                               (0.250)   (0.214)       (0.211)                       
                                                                                                      
-quality_gradeS                                  0.071     0.375         0.410                        
-                                               (0.471)   (0.374)       (0.373)                       
+quality_gradeE+                                -0.369    -0.001         0.113                        
+                                               (0.250)   (0.199)       (0.196)                       
                                                                                                      
-quality_gradeX-                                 0.372     0.044         -0.005                       
-                                               (0.472)   (0.376)       (0.374)                       
+quality_gradeS                                  0.071     0.375         0.484                        
+                                               (0.471)   (0.374)       (0.370)                       
                                                                                                      
-MHI_quantileQ2                                                                           0.162***    
+quality_gradeX-                                 0.372     0.044         0.142                        
+                                               (0.472)   (0.376)       (0.371)                       
+                                                                                                     
+MHI_quantileQ2                                                                          0.136***     
                                                                                          (0.051)     
                                                                                                      
-MHI_quantileQ3                                                                            -0.026     
+MHI_quantileQ3                                                                           -0.023      
                                                                                          (0.047)     
                                                                                                      
-MHI_quantileQ4 (highest)                                                                 -0.098**    
+MHI_quantileQ4 (highest)                                                                 -0.074      
                                                                                          (0.045)     
                                                                                                      
 age:MHI_quantileQ2                                                                       0.001**     
                                                                                          (0.001)     
                                                                                                      
-age:MHI_quantileQ3                                                                       0.003***    
-                                                                                         (0.0005)    
+age:MHI_quantileQ3                                                                      0.003***     
+                                                                                        (0.0005)     
                                                                                                      
-age:MHI_quantileQ4 (highest)                                                             0.005***    
-                                                                                         (0.0005)    
+age:MHI_quantileQ4 (highest)                                                            0.004***     
+                                                                                        (0.0004)     
                                                                                                      
-Constant                                      6.300***  8.106***       8.378***          8.613***    
-                                               (0.213)   (0.173)       (0.174)           (0.122)     
+Constant                                      6.300***  8.106***      8.483***          8.757***     
+                                               (0.213)   (0.173)       (0.173)           (0.121)     
                                                                                                      
 -----------------------------------------------------------------------------------------------------
-Observations                                   21,269    21,010         21,009            21,196     
-R2                                              0.377     0.604         0.607             0.635      
-Adjusted R2                                     0.376     0.604         0.607             0.635      
+Observations                                   21,269    21,010        20,999            21,186      
+R2                                              0.377     0.604         0.614             0.640      
+Adjusted R2                                     0.376     0.604         0.613             0.640      
 =====================================================================================================
 Note:                                                                     *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
 </div>
@@ -2922,16 +2922,16 @@ visual variable `fill` namely 'title' to 'fill.legend = tm_legend(&lt;HERE&gt;)'
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Fold   RMSE    MAE     R2
-1     1 0.4865 0.3394 0.6668
-2     2 0.4946 0.3392 0.6301
-3     3 0.5182 0.3443 0.6134
-4     4 0.4703 0.3221 0.6786
-5     5 0.4793 0.3194 0.6580
-6     6 0.6799 0.4318 0.3429
-7     7 0.4891 0.3267 0.6417
-8     8 0.4330 0.3047 0.7046
-9     9 0.4415 0.3073 0.6934
-10   10 0.4822 0.3259 0.6633</code></pre>
+1     1 0.4824 0.3348 0.6729
+2     2 0.4905 0.3346 0.6368
+3     3 0.5133 0.3377 0.6210
+4     4 0.4658 0.3157 0.6849
+5     5 0.4756 0.3153 0.6632
+6     6 0.6785 0.4293 0.3458
+7     7 0.4855 0.3222 0.6472
+8     8 0.4271 0.2973 0.7126
+9     9 0.4358 0.2999 0.7013
+10   10 0.4784 0.3212 0.6686</code></pre>
 </div>
 </div>
 </section>
@@ -2967,16 +2967,16 @@ visual variable `fill` namely 'title' to 'fill.legend = tm_legend(&lt;HERE&gt;)'
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Fold   RMSE    MAE     R2
-1     1 0.4744 0.3291 0.6810
-2     2 0.4839 0.3282 0.6445
-3     3 0.5022 0.3301 0.6316
-4     4 0.4524 0.3067 0.6983
-5     5 0.4631 0.3054 0.6770
-6     6 0.6751 0.4182 0.3491
-7     7 0.4759 0.3153 0.6573
-8     8 0.4200 0.2920 0.7218
-9     9 0.4260 0.2908 0.7128
-10   10 0.4650 0.3095 0.6822</code></pre>
+1     1 0.4704 0.3245 0.6868
+2     2 0.4802 0.3238 0.6504
+3     3 0.4979 0.3243 0.6382
+4     4 0.4490 0.3013 0.7030
+5     5 0.4598 0.3013 0.6816
+6     6 0.6733 0.4158 0.3526
+7     7 0.4732 0.3112 0.6613
+8     8 0.4147 0.2860 0.7288
+9     9 0.4210 0.2843 0.7194
+10   10 0.4620 0.3047 0.6864</code></pre>
 </div>
 </div>
 </section>
@@ -3006,8 +3006,8 @@ Model   CV_RMSE CV_MAE CV_R2
 ----------------------------
 Model 1  0.631  0.466  0.401
 Model 2  0.500  0.338  0.626
-Model 3  0.497  0.336  0.629
-Model 4  0.484  0.323  0.646
+Model 3  0.493  0.331  0.635
+Model 4  0.480  0.318  0.651
 ----------------------------</code></pre>
 </div>
 </div>
@@ -3029,16 +3029,16 @@ Model 4  0.484  0.323  0.646
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Fold   RMSE    MAE     R2
-1     1 0.4744 0.3291 0.6810
-2     2 0.4839 0.3282 0.6445
-3     3 0.5022 0.3301 0.6316
-4     4 0.4524 0.3067 0.6983
-5     5 0.4631 0.3054 0.6770
-6     6 0.6751 0.4182 0.3491
-7     7 0.4759 0.3153 0.6573
-8     8 0.4200 0.2920 0.7218
-9     9 0.4260 0.2908 0.7128
-10   10 0.4650 0.3095 0.6822</code></pre>
+1     1 0.4704 0.3245 0.6868
+2     2 0.4802 0.3238 0.6504
+3     3 0.4979 0.3243 0.6382
+4     4 0.4490 0.3013 0.7030
+5     5 0.4598 0.3013 0.6816
+6     6 0.6733 0.4158 0.3526
+7     7 0.4732 0.3112 0.6613
+8     8 0.4147 0.2860 0.7288
+9     9 0.4210 0.2843 0.7194
+10   10 0.4620 0.3047 0.6864</code></pre>
 </div>
 <details open="" class="code-fold">
 <summary>Code</summary>
@@ -3054,21 +3054,21 @@ Model 4 CV Performance Summary:</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb133"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"RMSE: Mean ="</span>, <span class="fu">round</span>(<span class="fu">mean</span>(rmse_cv_4), <span class="dv">4</span>), <span class="st">", SD ="</span>, <span class="fu">round</span>(<span class="fu">sd</span>(rmse_cv_4), <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>RMSE: Mean = 0.4838 , SD = 0.0717 </code></pre>
+<pre><code>RMSE: Mean = 0.4801 , SD = 0.0725 </code></pre>
 </div>
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb135"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"MAE:  Mean ="</span>, <span class="fu">round</span>(<span class="fu">mean</span>(mae_cv_4), <span class="dv">4</span>), <span class="st">", SD ="</span>, <span class="fu">round</span>(<span class="fu">sd</span>(mae_cv_4), <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>MAE:  Mean = 0.3225 , SD = 0.0365 </code></pre>
+<pre><code>MAE:  Mean = 0.3177 , SD = 0.0375 </code></pre>
 </div>
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb137"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb137-1"><a href="#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"R²:   Mean ="</span>, <span class="fu">round</span>(<span class="fu">mean</span>(r2_cv_4), <span class="dv">4</span>), <span class="st">", SD ="</span>, <span class="fu">round</span>(<span class="fu">sd</span>(r2_cv_4), <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>R²:   Mean = 0.6456 , SD = 0.108 </code></pre>
+<pre><code>R²:   Mean = 0.6509 , SD = 0.1086 </code></pre>
 </div>
 </div>
 </section>
@@ -3112,27 +3112,27 @@ Model 4 CV Performance Summary:</code></pre>
 <span id="cb140-8"><a href="#cb140-8" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(feature_importance)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>                        Feature    Coefficient
-1        log_total_livable_area         0.5259
-2            number_of_bedrooms         0.0048
-3           number_of_bathrooms         0.1642
-4                           age        -0.0043
-5            interior_condition        -0.1589
-6                 median_income         0.0000
-7         I(family_hh/total_hh)         0.0772
-8                 pct_bachelors         0.0087
-9                    pct_vacant        -0.0110
-10                    pct_white         0.0047
-11                      EconKDE      1835.6937
-12                 I(EconKDE^2) 149940588.0799
-13                      TreeKDE     -1444.8536
-14                mean_3nn_dist         0.0000
-15               MHI_quantileQ2         0.1616
-16               MHI_quantileQ3        -0.0255
-17     MHI_quantileQ4 (highest)        -0.0977
-18           age:MHI_quantileQ2         0.0012
-19           age:MHI_quantileQ3         0.0027
-20 age:MHI_quantileQ4 (highest)         0.0045</code></pre>
+<pre><code>                        Feature   Coefficient
+1        log_total_livable_area        0.5092
+2            number_of_bedrooms        0.0175
+3           number_of_bathrooms        0.1512
+4                           age       -0.0042
+5            interior_condition       -0.1643
+6                 median_income        0.0000
+7         I(family_hh/total_hh)        0.0427
+8                 pct_bachelors        0.0084
+9                    pct_vacant       -0.0109
+10                    pct_white        0.0043
+11                      EconKDE    -3726.6639
+12                 I(EconKDE^2) 26476925.8415
+13                      TreeKDE      -31.9325
+14                mean_3nn_dist        0.0000
+15               MHI_quantileQ2        0.1360
+16               MHI_quantileQ3       -0.0226
+17     MHI_quantileQ4 (highest)       -0.0736
+18           age:MHI_quantileQ2        0.0014
+19           age:MHI_quantileQ3        0.0027
+20 age:MHI_quantileQ4 (highest)        0.0042</code></pre>
 </div>
 </div>
 <p>The most important feature is I(EconKDE^2). It has the largest coefficient compared for all the other features. This reflects that being close to commercial activities is really important to housing prices. There is also a pattern that spatial features are important.</p>
@@ -3210,8 +3210,8 @@ Model 4 CV Performance Summary:</code></pre>
 </section>
 <section id="phase-7-conclusions-recommendations" class="level1">
 <h1>PHASE 7: Conclusions &amp; Recommendations</h1>
-<p>Our final model’s is able to explain 64% of the variation on <em>logged</em> house prices in Philadelphia, with an average error of 48.31%. Our residuals mostly fall along the Q-Q plot’s line and are homoscadestic (as seen in the Scale-Location plot), meaning that the residuals both fall on a normal distribution and the variance of residuals is consistent across all independent variable values. Our K-folds analysis returned an R2 of .65 (higher than the model’s original .64), illustrating our model’s efficacy with non-test data. The feature that matters most is the economic density around the examined housing unit, as it first has a positive relationship with housing price and then has a negative relationship.</p>
-<p>Hardest neighborhoods to predict are the most affluent areas — as the social connotations of these spaces are both largely influential in housing prices as well as unquantifiable. Becuase of historical underdevelopment and the history of how that is tied to both race and class, housing prices are intrinsically tied to these vulnerable groups. A model that predicts housing prices is also convincing developers to focus on already well-to-do neighborhoods, whether it be when building housing or commercial centers. There are pros and cons to this, as it may protect neighborhoods from gentrification, but it could also exclude them from capital infusions and access to goods/services. Our model is limited in numerous ways, one of which is the inability to quantify power of word of mouth. For example, once the general vibe around a neighborhood — such as Fishtown — changes from working class (or from another marginalized group) to “up and coming” or “hip”, future housing prices in the area may radically change. Another limitation is the non-incorporation of Philadelphia’s future plans. For example, if the Roosevelt Boulevard extension was to begin construction, then our model would be unable to predict the change in housing price until the stations were built and the local impacts began.</p>
+<p>Our final model’s is able to explain 63.5% of the variation on <em>logged</em> house prices in Philadelphia, with an average error of 48.66%. Our residuals mostly fall along the Q-Q plot’s line and are homoscadestic (as seen in the Scale-Location plot), meaning that the residuals both fall on a normal distribution and the variance of residuals is consistent across all independent variable values. Our K-folds analysis returned an R2 of .6822 (higher than the model’s original .635), illustrating our model’s efficacy with non-test data. The feature that matters most is the economic density around the examined housing unit, as it first has a negative relationship with housing price and then has a positive relationship.</p>
+<p>Hardest neighborhoods to predict are the most affluent areas — as the social connotations of these spaces are both largely influential in housing prices as well as unquantifiable. Because of historical underdevelopment and the history of how that is tied to both race and class, housing prices are intrinsically tied to these vulnerable groups. A model that predicts housing prices is also convincing developers to focus on already well-to-do neighborhoods, whether it be when building housing or commercial centers. There are pros and cons to this, as it may protect neighborhoods from gentrification, but it could also exclude them from capital infusions and access to goods/services. Our model is limited in numerous ways, one of which is the inability to quantify power of word of mouth. For example, once the general vibe around a neighborhood — such as Fishtown — changes from working class (or from another marginalized group) to “up and coming” or “hip”, future housing prices in the area may radically change. Another limitation is the non-incorporation of Philadelphia’s future plans. For example, if the Roosevelt Boulevard extension was to begin construction, then our model would be unable to predict the change in housing price until the stations were built and the local impacts began.</p>
 
 
 </section>
