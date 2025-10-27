@@ -1,6 +1,11 @@
 ---
 title: "Technical Appendix"
-format: html
+format: 
+  html:
+    toc: true
+    toc-location: left
+    code-fold: show
+    theme: cosmo
 ---
 
 ```{r}
@@ -1542,10 +1547,10 @@ The most important feature is I(EconKDE^2). It has the largest coefficient compa
 #generate diagnostic plots
 plot(model4)
 ```
-# Residual Plot:
+### Residual Plot:
 The Residuals vs Fitted plot shows mild heteroskedasticity and a small degree of curvature, which is expected in a dataset of this size, and the model performs consistently well across most of the fitted range with only a few isolated outliers.
 
-# QQ-Plot:
+### QQ-Plot:
 The Q-Q plot shows slight deviation from normality in the extreme tails, which is common in large real-world housing datasets, while the majority of residuals align closely with the theoretical normal distribution, indicating that model inference remains reliable.
 
 ### Cook's Distance Plot
