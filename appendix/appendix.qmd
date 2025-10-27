@@ -318,7 +318,7 @@ head(philly_neighborhoods)
 ```
 
 
-### Commercial and office points of interests (Amenities)(alternative at line 360 if you do not want to download pbf data)
+### Commercial and office points of interests (Amenities)(alternative in the next section if you do not want to download pbf data)
 
 ```{r, eval=FALSE}
 # downloading osm data from geofabrik:https://download.geofabrik.de/north-america/us-northeast.html
@@ -357,7 +357,7 @@ if ("other_tags" %in% names(poi)) {
 
 ```
 
-###Alternative: filtered POI if you donot want to download osm data
+### Alternative: filtered POI if you donot want to download osm data
 ```{r}
 
 poi_path <- here("data", "filtered poi")
@@ -515,7 +515,7 @@ before_after_summary <- data.frame(
               ncol(phl_sales_clean_sf_final))
 )
 
-knitr::kable(before_after_summary, caption = "Table A1. Data dimensions before and after cleaning")
+knitr::kable(before_after_summary, caption = "Data dimensions before and after cleaning")
 
 ```
 
