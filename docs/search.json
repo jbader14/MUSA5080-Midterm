@@ -124,5 +124,19 @@
     "title": "Predicting Housing Sales",
     "section": "Mapped observations",
     "text": "Mapped observations\n\n\n\n\n\nHome Price Across the City\n\n\n\nKey Findings\n\nPrices cluster spatially\nCenter City & NW Philly are highest\nSouth Philly shows additional hotspots"
+  },
+  {
+    "objectID": "presentation/presentation.html#stepwise-modeling-strategy",
+    "href": "presentation/presentation.html#stepwise-modeling-strategy",
+    "title": "Predicting Housing Sales",
+    "section": "Stepwise Modeling Strategy",
+    "text": "Stepwise Modeling Strategy\n\nModel 1: Structural features only\n\nModel 2: + Census tract demographics\n\nModel 3: + Spatial features (KDE, proximity)\n\nModel 4: + Interactions and neighborhood effects\n\nGoal: Test whether place-based factors improve predictive accuracy."
+  },
+  {
+    "objectID": "presentation/presentation.html#model-performance-improves-at-each-stage",
+    "href": "presentation/presentation.html#model-performance-improves-at-each-stage",
+    "title": "Predicting Housing Sales",
+    "section": "Model Performance Improves at Each Stage",
+    "text": "Model Performance Improves at Each Stage\n\n\n\n\n\n\n\n\nModel\nAdj. R²\nInterpretation\n\n\n\n\n(1) Structural\n0.38\nHouse features alone are not enough\n\n\n(2) + Census\n0.60\nNeighborhood socioeconomic patterns matter\n\n\n(3) + Spatial\n0.61\nLocation and amenities add signal\n\n\n(4) + Interactions\n0.64\nWealthy areas shape how homes retain value\n\n\n\nTakeaway: Spatial + neighborhood effects are essential to explaining price variation in Philadelphia."
   }
 ]

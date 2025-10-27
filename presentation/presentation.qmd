@@ -72,7 +72,27 @@ What key predictors are missing from the legacy model, and how can we improve it
 
 ---
 
-## Model Comparison
+## Stepwise Modeling Strategy
+
+1. **Model 1:** Structural features only  
+2. **Model 2:** + Census tract demographics  
+3. **Model 3:** + Spatial features (KDE, proximity)  
+4. **Model 4:** + Interactions and neighborhood effects
+
+**Goal:** Test whether place-based factors improve predictive accuracy.
+
+---
+
+## Model Performance Improves at Each Stage
+
+| Model | Adj. R² | Interpretation |
+|--------|---------|----------------|
+| (1) Structural | 0.38 | House features alone are not enough |
+| (2) + Census | 0.60 | Neighborhood socioeconomic patterns matter |
+| (3) + Spatial | 0.61 | Location and amenities add signal |
+| (4) + Interactions | 0.64 | Wealthy areas shape how homes retain value |
+
+**Takeaway:** Spatial + neighborhood effects are essential to explaining price variation in Philadelphia.
 
 ---
 

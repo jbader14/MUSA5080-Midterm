@@ -205,8 +205,58 @@ Jack Bader, Joey Cahill, Matthew Levy, Sam Sen, Tim Wen, Ye Zhang
 <li>Building Age <img data-src="homeSaleAge.jpeg" alt="Sale by Age"></li>
 </ul>
 </section>
-<section id="model-comparison" class="slide level2">
-<h2>Model Comparison</h2>
+<section id="stepwise-modeling-strategy" class="slide level2 scrollable">
+<h2>Stepwise Modeling Strategy</h2>
+<ol type="1">
+<li><strong>Model 1:</strong> Structural features only<br>
+</li>
+<li><strong>Model 2:</strong> + Census tract demographics<br>
+</li>
+<li><strong>Model 3:</strong> + Spatial features (KDE, proximity)<br>
+</li>
+<li><strong>Model 4:</strong> + Interactions and neighborhood effects</li>
+</ol>
+<p><strong>Goal:</strong> Test whether place-based factors improve predictive accuracy.</p>
+</section>
+<section id="model-performance-improves-at-each-stage" class="slide level2">
+<h2>Model Performance Improves at Each Stage</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 24%">
+<col style="width: 27%">
+<col style="width: 48%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>Adj. R²</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>(1) Structural</td>
+<td>0.38</td>
+<td>House features alone are not enough</td>
+</tr>
+<tr class="even">
+<td>(2) + Census</td>
+<td>0.60</td>
+<td>Neighborhood socioeconomic patterns matter</td>
+</tr>
+<tr class="odd">
+<td>(3) + Spatial</td>
+<td>0.61</td>
+<td>Location and amenities add signal</td>
+</tr>
+<tr class="even">
+<td>(4) + Interactions</td>
+<td>0.64</td>
+<td>Wealthy areas shape how homes retain value</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Takeaway:</strong> Spatial + neighborhood effects are essential to explaining price variation in Philadelphia.</p>
 </section>
 <section id="hardest-neighborhoods-to-predict" class="slide level2">
 <h2>Hardest Neighborhoods to Predict</h2>
