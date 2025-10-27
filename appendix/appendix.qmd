@@ -1310,8 +1310,7 @@ stargazer(model1,model2,model3,model4,
             "Economic Density (EconKDE)",
             "Economic Density² (EconKDE²)",
             "Tree Density (TreeKDE)",
-            "Mean 3-Nearest Neighbor Distance",
-            "Income Q2","Income Q3", "Income Q4"
+            "Mean 3-Nearest Neighbor Distance"
           ),
           omit.stat = c("f", "ser"),
           digits = 3)
