@@ -1316,7 +1316,7 @@ stargazer(model1,model2,model3,model4,
           digits = 3)
 
 ```
-## Coefficient Interpretations
+### Coefficient Interpretations
 
 **Structural Features:**
 - **Log(Total Livable Area) (β = 0.509, p < 0.001)**: A 1% increase in total livable area is associated with a 0.509% increase in sale price, holding all other factors constant. This represents the strongest predictor in our model, indicating that size is the primary driver of housing value in Philadelphia.
@@ -1486,13 +1486,6 @@ stargazer(cv_summary,
           title = "10-Fold Cross-Validation Results",
           summary = FALSE,
           rownames = FALSE)
-
-stargazer(cv_summary,
-          type = "html",
-          title = "10-Fold Cross-Validation Results",
-          summary = FALSE,
-          rownames = FALSE,
-          out = "cv_results.html")
 ```
 
 ### Detailed CV Results by Fold
@@ -1538,9 +1531,9 @@ feature_importance <- data.frame(
 
 print(feature_importance)
 
-#The most important feature is I(EconKDE^2). It has the largest coefficient compared for all the other features. This reflects that being close to commerical activities is really important to housing prices. There is also a pattern that spatial features are important.
-```
 
+```
+The most important feature is I(EconKDE^2). It has the largest coefficient compared for all the other features. This reflects that being close to commercial activities is really important to housing prices. There is also a pattern that spatial features are important.
 
 # PHASE 6: Model Diagnostics
 
