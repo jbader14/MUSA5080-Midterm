@@ -903,7 +903,7 @@ ggplot(philly_sales_count) +
     trans = "sqrt"  
   ) +
   labs(
-    title = "Number of Property Sales by Neighborhood (2023–2024)",
+    title = "Number of Sales by Neighborhood (2023–2024)",
     subtitle = "Philadelphia County"
   ) +
   theme_void(base_size = 14) +
