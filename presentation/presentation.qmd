@@ -135,10 +135,10 @@ $$
 ::: column
 ### **Key Insight**
 - The model struggles most in **high-value, high-amenity neighborhoods**
-- **Under-predicted (red):** Center City, Northwest Philly, Fishtown, South Philly  
-  → Homes sell for **more than the model expects**
-- **Over-predicted (blue):** Economically underserved neighborhoods  
-  → Homes sell for **less than predicted**
+- **Over-predicted (red):** Center City, Northwest Philly, Fishtown, South Philly  
+  → Homes sell for **less than the model expects**
+- **Under-predicted (blue):** Economically underserved neighborhoods  
+  → Homes sell for **more than predicted**
 - **Why?** Prestige, walkability, and growing interest are **not fully captured** by structural or census variables
 :::
 ::::
@@ -148,8 +148,12 @@ $$
 
 ## Key Findings
 
-**Model Accuracy:** RMSE = 0.479 (log scale)  
-**Model Fit:** R² = 0.64 (0.65 with K-fold CV)
+**Model Accuracy:** RMSE = 0.487 (log scale) 
+- On average, the percent difference is 48.7% between expected and true logged housing prices. 
+
+
+**Model Fit:** R² = 0.635 (0.682 with K-fold CV) 
+- 63.5% of the variance in log(sales price) is explained by our model.
 
 **Top Predictors**
 

@@ -287,18 +287,18 @@ Jack Bader, Joey Cahill, Matthew Levy, Sam Sen, Tim Wen, Ye Zhang
 <h3 id="key-insight"><strong>Key Insight</strong></h3>
 <ul>
 <li>The model struggles most in <strong>high-value, high-amenity neighborhoods</strong></li>
-<li><strong>Under-predicted (red):</strong> Center City, Northwest Philly, Fishtown, South Philly<br>
-→ Homes sell for <strong>more than the model expects</strong></li>
-<li><strong>Over-predicted (blue):</strong> Economically underserved neighborhoods<br>
-→ Homes sell for <strong>less than predicted</strong></li>
+<li><strong>Over-predicted (red):</strong> Center City, Northwest Philly, Fishtown, South Philly<br>
+→ Homes sell for <strong>less than the model expects</strong></li>
+<li><strong>Under-predicted (blue):</strong> Economically underserved neighborhoods<br>
+→ Homes sell for <strong>more than predicted</strong></li>
 <li><strong>Why?</strong> Prestige, walkability, and growing interest are <strong>not fully captured</strong> by structural or census variables</li>
 </ul>
 </div></div>
 </section>
 <section id="key-findings-1" class="slide level2">
 <h2>Key Findings</h2>
-<p><strong>Model Accuracy:</strong> RMSE = 0.479 (log scale)<br>
-<strong>Model Fit:</strong> R² = 0.64 (0.65 with K-fold CV)</p>
+<p><strong>Model Accuracy:</strong> RMSE = 0.487 (log scale) - On average, the percent difference is 48.7% between expected and true logged housing prices.</p>
+<p><strong>Model Fit:</strong> R² = 0.635 (0.682 with K-fold CV) - 63.5% of the variance in log(sales price) is explained by our model.</p>
 <p><strong>Top Predictors</strong></p>
 <ul>
 <li><strong>Economic Density (U-shaped effect):</strong> Strongest spatial driver of price</li>
