@@ -100,9 +100,9 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Predicting Housing Sales",
+    "title": "Philadelphia Housing Price Prediction",
     "section": "",
-    "text": "Project Overview: Our team was tasked by the Philadelphia Office of Property Assessment with the mission to improve upon the Automated Valuation Model (AVM) to deliver more accurate property tax assessments. In the end, we built a model that accurately predicts house sale prices in the Philadelphia are using structural, Census, and spatial variables. The goal is to use our model to support data-driven policy decisions related in the city to deliver equitable property assessments and increase fairness, trust, etc. fo all residents.\nMembers: Jack Bader, Joey Cahill, Matthew Levy, Sam Sen, Tim Wen, Ye Zhang\nDate: October 27, 2025"
+    "text": "Project Overview: Our team was tasked by the Philadelphia Office of Property Assessment with the mission to improve upon the Automated Valuation Model (AVM) to deliver more accurate property tax assessments. In the end, we built a model that accurately predicts house sale prices in the Philadelphia are using structural, Census, and spatial variables. The goal is to use our model to support data-driven policy decisions related in the city to deliver equitable property assessments and increase fairness, trust, etc. fo all residents.\n\nMembers: Jack Bader, Joey Cahill, Matthew Levy, Sam Sen, Tim Wen, Ye Zhang\nDate: October 27, 2025"
   },
   {
     "objectID": "index.html#project-intention",
@@ -180,5 +180,12 @@
     "title": "Predicting Housing Sales",
     "section": "Questions?",
     "text": "Questions?\n\nThank you!\n\n\nContact Information:\n\nJack Bader\n\njbader14@upenn.edu\n\nMatthew Levy\n\nmblevy@upenn.edu\n\nTim Wen\n\nsw6as@upenn.edu\n\n\n\n\nJoey Cahill\n\ncahill1@upenn.edu\n\nSam Sen\n\nsen1@upenn.edu\n\nYe Zhang\n\nyezhang1@upenn.edu"
+  },
+  {
+    "objectID": "presentation/presentation.html#structural-price-drivers",
+    "href": "presentation/presentation.html#structural-price-drivers",
+    "title": "Predicting Housing Sales",
+    "section": "Structural Price Drivers",
+    "text": "Structural Price Drivers"
   }
 ]

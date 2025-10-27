@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Jack Bader, Joey Cahill, Matthew Levy, Sam Sen, Tim Wen, Ye Zhang">
-<meta name="dcterms.date" content="2025-10-26">
 
-<title>Predicting Housing Sales</title>
+<title>Philadelphia Housing Price Prediction</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -71,35 +69,6 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
@@ -151,8 +120,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Predicting Housing Sales</h1>
-<p class="subtitle lead">Team Jai Ho Midterm</p>
+<h1 class="title">Philadelphia Housing Price Prediction</h1>
 </div>
 
 
@@ -160,12 +128,6 @@ window.Quarto = {
 <div class="quarto-title-meta">
 
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">October 26, 2025</p>
-    </div>
-  </div>
   
     
   </div>
@@ -181,254 +143,6 @@ window.Quarto = {
 <p><strong>Date:</strong> October 27, 2025</p>
 
 
-<section id="project-intention" class="level2">
-<h2 class="anchored" data-anchor-id="project-intention">Project Intention</h2>
-<section id="why-it-matters" class="level3">
-<h3 class="anchored" data-anchor-id="why-it-matters"><strong>Why it Matters</strong></h3>
-<p>Philadelphia’s current Automated Valuation Model (AVM) is underperforming, leading to inconsistent and inequitable property assessments.</p>
-</section>
-<section id="our-guiding-question" class="level3">
-<h3 class="anchored" data-anchor-id="our-guiding-question"><strong>Our Guiding Question</strong></h3>
-<p>What key predictors are missing from the legacy model, and how can we improve its accuracy and fairness?</p>
-<hr>
-</section>
-</section>
-<section id="data-sources" class="level2">
-<h2 class="anchored" data-anchor-id="data-sources">Data Sources</h2>
-<ul>
-<li><strong>City of Philadelphia</strong>
-<ul>
-<li>Philadelphia Properties and Current Assessments (n= 21,807 Home Sales)</li>
-</ul></li>
-<li><strong>OpenDataPhilly</strong>
-<ul>
-<li>Neighborhood Boundaries (Polygon)</li>
-<li>School Locations, Attendance, and Withdrawals</li>
-</ul></li>
-<li><strong>Geofabrik (OpenStreetMap)</strong>
-<ul>
-<li>Commercial and Economic Activity Points</li>
-</ul></li>
-<li><strong>U.S. Census (ACS 5-Year)</strong>
-<ul>
-<li>Education</li>
-<li>Vacancy Rates</li>
-<li>Family Household Share</li>
-<li>Percent White</li>
-<li>Median Household Income</li>
-</ul></li>
-</ul>
-<hr>
-</section>
-<section id="mapped-observations" class="level2">
-<h2 class="anchored" data-anchor-id="mapped-observations">Mapped Observations</h2>
-<div class="columns">
-<div class="column" style="width:70%;">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="median_price_map.png" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption>Home Price Across the City</figcaption>
-</figure>
-</div>
-</div><div class="column" style="width:30%;">
-<section id="key-findings" class="level3">
-<h3 class="anchored" data-anchor-id="key-findings"><strong>Key Findings</strong></h3>
-<ul>
-<li>Prices cluster spatially<br>
-</li>
-<li>Center City &amp; Northwest Philadelphia show highest home values<br>
-</li>
-<li>Additional hotspots in South Philadelphia<br>
-</li>
-</ul>
-</section>
-</div>
-</div>
-<hr>
-</section>
-<section id="structural-price-drivers" class="level2">
-<h2 class="anchored" data-anchor-id="structural-price-drivers">Structural Price Drivers</h2>
-<p><img src="bathrooms.png" class="img-fluid" style="width:48.0%" alt="Bathrooms"> <img src="bedrooms.png" class="img-fluid" style="width:48.0%" alt="Bedrooms"></p>
-<p><img src="area.png" class="img-fluid" style="width:48.0%" alt="Area"> <img src="age.png" class="img-fluid" style="width:48.0%" alt="Age"></p>
-<hr>
-</section>
-<section id="progressive-regression-models" class="level2">
-<h2 class="anchored" data-anchor-id="progressive-regression-models">Progressive Regression Models</h2>
-<p><strong>Goal:</strong> Test whether place-based factors improve predictive accuracy.</p>
-<p><span class="math display">\[
-\begin{aligned}
-\log(\text{Price}) = \beta_0 &amp;+ \color{red}{\beta_1 \log(\text{Livable Area}) + \beta_2 \text{Bedrooms} + \beta_3 \text{Bathrooms}} \\
-&amp;+ \color{red}{\beta_4 \text{Age} + \beta_5 \text{Interior Condition} + \beta_6 \text{Quality Grade}} \\
-&amp;+ \color{orange}{\beta_7 \text{Median Income} + \beta_8 \text{Family Household Ratio}}  \\
-&amp;+ \color{orange}{\beta_9 \text{% Bachelors}+ \beta_{10} \text{% Vacant} + \beta_{11} \text{% White}} \\
-&amp;+ \color{blue}{\beta_{12} \text{EconKDE} + \beta_{13} \text{EconKDE}^2 + \beta_{14} \text{TreeKDE} + \beta_{15} \text{Mean 3NN Dist}} \\
-&amp;+ \color{green}{\beta_{16} \text{MHI Quantile} + \beta_{17} (\text{MHI Quantile} \times \text{Age})} + \varepsilon
-\end{aligned}
-\]</span></p>
-<p><strong>Model Layers</strong><br>
-- <span style="color:red">Model 1: Structural</span><br>
-- <span style="color:orange">Model 2: + Demographics</span><br>
-- <span style="color:blue">Model 3: + Spatial</span><br>
-- <span style="color:green">Model 4: + Interactions</span></p>
-<hr>
-</section>
-<section id="model-performance-improves-at-each-stage" class="level2">
-<h2 class="anchored" data-anchor-id="model-performance-improves-at-each-stage">Model Performance Improves at Each Stage</h2>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 24%">
-<col style="width: 27%">
-<col style="width: 48%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Model</th>
-<th>Adj. R²</th>
-<th>Interpretation</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>(1) Structural</td>
-<td>0.38</td>
-<td>House features alone are not enough</td>
-</tr>
-<tr class="even">
-<td>(2) + Census</td>
-<td>0.60</td>
-<td>Neighborhood socioeconomic patterns matter</td>
-</tr>
-<tr class="odd">
-<td>(3) + Spatial</td>
-<td>0.61</td>
-<td>Location and amenities add signal</td>
-</tr>
-<tr class="even">
-<td>(4) + Interactions</td>
-<td>0.64</td>
-<td>Wealthy areas shape how homes retain value</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Takeaway:</strong> Spatial + neighborhood effects are essential to explaining price variation in Philadelphia.</p>
-<hr>
-</section>
-<section id="hardest-neighborhoods-to-predict" class="level2">
-<h2 class="anchored" data-anchor-id="hardest-neighborhoods-to-predict">Hardest Neighborhoods to Predict</h2>
-<div class="columns">
-<div class="column">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="residual_map.png" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption>Problem Neighborhoods</figcaption>
-</figure>
-</div>
-</div><div class="column">
-<section id="key-insight" class="level3">
-<h3 class="anchored" data-anchor-id="key-insight"><strong>Key Insight</strong></h3>
-<ul>
-<li>The model struggles most in <strong>high-value, high-amenity neighborhoods</strong></li>
-<li><strong>Under-predicted (red):</strong> Center City, Northwest Philly, Fishtown, South Philly<br>
-→ Homes sell for <strong>more than the model expects</strong></li>
-<li><strong>Over-predicted (blue):</strong> Economically underserved neighborhoods<br>
-→ Homes sell for <strong>less than predicted</strong></li>
-<li><strong>Why?</strong> Prestige, walkability, and growing interest are <strong>not fully captured</strong> by structural or census variables</li>
-</ul>
-</section>
-</div>
-</div>
-<hr>
-</section>
-<section id="key-findings-1" class="level2">
-<h2 class="anchored" data-anchor-id="key-findings-1">Key Findings</h2>
-<p><strong>Model Accuracy:</strong> RMSE = 0.479 (log scale)<br>
-<strong>Model Fit:</strong> R² = 0.64 (0.65 with K-fold CV)</p>
-<p><strong>Top Predictors</strong></p>
-<ul>
-<li><strong>Economic Density (U-shaped effect):</strong> Strongest spatial driver of price</li>
-<li><strong>Home Size (β = 0.509, p &lt; 0.001):</strong> 1% increase in area → ~0.5% ↑ in price</li>
-<li><strong>Bathrooms (β = 0.151, p &lt; 0.001):</strong> Large value premium per added bath</li>
-<li><strong>Neighborhood Composition:</strong> Higher education (+) and vacancy (–) strongly shape prices</li>
-</ul>
-<p><strong>Key Insight:</strong><br>
-Neighborhood effects matter as much as home features — <em>location premiums are real, measurable, and spatially clustered.</em> —</p>
-</section>
-<section id="recommendations" class="level2">
-<h2 class="anchored" data-anchor-id="recommendations">Recommendations</h2>
-<p><strong>Improve the City’s AVM by Incorporating:</strong></p>
-<ul>
-<li><strong>Amenity-based spatial features</strong> (EconKDE, trees, school access)</li>
-<li><strong>Neighborhood context variables</strong> to capture local market conditions</li>
-</ul>
-<p><strong>Policy Implications</strong></p>
-<ul>
-<li>Current AVM likely <strong>undervalues booming neighborhoods</strong> near economic hubs</li>
-<li><strong>Affluent areas remain hardest to predict</strong> due to prestige and perception effects</li>
-<li>Add monitoring for <strong>rapidly changing neighborhoods (e.g., Fishtown)</strong></li>
-</ul>
-<p><strong>Bottom Line:</strong><br>
-To reduce inequity and improve accuracy, the AVM must move beyond structure-only predictors and account for <strong>context, amenities, and spatial clustering.</strong></p>
-<hr>
-</section>
-<section id="limitations-next-steps" class="level2">
-<h2 class="anchored" data-anchor-id="limitations-next-steps">Limitations &amp; Next Steps</h2>
-<p><strong>Key Limitations</strong></p>
-<ul>
-<li>The model cannot quantify <em>word-of-mouth effects</em><br>
-→ Perceived “vibe shifts” can rapidly change prices</li>
-<li>Future plans are not incorporated<br>
-→ Planned infrastructure can greatly alter market outcomes</li>
-</ul>
-<p><strong>Where Do We Go From Here?</strong></p>
-<ul>
-<li><p>Build an enhanced model that includes:<br>
-→ Amenity proximity<br>
-→ Economic development indicators<br>
-→ Spatial clustering of sale prices</p></li>
-<li><p>Continue data collection to track a changing housing landscape</p></li>
-<li><p>Consult with local government on new projects and emerging trends</p></li>
-</ul>
-<hr>
-</section>
-<section id="questions" class="level2">
-<h2 class="anchored" data-anchor-id="questions">Questions?</h2>
-<ul>
-<li>Thank you!</li>
-</ul>
-<div class="columns">
-<p>Contact Information:</p><div class="column" style="width:50%;">
-<ul>
-<li>Jack Bader
-<ul>
-<li>jbader14@upenn.edu</li>
-</ul></li>
-<li>Matthew Levy
-<ul>
-<li>mblevy@upenn.edu</li>
-</ul></li>
-<li>Tim Wen
-<ul>
-<li>sw6as@upenn.edu</li>
-</ul></li>
-</ul>
-</div><div class="column" style="width:50%;">
-<ul>
-<li>Joey Cahill
-<ul>
-<li>cahill1@upenn.edu</li>
-</ul></li>
-<li>Sam Sen
-<ul>
-<li>sen1@upenn.edu</li>
-</ul></li>
-<li>Ye Zhang
-<ul>
-<li>yezhang1@upenn.edu</li>
-</ul></li>
-</ul>
-</div>
-</div>
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

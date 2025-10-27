@@ -12,6 +12,8 @@ format:
     incremental: false
     smaller: true
     scrollable: true
+resources:
+  - "*.png"
 ---
 
 ## Project Intention
@@ -67,11 +69,23 @@ What key predictors are missing from the legacy model, and how can we improve it
 
 ## Structural Price Drivers
 
-![](bathrooms.png){fig-alt="Bathrooms" width=48%}
-![](bedrooms.png){fig-alt="Bedrooms" width=48%}
+::: columns
+::: column
+![](bathrooms.png){height="40vh"}
+:::
+::: column
+![](bedrooms.png){height="40vh"}
+:::
+:::
 
-![](area.png){fig-alt="Area" width=48%}
-![](age.png){fig-alt="Age" width=48%}
+::: columns
+::: column
+![](area.png){height="40vh"}
+:::
+::: column
+![](age.png){height="40vh"}
+:::
+:::
 
 ---
 
