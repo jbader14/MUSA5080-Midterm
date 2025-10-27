@@ -879,13 +879,45 @@ ggplot(phl_sales_clean_sf_final, aes(x = EconKDE$lyr.1, y=sale_price)) +
 **Interpretation:**
 The plot represents the relationship between the non-transformed target sale price and predictor KDE for economic activities. We can see that the relationship to be positive with evidence of heavy right-skew with the majority of data points clustered in the bottom-left with less than a KDE value of 0.000075 and \$500,000 price. Also, we notice that although the relationship is positive, it does not appear to be linear, a violation of a crucial assumption in linear regression. It seems that the trend increases first till about 0.00008 and then decreases. As before, there is the presence of some homes as large outliers that can pull the regression line upward, which would create biased estimates on model coefficients.
 
-### One creative visualization
+### One creative visualization: Sale Price Distribution Across City
 
 ```{r}
+#join sales data with neighborhood data
+philly_sales_neigh <- st_join(philly_neighborhoods, phl_sales_clean_sf_final, join = st_contains)
+
+# Summarize count of sales per neighborhood
+philly_sales_count <- philly_sales_neigh %>%
+  group_by(NAME) %>%
+  summarize(
+    sales_count = n(),
+    .groups = "drop"
+  )
+
+# Plot
+ggplot(philly_sales_count) +
+  geom_sf(aes(fill = sales_count), color = "white", size = 0.3) +
+  scale_fill_viridis_c(
+    option = "inferno",
+    direction = -1,
+    name = "Number of Sales",
+    trans = "sqrt"  
+  ) +
+  labs(
+    title = "Number of Property Sales by Neighborhood (2023–2024)",
+    subtitle = "Philadelphia County"
+  ) +
+  theme_void(base_size = 14) +
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    plot.subtitle = element_text(hjust = 0.5),
+    legend.position = "right",
+    legend.key.height = unit(1.2, "cm")
+  )
 
 ```
 
 **Interpretation:**
+Based on the map the number of sales is not evenly distributed across neighborhoods in Philadelphia County. Some of the neighborhoods in the east/northeast have a significant large number of home sales while the number of that in the south is lower. Moreover, the Center City area seems to also have a smaller number of sales compared to others, highly due to fewer number of housing units.
 
 
 # PHASE 3: FEATURE ENGINEERING
