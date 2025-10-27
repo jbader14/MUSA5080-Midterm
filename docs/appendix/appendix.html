@@ -176,8 +176,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.5.2     ✔ tibble    3.3.0
+✔ forcats   1.0.0     ✔ stringr   1.5.2
+✔ ggplot2   4.0.0     ✔ tibble    3.3.0
 ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
 ✔ purrr     1.1.0     
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
@@ -185,7 +185,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 ✖ dplyr::lag()    masks stats::lag()
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors
 
-载入程序包：'scales'
+Attaching package: 'scales'
 
 
 The following object is masked from 'package:purrr':
@@ -203,21 +203,21 @@ Linking to GEOS 3.13.1, GDAL 3.11.0, PROJ 9.6.0; sf_use_s2() is TRUE
 To enable caching of data, set `options(tigris_use_cache = TRUE)`
 in your R script or .Rprofile.
 
-here() starts at C:/Users/wensh/Desktop/MUSA5080-Midterm
+here() starts at C:/Users/jcahi/OneDrive/Desktop/MUSA 5080/Midterm/MUSA5080-Midterm
 
 Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright.
 Check the package website, https://docs.ropensci.org/osmextract/, for more details.
 
-载入需要的程序包：spatstat.data
+Loading required package: spatstat.data
 
-载入需要的程序包：spatstat.univar
+Loading required package: spatstat.univar
 
 spatstat.univar 3.1-4
 
 spatstat.geom 3.6-0
 
 
-载入程序包：'spatstat.geom'
+Attaching package: 'spatstat.geom'
 
 
 The following object is masked from 'package:patchwork':
@@ -230,16 +230,16 @@ The following object is masked from 'package:scales':
     rescale
 
 
-载入需要的程序包：spatstat.random
+Loading required package: spatstat.random
 
 spatstat.random 3.4-2
 
-载入需要的程序包：spatstat.explore
+Loading required package: spatstat.explore
 
-载入需要的程序包：nlme
+Loading required package: nlme
 
 
-载入程序包：'nlme'
+Attaching package: 'nlme'
 
 
 The following object is masked from 'package:dplyr':
@@ -249,13 +249,13 @@ The following object is masked from 'package:dplyr':
 
 spatstat.explore 3.5-3
 
-载入需要的程序包：spatstat.model
+Loading required package: spatstat.model
 
-载入需要的程序包：rpart
+Loading required package: rpart
 
 spatstat.model 3.4-2
 
-载入需要的程序包：spatstat.linnet
+Loading required package: spatstat.linnet
 
 spatstat.linnet 3.3-2
 
@@ -264,10 +264,10 @@ spatstat 3.4-1
 For an introduction to spatstat, type 'beginner' 
 
 
-terra 1.8.60
+terra 1.8.70
 
 
-载入程序包：'terra'
+Attaching package: 'terra'
 
 
 The following objects are masked from 'package:spatstat.geom':
@@ -302,7 +302,7 @@ The following object is masked from 'package:tidyr':
 
 
 
-载入程序包：'jsonlite'
+Attaching package: 'jsonlite'
 
 
 The following object is masked from 'package:purrr':
@@ -319,10 +319,10 @@ Please cite as:
  R package version 5.2.3. https://CRAN.R-project.org/package=stargazer 
 
 
-载入需要的程序包：carData
+Loading required package: carData
 
 
-载入程序包：'car'
+Attaching package: 'car'
 
 
 The following object is masked from 'package:spatstat.model':
@@ -345,10 +345,10 @@ The following object is masked from 'package:purrr':
     some
 
 
-载入需要的程序包：zoo
+Loading required package: zoo
 
 
-载入程序包：'zoo'
+Attaching package: 'zoo'
 
 
 The following object is masked from 'package:terra':
@@ -595,7 +595,7 @@ Geodetic CRS:  WGS 84
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>poi<span class="ot">=</span><span class="fu">st_read</span>(poi_shp_path)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Reading layer `philadelphia_poi_filtered' from data source 
-  `C:\Users\wensh\Desktop\MUSA5080-Midterm\data\filtered poi\philadelphia_poi_filtered.shp' 
+  `C:\Users\jcahi\OneDrive\Desktop\MUSA 5080\Midterm\MUSA5080-Midterm\data\filtered poi\philadelphia_poi_filtered.shp' 
   using driver `ESRI Shapefile'
 Simple feature collection with 11161 features and 10 fields
 Geometry type: POINT
@@ -694,7 +694,7 @@ Geodetic CRS:  WGS 84</code></pre>
 <span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>trees<span class="ot">=</span><span class="fu">st_read</span>(tree_shp_path)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Reading layer `ppr_tree_inventory_2024' from data source 
-  `C:\Users\wensh\Desktop\MUSA5080-Midterm\data\ppr_tree_inventory_2024\ppr_tree_inventory_2024.shp' 
+  `C:\Users\jcahi\OneDrive\Desktop\MUSA 5080\Midterm\MUSA5080-Midterm\data\ppr_tree_inventory_2024\ppr_tree_inventory_2024.shp' 
   using driver `ESRI Shapefile'
 Simple feature collection with 151713 features and 6 fields
 Geometry type: POINT
@@ -921,7 +921,8 @@ Projected CRS: WGS 84 / Pseudo-Mercator</code></pre>
 <span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">"plot"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>ℹ tmap mode set to "plot".</code></pre>
+<pre><code>ℹ tmap modes "plot" - "view"
+ℹ toggle with `tmap::ttm()`</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>price_map <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(philly_price_map) <span class="sc">+</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(</span>
@@ -999,7 +1000,7 @@ fit well, and are therefore rescaled.
 <span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">"plot"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>ℹ tmap mode set to "plot".</code></pre>
+<pre><code>ℹ tmap modes "plot" - "view"</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>neighborhood_income_map <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(philly_neighborhood_income) <span class="sc">+</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(</span>
@@ -1615,7 +1616,7 @@ quality_gradeX-         0.3722878  0.4722638   0.788              0.43053
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Residual standard error: 0.6313 on 21245 degrees of freedom
-  (因为不存在，538个观察量被删除了)
+  (538 observations deleted due to missingness)
 Multiple R-squared:  0.3771,    Adjusted R-squared:  0.3764 
 F-statistic: 559.2 on 23 and 21245 DF,  p-value: &lt; 0.00000000000000022</code></pre>
 </div>
@@ -1769,7 +1770,7 @@ quality_gradeX-
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Residual standard error: 0.5016 on 20981 degrees of freedom
-  (因为不存在，797个观察量被删除了)
+  (797 observations deleted due to missingness)
 Multiple R-squared:  0.604, Adjusted R-squared:  0.6035 
 F-statistic:  1143 on 28 and 20981 DF,  p-value: &lt; 0.00000000000000022</code></pre>
 </div>
@@ -1945,7 +1946,7 @@ quality_gradeX-                    0.989777
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Residual standard error: 0.4995 on 20976 degrees of freedom
-  (因为不存在，798个观察量被删除了)
+  (798 observations deleted due to missingness)
 Multiple R-squared:  0.6074,    Adjusted R-squared:  0.6068 
 F-statistic:  1014 on 32 and 20976 DF,  p-value: &lt; 0.00000000000000022</code></pre>
 </div>
@@ -2099,7 +2100,7 @@ age:MHI_quantileQ4 (highest) &lt; 0.0000000000000002 ***
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Residual standard error: 0.4866 on 21175 degrees of freedom
-  (因为不存在，611个观察量被删除了)
+  (611 observations deleted due to missingness)
 Multiple R-squared:  0.6351,    Adjusted R-squared:  0.6347 
 F-statistic:  1843 on 20 and 21175 DF,  p-value: &lt; 0.00000000000000022</code></pre>
 </div>
