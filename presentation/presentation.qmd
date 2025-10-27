@@ -67,19 +67,19 @@ What key predictors are missing from the legacy model, and how can we improve it
 
 ::: columns
 ::: column
-![](bathrooms.png){height="35vh"}
+![](bathrooms.png){height="30vh"}
 :::
 ::: column
-![](bedrooms.png){height="35vh"}
+![](bedrooms.png){height="30vh"}
 :::
 :::
 
 ::: columns
 ::: column
-![](area.png){height="35vh"}
+![](area.png){height="30vh"}
 :::
 ::: column
-![](age.png){height="35vh"}
+![](age.png){height="30vh"}
 :::
 :::
 
