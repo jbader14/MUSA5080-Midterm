@@ -3,9 +3,11 @@ title: "Philadelphia Housing Price Prediction"
 format: html
 ---
 
-**Project Overview:**
+**Project Overview:** Our team was tasked by the **Philadelphia Office of Property Assessment** with the mission to improve upon the Automated Valuation Model (AVM) to deliver more accurate property tax assessments. In the end, we built a model that accurately predicts house sale prices in the Philadelphia are using structural, Census, and spatial variables. The goal is to use our model to support data-driven policy decisions related in the city to deliver equitable property assessments and increase fairness, trust, etc. fo all residents.
 
 ---
 
 **Members:** Jack Bader, Joey Cahill, Matthew Levy, Sam Sen, Tim Wen, Ye Zhang
+
+
 **Date:** October 27, 2025

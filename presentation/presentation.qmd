@@ -1,6 +1,6 @@
 ---
 title: "Predicting Housing Sales"
-subtitle: "Team Jai Ho Midterm"
+subtitle: "Team Jai Ho"
 author: "Jack Bader, Joey Cahill, Matthew Levy, Sam Sen, Tim Wen, Ye Zhang"
 date: "October 26, 2025"
 format: 
@@ -12,6 +12,8 @@ format:
     incremental: false
     smaller: true
     scrollable: true
+resources:
+  - "*.png"
 ---
 
 ## Project Intention
@@ -38,11 +40,7 @@ What key predictors are missing from the legacy model, and how can we improve it
   - Commercial and Economic Activity Points
 
 - **U.S. Census (ACS 5-Year)**
-  - Education
-  - Vacancy Rates
-  - Family Household Share
-  - Percent White
-  - Median Household Income
+  - Education, Vacancy Rates, Family Household Share, Percent White, Median Household Income
 
 
 ---
@@ -65,13 +63,25 @@ What key predictors are missing from the legacy model, and how can we improve it
 
 ---
 
-## Price Drivers
+## Structural Price Drivers
 
-- Economic Density
-- Livable Space
-- Bedrooms v Bathrooms
-- Building Age
-![Sale by Age](homeSaleAge.jpeg)
+::: columns
+::: column
+![](bathrooms.png){height="30vh"}
+:::
+::: column
+![](bedrooms.png){height="30vh"}
+:::
+:::
+
+::: columns
+::: column
+![](area.png){height="30vh"}
+:::
+::: column
+![](age.png){height="30vh"}
+:::
+:::
 
 ---
 
@@ -85,7 +95,8 @@ $$
 &+ \color{red}{\beta_4 \text{Age} + \beta_5 \text{Interior Condition} + \beta_6 \text{Quality Grade}} \\
 &+ \color{orange}{\beta_7 \text{Median Income} + \beta_8 \text{Family Household Ratio}}  \\
 &+ \color{orange}{\beta_9 \text{% Bachelors}+ \beta_{10} \text{% Vacant} + \beta_{11} \text{% White}} \\
-&+ \color{blue}{\beta_{12} \text{EconKDE} + \beta_{13} \text{EconKDE}^2 + \beta_{14} \text{TreeKDE} + \beta_{15} \text{Mean 3NN Dist}} \\
+&+ \color{blue}{\beta_{12} \text{EconKDE} + \beta_{13} \text{EconKDE}^2 + \beta_{14} \text{TreeKDE} \\
++ \beta_{15} \text{Mean 3NN Dist}} \\
 &+ \color{green}{\beta_{16} \text{MHI Quantile} + \beta_{17} (\text{MHI Quantile} \times \text{Age})} + \varepsilon
 \end{aligned}
 $$
@@ -119,8 +130,8 @@ $$
 :::
 
 ::: column
-### **Key Insight**
-- The model struggles most in **high-value, high-amenity neighborhoods**
+
+- The model struggles most in **high-value & low-value neighborhoods** (extremes of the sale price distribution)
 - **Under-predicted (red):** Center City, Northwest Philly, Fishtown, South Philly  
   → Homes sell for **more than the model expects**
 - **Over-predicted (blue):** Economically underserved neighborhoods  
@@ -134,8 +145,12 @@ $$
 
 ## Key Findings
 
-**Model Accuracy:** RMSE = 0.479 (log scale)  
-**Model Fit:** R² = 0.64 (0.65 with K-fold CV)
+**Model Accuracy:** RMSE = 0.487 (log scale) 
+- On average, the percent difference is 48.7% between expected and true logged housing prices. 
+
+
+**Model Fit:** R² = 0.635 (0.682 with K-fold CV) 
+- 63.5% of the variance in log(sales price) is explained by our model.
 
 **Top Predictors**
 
