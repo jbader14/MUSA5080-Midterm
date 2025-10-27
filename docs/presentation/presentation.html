@@ -208,15 +208,25 @@ Jack Bader, Joey Cahill, Matthew Levy, Sam Sen, Tim Wen, Ye Zhang
 <section id="stepwise-modeling-strategy" class="slide level2 scrollable">
 <h2>Stepwise Modeling Strategy</h2>
 <ol type="1">
-<li><strong>Model 1:</strong> Structural features only<br>
-</li>
-<li><strong>Model 2:</strong> + Census tract demographics<br>
-</li>
-<li><strong>Model 3:</strong> + Spatial features (KDE, proximity)<br>
-</li>
-<li><strong>Model 4:</strong> + Interactions and neighborhood effects</li>
+<li><strong>Model 1:</strong> Structural features only {style=“color: red;”}</li>
+<li><strong>Model 2:</strong> + Census tract demographics {style=“color: orange;”}</li>
+<li><strong>Model 3:</strong> + Spatial features (KDE, proximity) {style=“color: blue;”}</li>
+<li><strong>Model 4:</strong> + Interactions and neighborhood effects {style=“color: green;”}</li>
 </ol>
 <p><strong>Goal:</strong> Test whether place-based factors improve predictive accuracy.</p>
+<p><span class="math display">\[
+\begin{aligned}
+\log(\text{Price}) = \beta_0 &amp;+ \color{red}{\beta_1 \log(\text{Livable Area}) + \beta_2 \text{Bedrooms} + \beta_3 \text{Bathrooms}} \\
+&amp;+ \color{red}{\beta_4 \text{Age} + \beta_5 \text{Interior Condition} + \beta_6 \text{Quality Grade}} \\
+&amp;+ \color{orange}{\beta_7 \text{Median Income} + \beta_8 \text{Family HH Ratio} + \beta_9 \text{% Bachelors}} \\
+&amp;+ \color{orange}{\beta_{10} \text{% Vacant} + \beta_{11} \text{% White}} \\
+&amp;+ \color{blue}{\beta_{12} \text{EconKDE} + \beta_{13} \text{EconKDE}^2 + \beta_{14} \text{TreeKDE} + \beta_{15} \text{Mean 3NN Dist}} \\
+&amp;+ \color{green}{\beta_{16} \text{MHI Quantile} + \beta_{17} (\text{MHI Quantile} \times \text{Age})} + \varepsilon
+\end{aligned}
+\]</span></p>
+</section>
+<section class="slide level2">
+
 </section>
 <section id="model-performance-improves-at-each-stage" class="slide level2">
 <h2>Model Performance Improves at Each Stage</h2>
