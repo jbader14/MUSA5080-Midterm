@@ -1541,14 +1541,12 @@ The most important feature is I(EconKDE^2). It has the largest coefficient compa
 ```{r}
 #generate diagnostic plots
 plot(model4)
-
-#Residual Plot:
-#The Residuals vs Fitted plot shows mild heteroskedasticity and a small degree of curvature, which is expected in a dataset of this size, and the model performs consistently well across most of the fitted range with only a few isolated outliers.
-
-#QQ-Plot:
-#The Q-Q plot shows slight deviation from normality in the extreme tails, which is common in large real-world housing datasets, while the majority of residuals align closely with the theoretical normal distribution, indicating that model inference remains reliable.
-
 ```
+# Residual Plot:
+The Residuals vs Fitted plot shows mild heteroskedasticity and a small degree of curvature, which is expected in a dataset of this size, and the model performs consistently well across most of the fitted range with only a few isolated outliers.
+
+# QQ-Plot:
+The Q-Q plot shows slight deviation from normality in the extreme tails, which is common in large real-world housing datasets, while the majority of residuals align closely with the theoretical normal distribution, indicating that model inference remains reliable.
 
 ### Cook's Distance Plot
 ```{r}
@@ -1558,13 +1556,13 @@ plot(cooks_d, type = "h", main = "Cook's Distance",
      ylab = "Cook's Distance", xlab = "Observation")
 abline(h = 4/nrow(for_model_building), col = "red", lty = 2)
 
-#The Cook’s Distance plot shows that while a few observations exert relatively higher influence on the regression model, the vast majority of cases have negligible influence, and no single data point appears to unduly distort the model’s estimated coefficients.
-```
 
+```
+The Cook’s Distance plot shows that while a few observations exert relatively higher influence on the regression model, the vast majority of cases have negligible influence, and no single data point appears to unduly distort the model’s estimated coefficients.
 
 # PHASE 7: Conclusions & Recommendations
 
-Our final model's is able to explain 64% of the variation on *logged* (is this right way to describe this?) house prices in Philadelphia, with an average error of 48.31%. Our residuals mostly fall along the Q-Q plot's line and are homoscadestic (as seen in the Scale-Location plot), meaning that the residuals both fall on a normal distribution and the variance of residuals is consistent across all independent variable values. Our K-folds analysis returned an R2 of .65 (higher than the model's original .64), illustrating our model's efficacy with non-test data. The feature that matters most is the economic density around the examined housing unit, as it first has a positive relationship with housing price and then has a negative relationship.
+Our final model's is able to explain 64% of the variation on *logged* house prices in Philadelphia, with an average error of 48.31%. Our residuals mostly fall along the Q-Q plot's line and are homoscadestic (as seen in the Scale-Location plot), meaning that the residuals both fall on a normal distribution and the variance of residuals is consistent across all independent variable values. Our K-folds analysis returned an R2 of .65 (higher than the model's original .64), illustrating our model's efficacy with non-test data. The feature that matters most is the economic density around the examined housing unit, as it first has a positive relationship with housing price and then has a negative relationship.
 
 Hardest neighborhoods to predict are the most affluent areas — as the social connotations of these spaces are both largely influential in housing prices as well as unquantifiable. Becuase of historical underdevelopment and the history of how that is tied to both race and class, housing prices are intrinsically tied to these vulnerable groups. A model that predicts housing prices is also convincing developers to focus on already well-to-do neighborhoods, whether it be when building housing or commercial centers. There are pros and cons to this, as it may protect neighborhoods from gentrification, but it could also exclude them from capital infusions and access to goods/services. Our model is limited in numerous ways, one of which is the inability to quantify power of word of mouth. For example, once the general vibe around a neighborhood — such as Fishtown — changes from working class (or from another marginalized group) to "up and coming" or "hip", future housing prices in the area may radically change. Another limitation is the non-incorporation of Philadelphia's future plans. For example, if the Roosevelt Boulevard extension was to begin construction, then our model would be unable to predict the change in housing price until the stations were built and the local impacts began.
 
