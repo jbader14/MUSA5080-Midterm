@@ -7,5 +7,5 @@ format: html
 
 ---
 
-**Members:** Jack Bader, 
+**Members:** Jack Bader,Joey Cahill, Matthew Levy, Sam Sen, Tim Wen, Ye Zhang 
 **Date:** October 27, 2025

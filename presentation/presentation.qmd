@@ -28,7 +28,7 @@ What key predictors are missing from the legacy model, and how can we improve it
 ## Data Sources
 
 - **City of Philadelphia**
-  - Philadelphia Properties and Current Assessments
+  - Philadelphia Properties and Current Assessments (n=21,807 home prices)
 
 - **OpenDataPhilly**
   - Neighborhood Boundaries (Polygon)
@@ -47,7 +47,7 @@ What key predictors are missing from the legacy model, and how can we improve it
 
 ---
 
-## Mapped observations
+## Overview of the Philadelphia Home Market
 :::: columns
 ::: column
 ![Home Price Across the City](median_price_map.png){width=100%}
@@ -56,8 +56,8 @@ What key predictors are missing from the legacy model, and how can we improve it
 ::: column
 ### **Key Findings**
 - Prices cluster spatially
-- Center City & NW Philly are highest
-- South Philly shows additional hotspots
+- Center City & Northwest Philly see highest home values
+- Addition hotspots in South Philadelphia
 :::
 ::::
 ---
@@ -100,49 +100,76 @@ What key predictors are missing from the legacy model, and how can we improve it
 
 :::: columns
 ::: column
-![Affluent Neighborhoods](neighborhood_income_map.png){width=100%}
+![Problem Neighborhoods](residual_map.png){width=100%}
 :::
 
 ::: column
 ### **Key Insight**
-- Affluent neighborhoods are the **least predictable**
-- Highest incomes cluster in:
-  - Center City
-  - Northwest Philadelphia
-  - Parts of South Philadelphia
-- Prices influenced by **amenities, prestige, and perception**, which are hard to quantify
+- The model struggles most in **high-value, high-amenity neighborhoods**
+- **Under-predicted (red):** Center City, pockets of Northwest and South Philly
+  → Homes sell for **more than the model expects**
+- **Over-predicted (blue):** Underserved neighborhoods  
+  → Homes sell for **less than predicted**
+- **Why?** Prestige, walkability, and rapid growth of interest are **not fully captured** by structural data or census metrics
 :::
 ::::
+
+
+---
+
+## Key Findings
+
+**Model Accuracy:**  
+RMSE = 0.479 · **R²:** 0.64 (CV: 0.65)
+
+**Top Predictors**
+
+- **Economic Density (U-shaped):** strongest spatial effect
+- **Home Size:** ~0.5% ↑ price per 1% ↑ area
+- **Bathrooms:** major value premium
+- **Neighborhood Composition:** education (+), vacancy (–)
+
+**Takeaway:**  
+Location amplifies value — *spatial patterns matter as much as structure.*
 
 ---
 
 ## Recommendations
 
+**Improve the City’s AVM by Incorporating:**
+- **Amenity-based spatial features** (EconKDE, trees, school access)
+- **Neighborhood context variables** to capture local market conditions
 
-**Think about spatial variables**
+**Policy Implications**
 
-Variables such as economic density and neighborhood play a large role
+- Current AVM likely **undervalues booming neighborhoods** near economic hubs
+- **Affluent areas remain hardest to predict** due to prestige and perception effects
+- Add monitoring for **rapidly changing neighborhoods (e.g., Fishtown)**
 
-**Remain Nuanced**
-
-The influence of a factor will likely vary by neighborhood
-
-**Bathrooms > Bedrooms**
-
-Imagine a 4 bed 4 BR unit vs a 4 bed 1 BR unit, the different in desirability is exponential
-
+**Bottom Line:**  
+To reduce inequity and improve accuracy, the AVM must move beyond structure-only predictors and account for **context, amenities, and spatial clustering.**
 
 
 ---
 
-
 ## Limitations & Next Steps
 
--  The inability to quantify word of mouth
-  - Percieved neighborhood vibe shift can radically alter  future housing prices
-    - I.e. Fishtown
-- The non-incorporation of Philadelphia's future plans
- - Planned and ongoing infrastructure development greatly impacts where housing is developed 
+**Key Limitations**
+
+- The model cannot quantify *word-of-mouth effects*  
+  → Perceived “vibe shifts” can rapidly change prices
+- Future plans are not incorporated  
+  → Planned infrastructure can greatly alter market outcomes
+
+**Where Do We Go From Here?**
+
+- Build an enhanced model that includes:  
+  → Amenity proximity  
+  → Economic development indicators  
+  → Spatial clustering of sale prices
+  
+- Continue data collection to track a changing housing landscape
+- Consult with local government on new projects and emerging trends
 
 ---
 
